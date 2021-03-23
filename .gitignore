@@ -1,0 +1,7 @@
+/MinistryFunnel/Web.config
+/packages
+/MinistryFunnel.FrontEnd/Web.config
+/MinistryFunnel.FrontEnd/bin
+/MinistryFunnel/bin
+/MinistryFunnel.FrontEnd.Tests/bin
+/MinistryFunnelTests/bin

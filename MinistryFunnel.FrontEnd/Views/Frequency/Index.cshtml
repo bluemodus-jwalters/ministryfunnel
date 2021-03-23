@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MinistryFunnel.FrontEnd.Models.FrequencyViewModel>
+
+@{
+    ViewBag.Title = "Frequency Management Page";
+}
+
+
+<h2>Frequency Management</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        @Html.ActionLink("Create Frequency", "Create", null, new { @class = "btn btn-success" })
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("Search", "Frequency", FormMethod.Get))
+        {
+            <div class="mb-3">
+                <label for="searchText" class="form-label">Search by Name</label>
+                @Html.TextBox("searchText", null, new { @class = "form-control" })
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Search</button>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifiedDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Archived)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="vertical-align: middle;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="vertical-align: middle;">
+                        @Html.DisplayFor(modelItem => item.CreatedDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModifiedDateTime)
+                    </td>
+                    <td style="vertical-align: middle;">
+                        @Html.DisplayFor(modelItem => item.Archived)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })                      
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>No records found.</h3>
+    @Html.ActionLink("Reload Page", "Index", null, new { @class = "btn btn-secondary" })
+}
