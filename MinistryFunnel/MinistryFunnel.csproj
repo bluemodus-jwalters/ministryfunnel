@@ -52,9 +52,21 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.9.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.9.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.9.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.9.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -170,6 +182,7 @@
     <Compile Include="Controllers\FrequencyController.cs" />
     <Compile Include="Controllers\MinistryOwnerController.cs" />
     <Compile Include="Controllers\MinistryController.cs" />
+    <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UpInOutController.cs" />
     <Compile Include="Controllers\ResourceInvolvementController.cs" />
     <Compile Include="Controllers\PracticeController.cs" />
@@ -178,9 +191,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ApiAuthorization.cs" />
+    <Compile Include="Managers\IAuthService.cs" />
+    <Compile Include="Managers\JWTService.cs" />
+    <Compile Include="Models\AuthenticationModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Campus.cs" />
     <Compile Include="Models\Funnel.cs" />
+    <Compile Include="Models\IAuthContainerModel.cs" />
+    <Compile Include="Models\JWTContainerModel.cs" />
     <Compile Include="Models\LogEvent.cs" />
     <Compile Include="Models\MinistryOwner.cs" />
     <Compile Include="Models\Location.cs" />

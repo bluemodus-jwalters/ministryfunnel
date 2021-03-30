@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -24,6 +25,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Locations
         [HttpGet]
         [ResponseType(typeof(IQueryable<Location>))]
+        [ApiAuthorization(Roles = "allow")]
         public IQueryable<Location> GetAll()
         {
             return _locationRepository.GetLocations();
