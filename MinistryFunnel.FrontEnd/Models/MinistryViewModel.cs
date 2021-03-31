@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MinistryFunnel.Models
+namespace MinistryFunnel.FrontEnd.Models
 {
     public class MinistryViewModel
     {
         public int Id { get; set; }
 
-        //public ICollection<UpInOutRelationship> UpInOutRelationships { get; set; }
         public ICollection<UpInOutRelationshipViewModel> UpInOutRelationships { get; set; }
-
-        //public ICollection<ResourceInvolvementRelationship> ResourceInvolvementRelationships { get; set; }
 
         public ICollection<ResourceInvolvementRelationshipViewModel> ResourceInvolvementRelationships { get; set; }
 
@@ -49,7 +46,7 @@ namespace MinistryFunnel.Models
         public int LevelOfImportanceId { get; set; }
         public string LevelOfImportanceName { get; set; }
 
-        public int ApprovalId {get; set;}
+        public int ApprovalId { get; set; }
         public string ApprovalName { get; set; }
 
         public string Comments { get; set; }
@@ -59,5 +56,23 @@ namespace MinistryFunnel.Models
         public DateTime ModifiedDateTime { get; set; }
 
         public bool Archived { get; set; }
+    }
+
+    public class ResourceInvolvementRelationshipViewModel
+    {
+        public int MinistryId { get; set; }
+
+        public int ResourceInvolvementId { get; set; }
+        public string ResourceInvolvementName { get; set; }
+    }
+
+    public class UpInOutRelationshipViewModel
+    {
+
+        public int MinistryId { get; set; }
+
+        public int UpInOutId { get; set; }
+
+        public string UpInOutName { get; set; }
     }
 }

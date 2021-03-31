@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Microsoft.Ajax.Utilities;
 using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
@@ -25,37 +26,19 @@ namespace MinistryFunnel.Controllers
 
         // GET: api/ministry
         [HttpGet]
-        [ResponseType(typeof(IQueryable<MinistryViewModel>))]
-        public IQueryable<MinistryViewModel> GetAll()
+        [ResponseType(typeof(List<MinistryViewModel>))]
+        public List<MinistryViewModel> GetAll()
         {
             //This does not include the Up In Out Relationship names... not sure if it should yet or not. Seems to cause circular referencing
             var ministries = _ministryRepository.GetMinistries();
-            
-            IQueryable<MinistryViewModel> viewModel = ministries.Select(min => new MinistryViewModel
+
+
+            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            foreach (var ministry in ministries)
             {
-                Id = min.Id,
-                Event = min.Event,
-                Purpose = min.Purpose,
-                DesiredOutcome = min.DesiredOutcome,
-                MinistryOwnerId = min.MinistryOwnerId,
-                PracticeId = min.PracticeId,
-                FunnelId = min.FunnelId,
-                LocationId = min.LocationId,
-                CampusId = min.CampusId,
-                UpInOutRelationships = min.UpInOutRelationships, 
-                ResourceInvolvementRelationships = min.ResourceInvolvementRelationship,
-                StartDate = (System.DateTime)(min.StartDate.HasValue ? min.StartDate : System.DateTime.MinValue),
-                EndDate = (System.DateTime)(min.EndDate.HasValue ? min.EndDate : System.DateTime.MinValue),
-                FrequencyId = min.FrequencyId,
-                FrequencyName = min.Frequency.Name,
-                KidCare = min.KidCare,
-                LevelOfImportanceId = min.LevelOfImportanceId,
-                ApprovalId = min.ApprovalId,
-                Comments = min.Comments,
-                CreatedDateTime = (System.DateTime)(min.CreatedDateTime.HasValue ? min.CreatedDateTime : System.DateTime.MinValue),
-                ModifiedDateTime = (System.DateTime)(min.ModifiedDateTime.HasValue ? min.ModifiedDateTime : System.DateTime.MinValue),
-                Archived = min.Archived
-            });
+                viewModel.Add(MapViewModel(ministry));
+            }
+
             return viewModel;
             
         }
@@ -84,28 +67,76 @@ namespace MinistryFunnel.Controllers
                 Purpose = ministry.Purpose,
                 DesiredOutcome = ministry.DesiredOutcome,
                 MinistryOwnerId = ministry.MinistryOwnerId,
+                MinistryOwnerName = ministry.MinistryOwner.Name,
                 PracticeId = ministry.PracticeId,
+                PracticeName = ministry.Practice.Name,
                 FunnelId = ministry.FunnelId,
+                FunnelName = ministry.Funnel.Name,
                 LocationId = ministry.LocationId,
+                LocationName = ministry.Location.Name,
                 CampusId = ministry.CampusId,
-                UpInOutRelationships = ministry.UpInOutRelationships, //figure out how to filter these down
-                //UpInOutRelationships = (IQueryable<UpInOutRelationship>)min.UpInOutRelationships.Select(upinout => new UpInOutRelationship
-                //{
-                //    MinistryId = upinout.MinistryId,
-                //    UpInOutId = upinout.UpInOutId
-                //})
-                ResourceInvolvementRelationships = ministry.ResourceInvolvementRelationship,
+                CampusName = ministry.Campus.Name,
+                UpInOutRelationships = ReturnUpInOutRelationshipViewModel(ministry.UpInOutRelationships),
+                ResourceInvolvementRelationships = ReturnResourceInvolvementRelationshipViewModel(ministry.ResourceInvolvementRelationship),
                 StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
                 EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
                 FrequencyId = ministry.FrequencyId,
                 FrequencyName = ministry.Frequency.Name,
                 KidCare = ministry.KidCare,
                 LevelOfImportanceId = ministry.LevelOfImportanceId,
+                LevelOfImportanceName = ministry.LevelOfImportance.Name,
                 ApprovalId = ministry.ApprovalId,
+                ApprovalName = ministry.Approval.Name,
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
                 Archived = ministry.Archived
             };
+        }
+
+        private ICollection<UpInOutRelationshipViewModel> ReturnUpInOutRelationshipViewModel(ICollection<UpInOutRelationship> relationships)
+        {
+            var repo = new UpInOutRepository();
+            if (relationships != null)
+            {
+                ICollection<UpInOutRelationshipViewModel> viewModel = new List<UpInOutRelationshipViewModel>();
+                foreach (var relationship in relationships)
+                {
+                    viewModel.Add(new UpInOutRelationshipViewModel
+                    {
+                        UpInOutId = relationship.UpInOutId,
+                        MinistryId = relationship.MinistryId,
+                        UpInOutName = repo.GetUpInOutById(relationship.UpInOutId).Name
+                    });
+                }
+                return viewModel;
+
+            }
+
+            return null;
+            
+        }
+
+        private ICollection<ResourceInvolvementRelationshipViewModel> ReturnResourceInvolvementRelationshipViewModel(ICollection<ResourceInvolvementRelationship> relationships)
+        {
+            var repo = new ResourceInvolvementRepository();
+            if (relationships != null)
+            {
+                ICollection<ResourceInvolvementRelationshipViewModel> viewModel = new List<ResourceInvolvementRelationshipViewModel>();
+                foreach (var relationship in relationships)
+                {
+                    viewModel.Add(new ResourceInvolvementRelationshipViewModel
+                    {
+                        ResourceInvolvementId = relationship.ResourceInvolvementId,
+                        MinistryId = relationship.MinistryId,
+                        ResourceInvolvementName = repo.GetResourceInvolvementById(relationship.ResourceInvolvementId).Name
+                    });
+                }
+                return viewModel;
+
+            }
+
+            return null;
+
         }
 
         //TODO: make this a /searchText one day
@@ -120,30 +151,35 @@ namespace MinistryFunnel.Controllers
                 return NotFound();
             }
 
-            IQueryable<MinistryViewModel> viewModel = results.Select(min => new MinistryViewModel
+            IQueryable<MinistryViewModel> viewModel = results.Select(ministry => new MinistryViewModel
             {
-                Id = min.Id,
-                Event = min.Event,
-                Purpose = min.Purpose,
-                DesiredOutcome = min.DesiredOutcome,
-                MinistryOwnerId = min.MinistryOwnerId,
-                PracticeId = min.PracticeId,
-                FunnelId = min.FunnelId,
-                LocationId = min.LocationId,
-                CampusId = min.CampusId,
-                UpInOutRelationships = min.UpInOutRelationships, //figure out how to filter these down
-                ResourceInvolvementRelationships = min.ResourceInvolvementRelationship,
-                StartDate = (System.DateTime)(min.StartDate.HasValue ? min.StartDate : System.DateTime.MinValue),
-                EndDate = (System.DateTime)(min.EndDate.HasValue ? min.EndDate : System.DateTime.MinValue),
-                FrequencyId = min.FrequencyId,
-                FrequencyName = min.Frequency.Name,
-                KidCare = min.KidCare,
-                LevelOfImportanceId = min.LevelOfImportanceId,
-                ApprovalId = min.ApprovalId,
-                Comments = min.Comments,
-                CreatedDateTime = (System.DateTime)(min.CreatedDateTime.HasValue ? min.CreatedDateTime : System.DateTime.MinValue),
-                ModifiedDateTime = (System.DateTime)(min.ModifiedDateTime.HasValue ? min.ModifiedDateTime : System.DateTime.MinValue),
-                Archived = min.Archived
+                Id = ministry.Id,
+                Event = ministry.Event,
+                Purpose = ministry.Purpose,
+                DesiredOutcome = ministry.DesiredOutcome,
+                MinistryOwnerId = ministry.MinistryOwnerId,
+                MinistryOwnerName = ministry.MinistryOwner.Name,
+                PracticeId = ministry.PracticeId,
+                PracticeName = ministry.Practice.Name,
+                FunnelId = ministry.FunnelId,
+                FunnelName = ministry.Funnel.Name,
+                LocationId = ministry.LocationId,
+                LocationName = ministry.Location.Name,
+                CampusId = ministry.CampusId,
+                CampusName = ministry.Campus.Name,
+                UpInOutRelationships = ReturnUpInOutRelationshipViewModel(ministry.UpInOutRelationships),
+                ResourceInvolvementRelationships = ReturnResourceInvolvementRelationshipViewModel(ministry.ResourceInvolvementRelationship),
+                StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
+                EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
+                FrequencyId = ministry.FrequencyId,
+                FrequencyName = ministry.Frequency.Name,
+                KidCare = ministry.KidCare,
+                LevelOfImportanceId = ministry.LevelOfImportanceId,
+                LevelOfImportanceName = ministry.LevelOfImportance.Name,
+                ApprovalId = ministry.ApprovalId,
+                CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
+                ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
+                Archived = ministry.Archived
             });
 
             return Ok(results);

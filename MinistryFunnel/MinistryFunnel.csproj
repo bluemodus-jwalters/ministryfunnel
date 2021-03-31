@@ -170,6 +170,7 @@
     <Compile Include="Controllers\FrequencyController.cs" />
     <Compile Include="Controllers\MinistryOwnerController.cs" />
     <Compile Include="Controllers\MinistryController.cs" />
+    <Compile Include="Controllers\UpInOutRelationshipController.cs" />
     <Compile Include="Controllers\UpInOutController.cs" />
     <Compile Include="Controllers\ResourceInvolvementController.cs" />
     <Compile Include="Controllers\PracticeController.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Models\Frequency.cs" />
     <Compile Include="Models\Ministry.cs" />
     <Compile Include="Models\MinistryViewModel.cs" />
+    <Compile Include="Models\ResourceInvolvementRelationshipViewModel.cs" />
+    <Compile Include="Models\UpInOutRelationshipViewModel.cs" />
     <Compile Include="Models\UpInOutRelationship.cs" />
     <Compile Include="Models\ResourceInvolvementRelationship.cs" />
     <Compile Include="Models\UpInOut.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="Repository\Interfaces\IApprovalRepository.cs" />
     <Compile Include="Repository\Interfaces\IFrequencyRepository.cs" />
     <Compile Include="Repository\Interfaces\IMinistryOwnerRepository.cs" />
+    <Compile Include="Repository\Interfaces\IUpInOutRelationshipRepository.cs" />
     <Compile Include="Repository\Interfaces\IUpInOutRepository.cs" />
     <Compile Include="Repository\Interfaces\IResourceInvolvementRepository.cs" />
     <Compile Include="Repository\Interfaces\IPracticeRepository.cs" />
@@ -214,6 +218,7 @@
     <Compile Include="Repository\FrequencyRepository.cs" />
     <Compile Include="Repository\MinistryRepository.cs" />
     <Compile Include="Repository\MinistryOwnerRepository.cs" />
+    <Compile Include="Repository\UpInOutRelationshipRepository.cs" />
     <Compile Include="Repository\UpInOutRepository.cs" />
     <Compile Include="Repository\ResourceInvolvementRepository.cs" />
     <Compile Include="Repository\PracticeRepository.cs" />

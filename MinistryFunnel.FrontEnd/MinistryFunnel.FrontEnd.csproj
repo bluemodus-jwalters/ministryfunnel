@@ -152,6 +152,7 @@
     <Compile Include="Controllers\LevelOfImportanceController.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\FrequencyController.cs" />
+    <Compile Include="Controllers\MinistryController.cs" />
     <Compile Include="Controllers\UpInOutController.cs" />
     <Compile Include="Controllers\ResourceInvolvementController.cs" />
     <Compile Include="Controllers\PracticeController.cs" />
@@ -162,12 +163,14 @@
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\IApiHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\MinistryOwnerDropDown.cs" />
     <Compile Include="Models\FunnelViewModel.cs" />
     <Compile Include="Models\CampusViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\LevelOfImportanceViewModel.cs" />
     <Compile Include="Models\ApprovalViewModel.cs" />
     <Compile Include="Models\FrequencyViewModel.cs" />
+    <Compile Include="Models\MinistryViewModel.cs" />
     <Compile Include="Models\UpInOutViewModel.cs" />
     <Compile Include="Models\ResourceInvolvementViewModel.cs" />
     <Compile Include="Models\MinistryOwnerViewModel.cs" />
@@ -261,9 +264,13 @@
     <Content Include="Views\Frequency\Details.cshtml" />
     <Content Include="Views\Frequency\Edit.cshtml" />
     <Content Include="Views\Frequency\Index.cshtml" />
+    <Content Include="Views\Ministry\Index.cshtml" />
+    <Content Include="Views\Ministry\Details.cshtml" />
+    <Content Include="Views\Ministry\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\DropDowns\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
