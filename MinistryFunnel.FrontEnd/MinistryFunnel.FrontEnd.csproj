@@ -162,8 +162,13 @@
     </Compile>
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\IApiHelper.cs" />
+    <Compile Include="Helpers\IMinistryHelper.cs" />
+    <Compile Include="Helpers\MinistryHelper.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
-    <Compile Include="Models\MinistryOwnerDropDown.cs" />
+    <Compile Include="Models\MinistryEditApiModel.cs" />
+    <Compile Include="Models\MinistryApiModel.cs" />
+    <Compile Include="Models\MinistryEditViewModel.cs" />
+    <Compile Include="Models\MinistryCreateViewModel.cs" />
     <Compile Include="Models\FunnelViewModel.cs" />
     <Compile Include="Models\CampusViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
@@ -267,6 +272,8 @@
     <Content Include="Views\Ministry\Index.cshtml" />
     <Content Include="Views\Ministry\Details.cshtml" />
     <Content Include="Views\Ministry\Create.cshtml" />
+    <Content Include="Views\Ministry\Delete.cshtml" />
+    <Content Include="Views\Ministry\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

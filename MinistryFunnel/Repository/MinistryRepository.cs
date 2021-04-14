@@ -159,6 +159,7 @@ namespace MinistryFunnel.Repository
 
             try
             {
+                //TODO: have to remove the foreign key restraints before deleting the record
                 db.Ministry.Remove(ministry);
                 db.SaveChanges();
 
