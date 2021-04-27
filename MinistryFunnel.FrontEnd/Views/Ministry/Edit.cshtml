@@ -1,14 +1,16 @@
 ﻿@model MinistryFunnel.FrontEnd.Models.DropDowns.MinistryEditViewModel
+
 @{
-    ViewBag.Title = "Edit this ministry";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Ministry</h2>
 
-
-@using (Html.BeginForm())
+@if (Model != null)
 {
-    @Html.AntiForgeryToken()
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
 
@@ -111,14 +113,14 @@
         @Html.LabelFor(model => model.KidCare, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList(
-                "Archived", new SelectList(
-                        new[]
-                        {
+                 "KidCare", new SelectList(
+                         new[]
+                         {
                             new { Value = "false", Text = "No" },
                             new { Value = "true", Text = "Yes" },
-                        }, "Value", "Text", Model
-                    )
-                , new { @class = "form-control" })
+                         }, "Value", "Text", Model
+                     )
+                 , new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.KidCare, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -166,20 +168,46 @@
         </div>
     </div>
 
-</div>
-
+    <div class="form-group">
+        @Html.LabelFor(model => model.Archived, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList(
+                 "Archived", new SelectList(
+                         new[]
+                         {
+                            new { Value = "false", Text = "No" },
+                            new { Value = "true", Text = "Yes" },
+                         }, "Value", "Text", Model
+                     )
+                 , new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Archived, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Save" class="btn btn-success" />
         </div>
     </div>
+</div>
+
+
+
+
+    }
+}
+else
+{
+    < h3 > This was not a valid ID to edit.</ h3 >
 }
 
+
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
 </div>
+
+
 
 
 

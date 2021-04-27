@@ -318,7 +318,8 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 ApprovalId = modelWithData.ApprovalId,
                 Comments = modelWithData.Comments,
                 UpInOutIds = modelWithData.UpInOutRelationships.Select(x => x.UpInOutId).ToArray(),
-                SelectedResourceInvolvementIds = modelWithData.ResourceInvolvementRelationships.Select(x => x.ResourceInvolvementId).ToArray()
+                SelectedResourceInvolvementIds = modelWithData.ResourceInvolvementRelationships.Select(x => x.ResourceInvolvementId).ToArray(),
+                Archived = modelWithData.Archived
             };
 
             return viewModel;
@@ -348,9 +349,10 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     LevelOfImportanceId = int.Parse(Request.Form["LevelOfImportanceId"]),
                     ApprovalId = int.Parse(Request.Form["ApprovalId"]),
                     Comments = Request.Form["Comments"],
-                    Archived = false, //TODO: update this to use the real form
+                    Archived = Request.Form["Archived"] == "true",
                     UpInOutIds = Request.Form["UpInOutIds"].Split(',').Select(int.Parse).ToArray(),
-                    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray()
+                    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray(),
+                    
                 });
 
                 var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json);

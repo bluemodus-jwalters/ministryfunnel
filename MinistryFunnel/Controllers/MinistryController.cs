@@ -87,6 +87,7 @@ namespace MinistryFunnel.Controllers
                 LevelOfImportanceName = ministry.LevelOfImportance.Name,
                 ApprovalId = ministry.ApprovalId,
                 ApprovalName = ministry.Approval.Name,
+                Comments = ministry.Comments,
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
                 Archived = ministry.Archived
