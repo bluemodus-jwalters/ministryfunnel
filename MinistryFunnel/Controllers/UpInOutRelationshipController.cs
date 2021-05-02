@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IUpInOutRelatinshipRepository _upInOutRelationshipRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public UpInOutRelationshipController()
         {
             _upInOutRelationshipRepository = new UpInOutRelationshipRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/UpInOuts
@@ -26,6 +31,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOutRelationship> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutRelationshipController", "UpInOutRelationship", "GetAll", null, null);
+
             return _upInOutRelationshipRepository.GetUpInOutRelationships();
         }
 
@@ -34,6 +41,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOutRelationship> GetAllByMinistryId(int ministryId)
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutRelationshipController", "UpInOutRelationship", "Get By Id", ministryId.ToString(), null);
+
             return _upInOutRelationshipRepository.GetUpInOutRelationshipsByMinistryId(ministryId);
         }
 

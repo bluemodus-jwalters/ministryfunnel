@@ -13,6 +13,10 @@ namespace MinistryFunnel.Models
         [Key]
         public int LogId{ get; set; }
 
+        public string ApplicationName { get; set; }
+
+        public string ClassName { get; set; }
+
         public string User { get; set; }
 
         public string Action { get; set; }

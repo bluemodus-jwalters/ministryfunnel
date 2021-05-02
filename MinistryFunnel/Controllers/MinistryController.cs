@@ -7,6 +7,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -18,10 +19,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IMinistryRepository _ministryRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public MinistryController()
         {
             _ministryRepository = new MinistryRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/ministry
@@ -29,6 +34,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(List<MinistryViewModel>))]
         public List<MinistryViewModel> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "GetAll", null, null);
+
             //This does not include the Up In Out Relationship names... not sure if it should yet or not. Seems to cause circular referencing
             var ministries = _ministryRepository.GetMinistries();
 
@@ -49,6 +56,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(MinistryViewModel))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "Get By Id", id.ToString(), null);
+
             Ministry ministry = _ministryRepository.GetMinistryById(id);
             if (ministry == null)
             {
@@ -145,6 +154,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<Ministry>))]
         public IHttpActionResult GetByEvent([FromUri] string searchText)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "Get By Event", searchText, null);
+
             //TODO: sanitize text
             var results = _ministryRepository.SearchMinistryByName(searchText);
             if (results == null)
@@ -191,6 +202,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Ministry ministry)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "Update", ministry.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -216,6 +229,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Ministry))]
         public IHttpActionResult Insert(Ministry ministry)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "Insert", ministry.ToString(), null);
+
             //test trying to insert bad data
             if (!ModelState.IsValid)
             {
@@ -239,6 +254,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Ministry))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryController", "Ministry", "Delete", id.ToString(), null);
+
             var deletedMinistry = _ministryRepository.DeleteMinistry(id);
 
             if (deletedMinistry == null)

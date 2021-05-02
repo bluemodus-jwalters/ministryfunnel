@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly ILevelOfImportanceRepository _levelOfImportanceRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public LevelOfImportanceController()
         {
             _levelOfImportanceRepository = new LevelOfImportanceRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/LevelOfImportances
@@ -26,6 +31,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<LevelOfImportance>))]
         public IQueryable<LevelOfImportance> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "GetAll", null, null);
+
             return _levelOfImportanceRepository.GetLevelOfImportances();
         }
 
@@ -34,6 +41,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(LevelOfImportance))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "Get By Id", id.ToString(), null);
+
             LevelOfImportance levelOfImportance = _levelOfImportanceRepository.GetLevelOfImportanceById(id);
             if (levelOfImportance == null)
             {
@@ -49,6 +58,8 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "Get by Name", searchText, null);
+
             var results = _levelOfImportanceRepository.SearchLevelOfImportanceByName(searchText);
             if (results == null)
             {
@@ -63,6 +74,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, LevelOfImportance levelOfImportance)
         {
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "Update", levelOfImportance.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +101,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(LevelOfImportance))]
         public IHttpActionResult Insert(LevelOfImportance levelOfImportance)
         {
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "Insert", levelOfImportance.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +123,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(LevelOfImportance))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "LevelOfImportanceController", "LevelOfImportance", "Delete", id.ToString(), null);
+
             var deletedLevelOfImportance = _levelOfImportanceRepository.DeleteLevelOfImportance(id);
 
             if (deletedLevelOfImportance == null)
