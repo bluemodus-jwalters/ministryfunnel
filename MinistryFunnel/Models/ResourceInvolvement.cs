@@ -9,6 +9,6 @@ namespace MinistryFunnel.Models
     [Table("ResourceInvolvement")]
     public class ResourceInvolvement : BaseModel
     {
-        public virtual ICollection<ResourceInvolvement> ResourceInvolvementRelationships { get; set; }
+        //public virtual ICollection<ResourceInvolvement> ResourceInvolvementRelationships { get; set; }
     }
 }

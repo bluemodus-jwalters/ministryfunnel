@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IMinistryOwnerRepository _ministryOwnerRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public MinistryOwnerController()
         {
             _ministryOwnerRepository = new MinistryOwnerRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/MinistryOwners
@@ -26,6 +31,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<MinistryOwner>))]
         public IQueryable<MinistryOwner> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "GetAll", null, null);
+
             return _ministryOwnerRepository.GetMinistryOwners();
         }
 
@@ -34,6 +41,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(MinistryOwner))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "Get By Id", id.ToString(), null);
+
             MinistryOwner ministryOwner = _ministryOwnerRepository.GetMinistryOwnerById(id);
             if (ministryOwner == null)
             {
@@ -49,6 +58,8 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "Get by Name", searchText, null);
+
             var results = _ministryOwnerRepository.SearchMinistryOwnerByName(searchText);
             if (results == null)
             {
@@ -63,6 +74,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, [FromBody] MinistryOwner ministryOwner)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "Update", ministryOwner.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +101,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(MinistryOwner))]
         public IHttpActionResult Insert(MinistryOwner ministryOwner)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "Insert", ministryOwner.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +123,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(MinistryOwner))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "MinistryOwnerController", "MinistryOwner", "Delete", id.ToString(), null);
+
             var deletedMinistryOwner = _ministryOwnerRepository.DeleteMinistryOwner(id);
 
             if (deletedMinistryOwner == null)

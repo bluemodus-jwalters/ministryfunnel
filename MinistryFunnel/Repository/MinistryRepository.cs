@@ -98,6 +98,17 @@ namespace MinistryFunnel.Repository
             _loggerService.CreateLog("Jordan", "Ministry", "Create Resource Involvement Relationships", resourceInvolvementIds.ToString());
         }
 
+        private void UpdateResourceInvolvementIdsFromMinistry(int ministryId, int[] resourceInvolvementIds)
+        {
+            var ids = db.ResourceInvolvementRelaionship.Where(x => x.MinistryId == ministryId);
+            db.ResourceInvolvementRelaionship.RemoveRange(ids);
+
+            db.SaveChanges();
+
+            InsertResourceInvolvementIds(ministryId, resourceInvolvementIds);
+
+        }
+
         public Ministry UpdateMinistry(Ministry updatedMinistry)
         {
             //Assuming all fields are filled in that are supposed to be for this except created time
@@ -126,12 +137,41 @@ namespace MinistryFunnel.Repository
             currentMinistry.Archived = updatedMinistry.Archived;
             currentMinistry.ModifiedDateTime = DateTime.Now;
 
+
             db.Entry(currentMinistry).State = EntityState.Modified;
 
             try
             {
+                var updateResourceInvolvementRelationships = false;
+                var updateUpInOutRelationships = false;
+
+                if (!currentMinistry.ResourceInvolvementRelationship.Select(x => x.ResourceInvolvementId).ToArray().AsEnumerable().SequenceEqual(updatedMinistry.ResourceInvolvementIds))
+                {
+                    var ids = db.ResourceInvolvementRelaionship.Where(x => x.MinistryId == updatedMinistry.Id);
+                    db.ResourceInvolvementRelaionship.RemoveRange(ids);
+                    updateResourceInvolvementRelationships = true;
+                }
+
+                if (!currentMinistry.UpInOutRelationships.Select(x => x.UpInOutId).ToArray().AsEnumerable().SequenceEqual(updatedMinistry.UpInOutIds))
+                {
+                    var ids = db.UpInOutRelaionship.Where(x => x.MinistryId == updatedMinistry.Id);
+                    db.UpInOutRelaionship.RemoveRange(ids);
+                    updateUpInOutRelationships = true;
+                }
 
                 db.SaveChanges();
+
+                if (updateResourceInvolvementRelationships)
+                {
+                    InsertResourceInvolvementIds(updatedMinistry.Id, updatedMinistry.ResourceInvolvementIds);
+                }
+                
+                if (updateUpInOutRelationships)
+                {
+                    InsertUpInOutRelationships(updatedMinistry.Id, updatedMinistry.UpInOutIds);
+                }
+                
+
             }
             catch (DbUpdateConcurrencyException e)
             {
@@ -159,6 +199,7 @@ namespace MinistryFunnel.Repository
 
             try
             {
+                //TODO: have to remove the foreign key restraints before deleting the record
                 db.Ministry.Remove(ministry);
                 db.SaveChanges();
 

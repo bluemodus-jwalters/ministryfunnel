@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IFrequencyRepository _frequencyRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public FrequencyController()
         {
             _frequencyRepository = new FrequencyRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/Frequencys
@@ -26,6 +31,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<Frequency>))]
         public IQueryable<Frequency> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "GetAll", null, null);
             return _frequencyRepository.GetFrequencys();
         }
 
@@ -34,6 +40,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Frequency))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "Get By Id", id.ToString(), null);
             Frequency frequency = _frequencyRepository.GetFrequencyById(id);
             if (frequency == null)
             {
@@ -49,6 +56,8 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "Get by Name", searchText, null);
+
             var results = _frequencyRepository.SearchFrequencyByName(searchText);
             if (results == null)
             {
@@ -63,6 +72,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Frequency frequency)
         {
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "Update", frequency.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +99,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Frequency))]
         public IHttpActionResult Insert(Frequency frequency)
         {
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "Insert", frequency.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +121,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Frequency))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "FrequencyController", "Frequency", "Delete", id.ToString(), null);
+
             var deletedFrequency = _frequencyRepository.DeleteFrequency(id);
 
             if (deletedFrequency == null)

@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IPracticeRepository _practiceRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public PracticeController()
         {
             _practiceRepository = new PracticeRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/Practices
@@ -26,6 +31,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<Practice>))]
         public IQueryable<Practice> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "GetAll", null, null);
+
             return _practiceRepository.GetPractices();
         }
 
@@ -34,6 +41,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Practice))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "Get By Id", id.ToString(), null);
+
             Practice practice = _practiceRepository.GetPracticeById(id);
             if (practice == null)
             {
@@ -49,6 +58,8 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "Get by Name", searchText, null);
+
             var results = _practiceRepository.SearchPracticeByName(searchText);
             if (results == null)
             {
@@ -63,6 +74,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Practice practice)
         {
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "Update", practice.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +101,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Practice))]
         public IHttpActionResult Insert(Practice practice)
         {
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "Insert", practice.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +123,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Practice))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "PracticeController", "Practice", "Delete", id.ToString(), null);
+
             var deletedPractice = _practiceRepository.DeletePractice(id);
 
             if (deletedPractice == null)
