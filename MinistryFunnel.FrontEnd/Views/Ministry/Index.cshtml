@@ -3,124 +3,67 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Event)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Purpose)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DesiredOutcome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MinistryOwnerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PracticeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FunnelName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocationName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CampusName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FrequencyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KidCare)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LevelOfImportanceName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Archived)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="container-fluid" style="padding-left:0px;">
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Event)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Purpose)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DesiredOutcome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MinistryOwnerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PracticeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FunnelName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CampusName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FrequencyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KidCare)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LevelOfImportanceName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifiedDateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Archived)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Event)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Purpose)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MinistryOwnerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LocationName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CampusName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ApprovalName)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Event)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Purpose)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinistryOwnerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CampusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApprovalName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
