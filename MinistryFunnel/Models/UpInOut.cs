@@ -6,6 +6,6 @@ namespace MinistryFunnel.Models
     [Table("UpInOut")]
     public class UpInOut : BaseModel
     {
-        public virtual ICollection<UpInOutRelationship> UpInOutRelationships { get; set; }
+        //public virtual ICollection<UpInOutRelationship> UpInOutRelationships { get; set; }
     }
 }

@@ -6,39 +6,44 @@
     <title>Ministry Funnel - Discovery Church</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Dashboard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="https://www.discoverychurch.org/wp-content/uploads/2016/02/DC_Favicon-1.png" width="30" height="30" alt="">
+            </a>
+            <a class="navbar-brand" href="~/">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="~/Ministry">Ministry <span class="sr-only">(current)</span></a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
-                        <div class="dropdown-menu">
-                            @Html.ActionLink("Ministry Owner", "Index", "MinistryOwner", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Practice", "Index", "Practice", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Funnel", "Index", "Funnel", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Campus", "Index", "Campus", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Resource Involvement", "Index", "ResourceInvolvement", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Level of Importance", "Index", "LevelOfImportance", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Location", "Index", "Location", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Up In Out", "Index", "UpInOut", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Approval", "Index", "Approval", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Frequency", "Index", "Frequency", null, new { @class = "dropdown-item" })
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Administration
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="~/MinistryOwner">Ministry Owner</a>
+                            <a class="dropdown-item" href="~/Practice">Practice</a>
+                            <a class="dropdown-item" href="~/Funnel">Funnel</a>
+                            <a class="dropdown-item" href="~/Campus">Campus</a>
+                            <a class="dropdown-item" href="~/ResourceInvolvement">Resource Involvement</a>
+                            <a class="dropdown-item" href="~/LevelOfImportance">Level of Importance</a>
+                            <a class="dropdown-item" href="~/Location">Location</a>
+                            <a class="dropdown-item" href="~/UpInOut">Up In Out</a>
+                            <a class="dropdown-item" href="~/Approval">Approval</a>
+                            <a class="dropdown-item" href="~/Frequency">Frequency</a>
                         </div>
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
     </div>
     <div class="container body-content">
         @Html.Action(actionName: "TempMessage", controllerName: "Message")
@@ -47,7 +52,7 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - Discovery Church</p>
         </footer>
-    </div>  
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
