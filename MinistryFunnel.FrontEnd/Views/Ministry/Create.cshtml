@@ -185,6 +185,16 @@
             $('.startdatepicker').datepicker(); //Initialise any date pickers
             $('.enddatepicker').datepicker();
         });
+
+        $(".enddatepicker").change(function () {
+            var startDate = document.getElementById("StartDate").value;
+            var endDate = document.getElementById("EndDate").value;
+
+            if (Date.parse(endDate) <= Date.parse(startDate)) {
+                alert("End date should later than Start date");
+                //document.getElementById("EndDate").value = "";
+            }
+        });
     </script>
 }
 

@@ -62,16 +62,16 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Create
         public ActionResult Create()
         {
-            var ministryOwners = _ministryHelper.GetMinistryOwners();
-            var practices = _ministryHelper.GetPractices();
-            var funnels = _ministryHelper.GetFunnels();
-            var campuses = _ministryHelper.GetCampuses();
-            var locations = _ministryHelper.GetLocations();
-            var levelOfImportances = _ministryHelper.GetLevelOfImportances();
-            var approvals = _ministryHelper.GetApprovals();
-            var frequencies = _ministryHelper.GetFrequencies();
-            var upInOuts = _ministryHelper.GetUpInOutOptions();
-            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions();
+            var ministryOwners = _ministryHelper.GetMinistryOwners().Where(x => x.Archived == false);
+            var practices = _ministryHelper.GetPractices().Where(x => x.Archived == false);
+            var funnels = _ministryHelper.GetFunnels().Where(x => x.Archived == false);
+            var campuses = _ministryHelper.GetCampuses().Where(x => x.Archived == false);
+            var locations = _ministryHelper.GetLocations().Where(x => x.Archived == false);
+            var levelOfImportances = _ministryHelper.GetLevelOfImportances().Where(x => x.Archived == false);
+            var approvals = _ministryHelper.GetApprovals().Where(x => x.Archived == false);
+            var frequencies = _ministryHelper.GetFrequencies().Where(x => x.Archived == false);
+            var upInOuts = _ministryHelper.GetUpInOutOptions().Where(x => x.Archived == false);
+            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions().Where(x => x.Archived == false);
             
 
             var ministryOwnerDropDown = ministryOwners.Select(x => new SelectListItem
@@ -159,8 +159,11 @@ namespace MinistryFunnel.FrontEnd.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            //change them to nullables 
+            //make the model below BEFORE serializing it and add nulls 
+
             try
-            {
+            { 
                 var json = new JavaScriptSerializer().Serialize(new MinistryApiModel
                 {
                     Event = Request.Form["Event"],

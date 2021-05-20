@@ -28,7 +28,7 @@ namespace MinistryFunnel.Repository
         {
             MinistryOwner ministryOwner = db.MinistryOwner.Find(id);
 
-            _loggerService.CreateLog("Jordan", "MinistryOwner", "Get By Id", id.ToString(), $"Results found: {ministryOwner != null}");
+            _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Get By Id", id.ToString(), $"Results found: {ministryOwner != null}");
 
             return ministryOwner;
         }
@@ -37,7 +37,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.MinistryOwner.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "MinistryOwner", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +50,13 @@ namespace MinistryFunnel.Repository
                 db.MinistryOwner.Add(ministryOwner);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Create", ministryOwner.ToString());
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Create", ministryOwner.ToString());
 
                 return ministryOwner;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Create", ministryOwner.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Create", ministryOwner.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace MinistryFunnel.Repository
             var currentMinistryOwner = db.MinistryOwner.Find(updatedMinistryOwner.Id);
             if (currentMinistryOwner == null)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Update", string.Empty, $"MinistryOwner {updatedMinistryOwner.Id} not found to update.");
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Update", string.Empty, $"MinistryOwner {updatedMinistryOwner.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +87,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Update", currentMinistryOwner.ToString(), "Error updating ministryOwner: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Update", currentMinistryOwner.ToString(), "Error updating ministryOwner: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Update", currentMinistryOwner.ToString(), "Error updating ministryOwner: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Update", currentMinistryOwner.ToString(), "Error updating ministryOwner: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "MinistryOwner", "Update", currentMinistryOwner.ToString());
+            _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Update", currentMinistryOwner.ToString());
             return currentMinistryOwner;
         }
 
@@ -105,7 +105,7 @@ namespace MinistryFunnel.Repository
             MinistryOwner ministryOwner = db.MinistryOwner.Find(id);
             if (ministryOwner == null)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Delete", string.Empty, $"MinistryOwner {id} not found to delete.");
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Delete", string.Empty, $"MinistryOwner {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +114,11 @@ namespace MinistryFunnel.Repository
                 db.MinistryOwner.Remove(ministryOwner);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Delete", ministryOwner.ToString());
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Delete", ministryOwner.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "MinistryOwner", "Delete", ministryOwner.ToString(), "Error deleting ministryOwner: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "MinistryOwnerRepository", "MinistryOwner", "Delete", ministryOwner.ToString(), "Error deleting ministryOwner: " + e.Message);
                 return null;
             }
 

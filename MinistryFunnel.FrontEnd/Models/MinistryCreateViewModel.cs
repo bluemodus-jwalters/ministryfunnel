@@ -14,7 +14,7 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public IEnumerable<SelectListItem> MinistryOwners { get; set; }
 
         [Required]
-        [Display(Name = "Event")]
+        [Display(Name = "Event")]       
         public string Event { get; set; }
 
         [Display(Name = "Purpose")]
