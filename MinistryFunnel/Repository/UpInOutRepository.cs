@@ -28,7 +28,7 @@ namespace MinistryFunnel.Repository
         {
             UpInOut upInOut = db.UpInOut.Find(id);
 
-            _loggerService.CreateLog("Jordan", "UpInOut", "Get By Id", id.ToString(), $"Results found: {upInOut != null}");
+            _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Get By Id", id.ToString(), $"Results found: {upInOut != null}");
 
             return upInOut;
         }
@@ -37,7 +37,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.UpInOut.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "UpInOut", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +50,13 @@ namespace MinistryFunnel.Repository
                 db.UpInOut.Add(upInOut);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "UpInOut", "Create", upInOut.ToString());
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Create", upInOut.ToString());
 
                 return upInOut;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Create", upInOut.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Create", upInOut.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace MinistryFunnel.Repository
             var currentUpInOut = db.UpInOut.Find(updatedUpInOut.Id);
             if (currentUpInOut == null)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Update", string.Empty, $"UpInOut {updatedUpInOut.Id} not found to update.");
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Update", string.Empty, $"UpInOut {updatedUpInOut.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +87,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Update", currentUpInOut.ToString(), "Error updating upInOut: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Update", currentUpInOut.ToString(), "Error updating upInOut: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Update", currentUpInOut.ToString(), "Error updating upInOut: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Update", currentUpInOut.ToString(), "Error updating upInOut: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "UpInOut", "Update", currentUpInOut.ToString());
+            _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Update", currentUpInOut.ToString());
             return currentUpInOut;
         }
 
@@ -105,7 +105,7 @@ namespace MinistryFunnel.Repository
             UpInOut upInOut = db.UpInOut.Find(id);
             if (upInOut == null)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Delete", string.Empty, $"UpInOut {id} not found to delete.");
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Delete", string.Empty, $"UpInOut {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +114,11 @@ namespace MinistryFunnel.Repository
                 db.UpInOut.Remove(upInOut);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "UpInOut", "Delete", upInOut.ToString());
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Delete", upInOut.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "UpInOut", "Delete", upInOut.ToString(), "Error deleting upInOut: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "UpInOutRepository", "UpInOut", "Delete", upInOut.ToString(), "Error deleting upInOut: " + e.Message);
                 return null;
             }
 

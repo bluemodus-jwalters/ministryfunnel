@@ -29,6 +29,22 @@ namespace MinistryFunnel.Controllers
             _user = "Jordan";
         }
 
+        [HttpGet]
+        [ResponseType(typeof(List<MinistryViewModel>))]
+        [Route("api/ministry/dashboard")]
+        public List<MinistryViewModel> GetDashboard()
+        {
+            var ministries = _ministryRepository.GetDashboardList();
+
+            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            foreach (var ministry in ministries)
+            {
+                viewModel.Add(MapViewModel(ministry));
+            }
+
+            return viewModel;
+        }
+
         // GET: api/ministry
         [HttpGet]
         [ResponseType(typeof(List<MinistryViewModel>))]
