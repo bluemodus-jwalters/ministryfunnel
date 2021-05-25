@@ -5,6 +5,7 @@ using MinistryFunnel.Data;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
+using MinistryFunnel.Service;
 
 namespace MinistryFunnel.Controllers
 {
@@ -15,10 +16,14 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IUpInOutRepository _upInOutRepository;
+        private readonly ILoggerService _loggerService;
+        private readonly string _user;
 
         public UpInOutController()
         {
             _upInOutRepository = new UpInOutRepository();
+            _loggerService = new LoggerService();
+            _user = "Jordan";
         }
 
         // GET: api/UpInOuts
@@ -26,6 +31,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOut> GetAll()
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "GetAll", null, null);
+
             return _upInOutRepository.GetUpInOuts();
         }
 
@@ -34,6 +41,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult GetById(int id)
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Get By Id", id.ToString(), null);
+
             UpInOut upInOut = _upInOutRepository.GetUpInOutById(id);
             if (upInOut == null)
             {
@@ -49,6 +58,8 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Get by Name", searchText, null);
+
             var results = _upInOutRepository.SearchUpInOutByName(searchText);
             if (results == null)
             {
@@ -63,6 +74,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, UpInOut upInOut)
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Update", upInOut.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +101,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult Insert(UpInOut upInOut)
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Insert", upInOut.ToString(), null);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -108,6 +123,8 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult Delete([FromBody] int id)
         {
+            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Delete", id.ToString(), null);
+
             var deletedUpInOut = _upInOutRepository.DeleteUpInOut(id);
 
             if (deletedUpInOut == null)

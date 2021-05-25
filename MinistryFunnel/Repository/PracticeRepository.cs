@@ -28,7 +28,7 @@ namespace MinistryFunnel.Repository
         {
             Practice practice = db.Practice.Find(id);
 
-            _loggerService.CreateLog("Jordan", "Practice", "Get By Id", id.ToString(), $"Results found: {practice != null}");
+            _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Get By Id", id.ToString(), $"Results found: {practice != null}");
 
             return practice;
         }
@@ -37,7 +37,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Practice.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "Practice", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +50,13 @@ namespace MinistryFunnel.Repository
                 db.Practice.Add(practice);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Practice", "Create", practice.ToString());
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Create", practice.ToString());
 
                 return practice;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Create", practice.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Create", practice.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace MinistryFunnel.Repository
             var currentPractice = db.Practice.Find(updatedPractice.Id);
             if (currentPractice == null)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Update", string.Empty, $"Practice {updatedPractice.Id} not found to update.");
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Update", string.Empty, $"Practice {updatedPractice.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +87,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Update", currentPractice.ToString(), "Error updating practice: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Update", currentPractice.ToString(), "Error updating practice: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Update", currentPractice.ToString(), "Error updating practice: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Update", currentPractice.ToString(), "Error updating practice: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "Practice", "Update", currentPractice.ToString());
+            _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Update", currentPractice.ToString());
             return currentPractice;
         }
 
@@ -105,7 +105,7 @@ namespace MinistryFunnel.Repository
             Practice practice = db.Practice.Find(id);
             if (practice == null)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Delete", string.Empty, $"Practice {id} not found to delete.");
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Delete", string.Empty, $"Practice {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +114,11 @@ namespace MinistryFunnel.Repository
                 db.Practice.Remove(practice);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Practice", "Delete", practice.ToString());
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Delete", practice.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Practice", "Delete", practice.ToString(), "Error deleting practice: " + e.Message);
+                _loggerService.CreateLog("Jordan", "API", "PracticeRepository", "Practice", "Delete", practice.ToString(), "Error deleting practice: " + e.Message);
                 return null;
             }
 

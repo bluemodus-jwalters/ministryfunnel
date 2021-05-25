@@ -1,0 +1,232 @@
+﻿@model MinistryFunnel.FrontEnd.Models.MinistryViewModel
+
+<style>
+    .no-left-padding {
+        padding-left: 0px;
+    }
+</style>
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@if (Model != null)
+{
+
+    <h3>Are you sure you want to delete this record?</h3>
+
+    <div class="container">
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.Event)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.Event)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.Purpose)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.Purpose)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.DesiredOutcome)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.DesiredOutcome)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.MinistryOwnerName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.MinistryOwnerName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.PracticeName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.PracticeName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.FunnelName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.FunnelName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.LocationName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.CampusName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.CampusName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.StartDate)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.EndDate)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.FrequencyName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.FrequencyName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.KidCare)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.KidCare)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.LevelOfImportanceName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.LevelOfImportanceName)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.Comments)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.Comments)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.CreatedDateTime)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.CreatedDateTime)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.ModifiedDateTime)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.ModifiedDateTime)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.Archived)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.Archived)
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.Comments)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.Comments)
+            </div>
+        </div>
+
+
+        <div class="row">
+            <h5>Up In Out Relationships</h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @foreach (var relationship in Model.UpInOutRelationships)
+                {
+                    @relationship.UpInOutName
+                    <br />
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>Reource Involvment</h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @foreach (var resource in Model.ResourceInvolvementRelationships)
+                {
+                    @resource.ResourceInvolvementName
+                    <br />
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <h5>
+                @Html.DisplayNameFor(model => model.ApprovalName)
+            </h5>
+            <div class="col-sm-12 text-left no-left-padding">
+                @Html.DisplayFor(model => model.ApprovalName)
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 15px;">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+                </div>
+            }
+        </div>
+    </div>
+
+}
+else
+{
+    <h3>This was not a valid ID to edit.</h3>
+
+
+}
