@@ -2,8 +2,12 @@
 using AuthenticationService.Models;
 using Microsoft.IdentityModel.Tokens;
 using MinistryFunnel.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Web.Http;
@@ -16,11 +20,11 @@ namespace MinistryFunnel.Controllers
         [HttpPost]
         public IHttpActionResult GenerateToken([FromBody] AuthenticationModel authenticationModel)
         {
-            if (authenticationModel.username == "user" && authenticationModel.password == "password")
+            if (authenticationModel.api_user == "api_user" && authenticationModel.password == "password")
             {
 
                 //TODO insert email based on username here... will have to get it from AD
-                IAuthContainerModel model = GetJWTContainerModel(authenticationModel.username, "jordanwalters@discoverychurch.org");
+                IAuthContainerModel model = GetJWTContainerModel(authenticationModel.username, authenticationModel.email);
                 //TODO updaet secret key to somethng complex and move to configuration file 
                 IAuthService authService = new JWTService(model.SecretKey);
 
@@ -35,25 +39,32 @@ namespace MinistryFunnel.Controllers
             
         }
 
-
-
-
         [HttpPost]
         public IHttpActionResult ValidateToken(string token)
         {
-            IAuthContainerModel model = GetJWTContainerModel("Moshe Binieli", "mmoshikoo@gmail.com");
-            IAuthService authService = new JWTService(model.SecretKey);
-            
+            IAuthService authService = new JWTService(ConfigurationManager.AppSettings["ApiSecretKey"]);
+
             if (!authService.IsTokenValid(token))
             {
                 return Unauthorized();
             }
             else
             {
-                return Ok("welcome");
-            }
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
 
-            
+                var z = from claim in jwtToken.Claims
+                        where claim.Type == "role"
+                        select claim.Value;
+
+                if (z.Contains("discovery_api_edit"))
+                {
+                    return Ok("access granted");
+                }
+                        
+
+                return Unauthorized();
+            }   
         }
 
 
@@ -65,9 +76,12 @@ namespace MinistryFunnel.Controllers
                 {
                     new Claim(ClaimTypes.Name, name),
                     new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Role, "allow") //TODO: update this to the role they are really allowed to have
+                    new Claim(ClaimTypes.Role, "discovery_api_edit"),
+                    new Claim(ClaimTypes.Role, "secondary_role")
                 }
             };
         }
+
+      
     }
 }

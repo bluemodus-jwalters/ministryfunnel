@@ -2,6 +2,7 @@
 using AuthenticationService.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -13,44 +14,35 @@ namespace MinistryFunnel.Managers
 {
     public class ApiAuthorization : AuthorizeAttribute
     {
+        //Can make this an array of needed: https://stackoverflow.com/questions/5117782/how-to-extend-authorizeattribute-and-check-the-users-roles
+        public string Role { get; set; }
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             //If needed, we can get the roles from the actionContext that is passed in via the attribute roles
-
-            IAuthContainerModel model = GetJWTContainerModel("Moshe Binieli", "mmoshikoo@gmail.com");
-            IAuthService authService = new JWTService(model.SecretKey);
-
+            IAuthService authService = new JWTService(ConfigurationManager.AppSettings["ApiSecretKey"]);
             var token = actionContext.Request.Headers.Authorization.ToString();
-
-            var t = authService.IsTokenValid(token);
-
-            //TODO actually validate the role here 
-            var stream = token;
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(stream);
-            var tokenS = jsonToken as JwtSecurityToken;
-            var jti = tokenS.Claims.First(claim => claim.Type == "role").Value;
-
-            if (!t)
+            var validToken = authService.IsTokenValid(token);
+         
+            if (!validToken)
             {
                 base.HandleUnauthorizedRequest(actionContext);
             }
             else
             {
-                base.IsAuthorized(actionContext);
-            }
-        }
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(token);
 
-        private static JWTContainerModel GetJWTContainerModel(string name, string email)
-        {
-            return new JWTContainerModel()
-            {
-                Claims = new Claim[]
+                var roles = from claim in jwtToken.Claims
+                        where claim.Type == "role"
+                        select claim.Value;
+
+                if (roles.Contains(Role))
                 {
-                    new Claim(ClaimTypes.Name, name),
-                    new Claim(ClaimTypes.Email, email)
+                    base.IsAuthorized(actionContext);
                 }
-            };
+                
+                base.HandleUnauthorizedRequest(actionContext);
+            }
         }
     }
 }
