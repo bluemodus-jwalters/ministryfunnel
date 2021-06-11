@@ -16,7 +16,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: UpInOut
         public ActionResult Index()
         {           
-            var response = _apiHelper.Get(CompileUrl(apiAction));
+            var response = _apiHelper.Get(CompileUrl(apiAction), _token);
 
             if (response.IsSuccessful)
             {
@@ -54,7 +54,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             var sanitizer = new HtmlSanitizer();
             var sanitizedText = sanitizer.Sanitize(searchText);
 
-            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}");
+            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}", _token);
 
             if (response.IsSuccessful)
             {

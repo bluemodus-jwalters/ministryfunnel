@@ -94,13 +94,13 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return response;
         }
 
-        public IRestResponse Get(string url)
+        public IRestResponse Get(string url, string token)
         {
 
             var client = new RestClient(url);
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "token");
+            request.AddHeader("Authorization", token);
             IRestResponse response = client.Execute(request);
             return response;
         }

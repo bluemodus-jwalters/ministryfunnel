@@ -25,7 +25,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction));
+            var response = _apiHelper.Get(CompileUrl(apiAction), _token);
 
             if (response.IsSuccessful)
             {

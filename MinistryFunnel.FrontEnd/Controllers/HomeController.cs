@@ -20,7 +20,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"));
+            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
 
             if (response.IsSuccessful)
             {
