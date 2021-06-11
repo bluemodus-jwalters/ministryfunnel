@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class FunnelController : Controller
+    public class FunnelController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public FunnelController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/funnel";
 
         // GET: Funnel

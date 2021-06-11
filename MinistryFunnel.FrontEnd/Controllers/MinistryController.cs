@@ -12,13 +12,11 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class MinistryController : Controller
+    public class MinistryController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
         private readonly IMinistryHelper _ministryHelper;
         public MinistryController()
         {
-            _apiHelper = new ApiHelper();
             _ministryHelper = new MinistryHelper();
         }      
 

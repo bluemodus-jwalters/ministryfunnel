@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class ResourceInvolvementController : Controller
+    public class ResourceInvolvementController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public ResourceInvolvementController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/resourceinvolvement";
 
         // GET: ResourceInvolvement

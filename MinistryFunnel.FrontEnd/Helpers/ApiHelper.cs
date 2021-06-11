@@ -85,9 +85,6 @@ namespace MinistryFunnel.FrontEnd.Helpers
 
         public IRestResponse Get(string url, HttpRequestBase httpRequestBase, HttpResponseBase httpResponseBase)
         {
-            var requestBase = new HttpRequestWrapper(HttpContext.Current.Request);
-            
-
             var token = ReturnToken(httpRequestBase, httpResponseBase);
             var client = new RestClient(url);
             client.Timeout = -1;

@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class FrequencyController : Controller
+    public class FrequencyController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public FrequencyController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/frequency";
 
         // GET: Frequency

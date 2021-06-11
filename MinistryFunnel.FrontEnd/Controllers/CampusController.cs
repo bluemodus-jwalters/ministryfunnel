@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class CampusController : Controller
+    public class CampusController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public CampusController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/campus";
 
         // GET: Campus

@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class UpInOutController : Controller
+    public class UpInOutController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public UpInOutController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/upinout";
 
         // GET: UpInOut

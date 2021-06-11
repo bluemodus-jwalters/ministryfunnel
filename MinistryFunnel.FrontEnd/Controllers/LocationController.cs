@@ -13,30 +13,11 @@ namespace MinistryFunnel.FrontEnd.Controllers
 {
     public class LocationController : BaseController
     {
-        //private readonly IApiHelper _apiHelper;
-        
-        //private string  token
-        //{
-        //    get
-        //    {
-        //        return _apiHelper.GetTokenPublic(Request, Response);
-        //    }
-        //}
-
-        //public LocationController()
-        //{           
-        //    _apiHelper = new ApiHelper();
-            
-        //}
         const string apiAction = "/api/location";
-
-        
 
         // GET: Location
         public ActionResult Index()
         {
-            //TODO: I have the token setup so I need to add base class to all the controllers and also this token to the calls
-            var x = _token;
             var response = _apiHelper.Get(CompileUrl(apiAction), Request, Response);
 
             if (response.IsSuccessful)

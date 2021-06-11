@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class LevelOfImportanceController : Controller
+    public class LevelOfImportanceController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public LevelOfImportanceController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/levelofimportance";
 
         // GET: LevelOfImportance

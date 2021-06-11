@@ -10,13 +10,11 @@ using System.Web.Mvc;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
         private readonly IMinistryHelper _ministryHelper;
         public HomeController()
         {
-            _apiHelper = new ApiHelper();
             _ministryHelper = new MinistryHelper();
         }
 

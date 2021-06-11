@@ -9,13 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class ApprovalController : Controller
+    public class ApprovalController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public ApprovalController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/approval";
 
         // GET: Approval
