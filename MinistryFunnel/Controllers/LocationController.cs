@@ -25,7 +25,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Locations
         [HttpGet]
         [ResponseType(typeof(IQueryable<Location>))]
-        [ApiAuthorization(Roles = "allow")]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Location> GetAll()
         {
             return _locationRepository.GetLocations();

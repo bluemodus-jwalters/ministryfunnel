@@ -2,26 +2,42 @@
 using MinistryFunnel.FrontEnd.Helpers;
 using MinistryFunnel.FrontEnd.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class LocationController : Controller
+    public class LocationController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public LocationController()
-        {
-            _apiHelper = new ApiHelper();
-        }
+        //private readonly IApiHelper _apiHelper;
+        
+        //private string  token
+        //{
+        //    get
+        //    {
+        //        return _apiHelper.GetTokenPublic(Request, Response);
+        //    }
+        //}
+
+        //public LocationController()
+        //{           
+        //    _apiHelper = new ApiHelper();
+            
+        //}
         const string apiAction = "/api/location";
+
+        
 
         // GET: Location
         public ActionResult Index()
-        {           
-            var response = _apiHelper.Get(CompileUrl(apiAction));
+        {
+            //TODO: I have the token setup so I need to add base class to all the controllers and also this token to the calls
+            var x = _token;
+            var response = _apiHelper.Get(CompileUrl(apiAction), Request, Response);
 
             if (response.IsSuccessful)
             {
