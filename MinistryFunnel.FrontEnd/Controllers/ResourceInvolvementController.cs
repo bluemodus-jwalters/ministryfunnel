@@ -35,7 +35,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: ResourceInvolvement/Details/5
         public ActionResult Details(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {
@@ -107,7 +107,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: ResourceInvolvement/Edit/5
         public ActionResult Edit(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {
@@ -158,7 +158,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: ResourceInvolvement/Delete/5
         public ActionResult Delete(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {

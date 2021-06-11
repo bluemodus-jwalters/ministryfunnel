@@ -35,7 +35,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Campus/Details/5
         public ActionResult Details(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {
@@ -108,7 +108,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Campus/Edit/5
         public ActionResult Edit(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {
@@ -159,7 +159,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Campus/Delete/5
         public ActionResult Delete(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
 
             if (response.IsSuccessful)
             {

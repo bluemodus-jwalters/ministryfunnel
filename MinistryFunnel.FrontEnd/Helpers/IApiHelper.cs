@@ -13,7 +13,7 @@ namespace MinistryFunnel.FrontEnd.Helpers
         IRestResponse Get(string url, string token);
         //TODO: make this an array
         //IRestResponse Get(string url, HttpRequestBase httpRequestBase, HttpResponseBase httpResponseBase);
-        IRestResponse Get(string url, string parameterKey, object parameterValue);
+        IRestResponse Get(string url, string parameterKey, object parameterValue, string token);
 
         IRestResponse Post(string url, string json);
 

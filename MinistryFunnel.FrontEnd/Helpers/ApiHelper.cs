@@ -105,13 +105,14 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return response;
         }
 
-        public IRestResponse Get(string url, string parameterKey, object parameterValue)
+        public IRestResponse Get(string url, string parameterKey, object parameterValue, string token)
         {
             var client = new RestClient(url);
 
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
             request.AddParameter(parameterKey, parameterValue);
+            request.AddHeader("Authorization", token);
             IRestResponse response = client.Execute(request);
             return response;
         }
