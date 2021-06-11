@@ -5,3 +5,11 @@
 /MinistryFunnel/bin
 /MinistryFunnel.FrontEnd.Tests/bin
 /MinistryFunnelTests/bin
+/MinistryFunnel/obj/Debug
+/MinistryFunnel/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+/MinistryFunnel/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/MinistryFunnel/obj/Debug/MinistryFunnel.csproj.CopyComplete
+/MinistryFunnel.FrontEnd.Tests/obj/Debug/*.cache
+/MinistryFunnel.FrontEnd.Tests/obj/Debug/*.CopyComplete
+*.pdb
+*.cache

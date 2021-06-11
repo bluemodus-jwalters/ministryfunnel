@@ -1,0 +1,230 @@
+﻿@model MinistryFunnel.FrontEnd.Models.MinistryViewModel
+
+<style>
+    .no-left-padding {
+        padding-left: 0px;
+    }
+
+    .row-padding {
+        padding-top: 15px;
+    }
+</style>
+
+
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Event)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.Event)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Purpose)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.Purpose)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.DesiredOutcome)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.DesiredOutcome)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.MinistryOwnerName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.MinistryOwnerName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.PracticeName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.PracticeName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.FunnelName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.FunnelName)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.LocationName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.LocationName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.CampusName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.CampusName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.StartDate)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.StartDate)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.EndDate)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.EndDate)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.FrequencyName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.FrequencyName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.KidCare)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.KidCare)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.LevelOfImportanceName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.LevelOfImportanceName)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Comments)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.Comments)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.CreatedDateTime)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.CreatedDateTime)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.ModifiedDateTime)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.ModifiedDateTime)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Archived)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.Archived)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.Comments)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.Comments)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-padding">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Up In Out</h5>
+                <p class="card-text">
+                    @foreach (var relationship in Model.UpInOutRelationships)
+                    {
+                        @relationship.UpInOutName
+                        <br />
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Resource Involvement</h5>
+                <p class="card-text">
+                    @foreach (var resource in Model.ResourceInvolvementRelationships)
+                    {
+                        @resource.ResourceInvolvementName
+                        <br />
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.ApprovalName)</h5>
+                <p class="card-text">@Html.DisplayFor(model => model.ApprovalName)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+    <div class="row" style="padding-top: 15px;">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
+            </div>
+        }
+    </div>
+</div>

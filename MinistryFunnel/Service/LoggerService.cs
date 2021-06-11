@@ -11,9 +11,16 @@ namespace MinistryFunnel.Service
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
 
+        public void CreateLog(string user = null, string applicationName = null, string className = null, string action = null, string events = null, string searchText = null, string notes = null)
+        {
+            LogEvent logEvent = new LogEvent { User = user, ApplicationName = applicationName, ClassName = className, Action = action, Event = events, SearchText = searchText, Notes = notes, Created = DateTime.Now };
+            db.LogEvent.Add(logEvent);
+            db.SaveChanges();
+        }
+
         public void CreateLog(string user = null, string action = null, string events = null, string searchText = null, string notes = null)
         {
-            LogEvent logEvent = new LogEvent { User = user, Action = action, Event = events, SearchText = searchText, Notes = notes, Created = DateTime.Now };
+            LogEvent logEvent = new LogEvent { User = user, ApplicationName = "application needs update",  ClassName = "class needs update", Action = action, Event = events, SearchText = searchText, Notes = notes, Created = DateTime.Now };
             db.LogEvent.Add(logEvent);
             db.SaveChanges();
         }      

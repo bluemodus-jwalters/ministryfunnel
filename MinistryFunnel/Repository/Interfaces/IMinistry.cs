@@ -20,5 +20,7 @@ namespace MinistryFunnel.Repository.Interfaces
         Ministry InsertMinistry(Ministry ministry);
 
         Ministry DeleteMinistry(int id);
+
+        IQueryable<Ministry> GetDashboardList();
     }
 }
