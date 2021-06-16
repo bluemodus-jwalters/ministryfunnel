@@ -60,16 +60,16 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Create
         public ActionResult Create()
         {
-            var ministryOwners = _ministryHelper.GetMinistryOwners().Where(x => x.Archived == false);
-            var practices = _ministryHelper.GetPractices().Where(x => x.Archived == false);
-            var funnels = _ministryHelper.GetFunnels().Where(x => x.Archived == false);
-            var campuses = _ministryHelper.GetCampuses().Where(x => x.Archived == false);
-            var locations = _ministryHelper.GetLocations().Where(x => x.Archived == false);
-            var levelOfImportances = _ministryHelper.GetLevelOfImportances().Where(x => x.Archived == false);
-            var approvals = _ministryHelper.GetApprovals().Where(x => x.Archived == false);
-            var frequencies = _ministryHelper.GetFrequencies().Where(x => x.Archived == false);
-            var upInOuts = _ministryHelper.GetUpInOutOptions().Where(x => x.Archived == false);
-            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions().Where(x => x.Archived == false);
+            var ministryOwners = _ministryHelper.GetMinistryOwners(_token).Where(x => x.Archived == false);
+            var practices = _ministryHelper.GetPractices(_token).Where(x => x.Archived == false);
+            var funnels = _ministryHelper.GetFunnels(_token).Where(x => x.Archived == false);
+            var campuses = _ministryHelper.GetCampuses(_token).Where(x => x.Archived == false);
+            var locations = _ministryHelper.GetLocations(_token).Where(x => x.Archived == false);
+            var levelOfImportances = _ministryHelper.GetLevelOfImportances(_token).Where(x => x.Archived == false);
+            var approvals = _ministryHelper.GetApprovals(_token).Where(x => x.Archived == false);
+            var frequencies = _ministryHelper.GetFrequencies(_token).Where(x => x.Archived == false);
+            var upInOuts = _ministryHelper.GetUpInOutOptions(_token).Where(x => x.Archived == false);
+            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(_token).Where(x => x.Archived == false);
             
 
             var ministryOwnerDropDown = ministryOwners.Select(x => new SelectListItem
@@ -217,16 +217,16 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         private MinistryEditViewModel CompileEditMinistryModel(MinistryViewModel modelWithData)
         {
-            var ministryOwners = _ministryHelper.GetMinistryOwners();
-            var practices = _ministryHelper.GetPractices();
-            var funnels = _ministryHelper.GetFunnels();
-            var campuses = _ministryHelper.GetCampuses();
-            var locations = _ministryHelper.GetLocations();
-            var levelOfImportances = _ministryHelper.GetLevelOfImportances();
-            var approvals = _ministryHelper.GetApprovals();
-            var frequencies = _ministryHelper.GetFrequencies();
-            var upInOuts = _ministryHelper.GetUpInOutOptions();
-            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions();
+            var ministryOwners = _ministryHelper.GetMinistryOwners(_token);
+            var practices = _ministryHelper.GetPractices(_token);
+            var funnels = _ministryHelper.GetFunnels(_token);
+            var campuses = _ministryHelper.GetCampuses(_token);
+            var locations = _ministryHelper.GetLocations(_token);
+            var levelOfImportances = _ministryHelper.GetLevelOfImportances(_token);
+            var approvals = _ministryHelper.GetApprovals(_token);
+            var frequencies = _ministryHelper.GetFrequencies(_token);
+            var upInOuts = _ministryHelper.GetUpInOutOptions(_token);
+            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(_token);
 
 
             var ministryOwnerDropDown = ministryOwners.Select(x => new SelectListItem

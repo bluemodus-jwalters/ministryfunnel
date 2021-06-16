@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Configuration;
 using System.Globalization;
+using System.Net.Http.Headers;
 using System.Web;
 
 namespace MinistryFunnel.FrontEnd.Helpers
@@ -35,7 +37,8 @@ namespace MinistryFunnel.FrontEnd.Helpers
                 var x = JsonConvert.SerializeObject(body);
                 request.AddParameter("application/json", x, ParameterType.RequestBody);
                 IRestResponse response = client.Execute(request);
-                return response.Content.ToString();
+                var token = JsonConvert.DeserializeObject(response.Content);
+                return token.ToString();
             }
             catch (Exception e)
             {
@@ -79,17 +82,6 @@ namespace MinistryFunnel.FrontEnd.Helpers
             var request = new RestRequest(Method.DELETE);
             request.AddHeader("Content-Type", "application/json");
             request.AddParameter("application/json", json, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-            return response;
-        }
-
-        public IRestResponse Get(string url, HttpRequestBase httpRequestBase, HttpResponseBase httpResponseBase)
-        {
-            var token = ReturnToken(httpRequestBase, httpResponseBase);
-            var client = new RestClient(url);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "token");
             IRestResponse response = client.Execute(request);
             return response;
         }
