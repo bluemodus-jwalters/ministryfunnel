@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -36,6 +37,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Campuss
         [HttpGet]
         [ResponseType(typeof(IQueryable<Campus>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Campus> GetAll()
         {
             _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "GetAll", null, null);
@@ -45,6 +47,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Campuss/5
         [HttpGet]
         [ResponseType(typeof(Campus))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
             _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Get By Id", id.ToString(), null);
@@ -60,6 +63,7 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Campus>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text

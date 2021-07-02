@@ -20,36 +20,49 @@ namespace MinistryFunnel.Managers
         {
             //If needed, we can get the roles from the actionContext that is passed in via the attribute roles
             IAuthService authService = new JWTService(ConfigurationManager.AppSettings["ApiSecretKey"]);
-            
+
+            string token = string.Empty;
             IEnumerable<string> values;
             actionContext.Request.Headers.TryGetValues("Authorization", out values);
-            var token = values.FirstOrDefault();
-
-
-            var validToken = authService.IsTokenValid(token);
-         
-            if (!validToken)
+            if (values != null)
             {
-                base.HandleUnauthorizedRequest(actionContext);
+                token = values.FirstOrDefault();
+            }
+            
+            if (token.Length > 0)
+            {
+                var validToken = authService.IsTokenValid(token);
+
+                if (!validToken)
+                {
+                    base.HandleUnauthorizedRequest(actionContext);
+                }
+                else
+                {
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(token);
+
+
+                    //roles are not being generated right now in the token controller
+                    //var roles = from claim in jwtToken.Claims
+                    //        where claim.Type == "discovery_api_edit"
+                    //            select claim.Value;
+
+                    //if (roles.Contains(Role))
+                    //{
+                    //    base.IsAuthorized(actionContext);
+                    //}
+                    base.IsAuthorized(actionContext);
+                    //base.HandleUnauthorizedRequest(actionContext);
+                }
             }
             else
             {
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(token);
-
-                
-                //roles are not being generated right now in the token controller
-                //var roles = from claim in jwtToken.Claims
-                //        where claim.Type == "discovery_api_edit"
-                //            select claim.Value;
-
-                //if (roles.Contains(Role))
-                //{
-                //    base.IsAuthorized(actionContext);
-                //}
-                base.IsAuthorized(actionContext);
-                //base.HandleUnauthorizedRequest(actionContext);
+                base.HandleUnauthorizedRequest(actionContext);
             }
+
+            
+            
         }
     }
 }

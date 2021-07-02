@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -29,6 +30,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Approvals
         [HttpGet]
         [ResponseType(typeof(IQueryable<Approval>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Approval> GetAll()
         {
             _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "GetAll", null, null);
@@ -38,6 +40,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Approvals/5
         [HttpGet]
         [ResponseType(typeof(Approval))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
             _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Get By Id", id.ToString(), null);
@@ -53,6 +56,7 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Approval>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text

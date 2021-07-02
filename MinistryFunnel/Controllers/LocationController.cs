@@ -41,6 +41,7 @@ namespace MinistryFunnel.Controllers
         // GET: api/Locations/5
         [HttpGet]
         [ResponseType(typeof(Location))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
             _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Get By Id", id.ToString(), null);
@@ -57,6 +58,7 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Location>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
