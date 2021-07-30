@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
+    [Authorize]
     public class MinistryController : BaseController
     {
         private readonly IMinistryHelper _ministryHelper;

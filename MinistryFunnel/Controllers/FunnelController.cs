@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
@@ -28,7 +29,7 @@ namespace MinistryFunnel.Controllers
         {
             _funnelRepository = new FunnelRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
+            _user = "jordan"; //HttpContext.Current.Items["email"].ToString();
         }
 
         // GET: api/Funnels

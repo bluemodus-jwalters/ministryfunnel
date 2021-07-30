@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Microsoft.Ajax.Utilities;
@@ -26,7 +27,7 @@ namespace MinistryFunnel.Controllers
         {
             _ministryRepository = new MinistryRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
+            _user = "jordan"; //HttpContext.Current.Items["email"].ToString();
         }
 
         [HttpGet]

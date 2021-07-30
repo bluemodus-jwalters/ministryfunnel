@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
@@ -13,27 +14,25 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/location")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class LocationController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly ILocationRepository _locationRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public LocationController()
         {
             _locationRepository = new LocationRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
         }
 
         // GET: api/Locations
         [HttpGet]
         [ResponseType(typeof(IQueryable<Location>))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Location> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "GetAll", null, null);
 
             return _locationRepository.GetLocations();
         }
@@ -41,10 +40,9 @@ namespace MinistryFunnel.Controllers
         // GET: api/Locations/5
         [HttpGet]
         [ResponseType(typeof(Location))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "Get By Id", id.ToString(), null);
 
             Location location = _locationRepository.GetLocationById(id);
             if (location == null)
@@ -58,11 +56,10 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Location>))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "Get by Name", searchText, null);
 
             var results = _locationRepository.SearchLocationByName(searchText);
             if (results == null)
@@ -78,7 +75,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Location location)
         {
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Update", location.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "Update", location.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -105,7 +102,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Location))]
         public IHttpActionResult Insert(Location location)
         {
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Insert", location.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "Insert", location.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -127,7 +124,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Location))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "LocationController", "Location", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationController", "Location", "Delete", id.ToString(), null);
 
             var deletedLocation = _locationRepository.DeleteLocation(id);
 

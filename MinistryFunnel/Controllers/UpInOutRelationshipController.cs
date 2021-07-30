@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
@@ -23,7 +24,7 @@ namespace MinistryFunnel.Controllers
         {
             _upInOutRelationshipRepository = new UpInOutRelationshipRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
+            _user = "jordan"; //HttpContext.Current.Items["email"].ToString();
         }
 
         // GET: api/UpInOuts

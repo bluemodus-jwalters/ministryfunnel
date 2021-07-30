@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
+    [Authorize]
     public class MinistryOwnerController : BaseController
     {
         const string apiAction = "/api/ministryowner";

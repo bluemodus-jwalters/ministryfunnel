@@ -41,6 +41,7 @@ namespace MinistryFunnel.Managers
                 {
                     var handler = new JwtSecurityTokenHandler();
                     var jwtToken = handler.ReadJwtToken(token);
+                    HttpContext.Current.Items["email"] = jwtToken.Claims.Where(x => x.Type == "email").FirstOrDefault().Value;
 
 
                     //roles are not being generated right now in the token controller

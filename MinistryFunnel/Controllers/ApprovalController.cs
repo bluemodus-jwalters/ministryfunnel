@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
@@ -13,37 +14,34 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/approval")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class ApprovalController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IApprovalRepository _approvalRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public ApprovalController()
         {
             _approvalRepository = new ApprovalRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
         }
 
         // GET: api/Approvals
         [HttpGet]
         [ResponseType(typeof(IQueryable<Approval>))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Approval> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "GetAll", null, null);
             return _approvalRepository.GetApprovals();
         }
 
         // GET: api/Approvals/5
         [HttpGet]
         [ResponseType(typeof(Approval))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "Get By Id", id.ToString(), null);
             Approval approval = _approvalRepository.GetApprovalById(id);
             if (approval == null)
             {
@@ -56,11 +54,10 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Approval>))]
-        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "Get by Name", searchText, null);
             var results = _approvalRepository.SearchApprovalByName(searchText);
             if (results == null)
             {
@@ -75,7 +72,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Approval approval)
         {
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Update", approval.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "Update", approval.ToString(), null);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -101,7 +98,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Approval))]
         public IHttpActionResult Insert(Approval approval)
         {
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Insert", approval.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "Insert", approval.ToString(), null);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -122,7 +119,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Approval))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "ApprovalController", "Approval", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalController", "Approval", "Delete", id.ToString(), null);
             var deletedApproval = _approvalRepository.DeleteApproval(id);
 
             if (deletedApproval == null)

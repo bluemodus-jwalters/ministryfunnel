@@ -20,6 +20,8 @@ namespace MinistryFunnel.FrontEnd.Controllers
             _ministryHelper = new MinistryHelper();
         }
 
+        //TODO: figure out what to do with the home page
+        [Authorize]
         public ActionResult Index()
         {
             var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
@@ -31,6 +33,12 @@ namespace MinistryFunnel.FrontEnd.Controllers
             }
 
             return View();
+        }
+
+        [Authorize]
+        public void Test()
+        {
+            var t = "hello";
         }
 
         public void SignIn()
