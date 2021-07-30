@@ -20,7 +20,7 @@ namespace MinistryFunnel.Controllers
         [HttpPost]
         public IHttpActionResult GenerateToken([FromBody] AuthenticationModel authenticationModel)
         {
-            if (authenticationModel.api_user == "api_user" && authenticationModel.password == "password")
+            if (authenticationModel.api_user == ConfigurationManager.AppSettings["token_username"] && authenticationModel.password == ConfigurationManager.AppSettings["token_password"])
             {
 
                 //TODO insert email based on username here... will have to get it from AD

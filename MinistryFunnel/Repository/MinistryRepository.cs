@@ -5,6 +5,7 @@ using MinistryFunnel.Service;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
@@ -224,7 +225,7 @@ namespace MinistryFunnel.Repository
 
         public IQueryable<Ministry> GetDashboardList()
         {
-            var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && x.StartDate.Value.Day >= DateTime.Now.Day);
+            var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && DbFunctions.TruncateTime(x.StartDate) >= DateTime.Now);
 
             _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryRepository", "Ministry", "GetDashboardList", string.Empty, $"Results found: {ministries != null}");
 

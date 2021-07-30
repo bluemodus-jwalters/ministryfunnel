@@ -28,7 +28,7 @@ namespace MinistryFunnel.FrontEnd.Helpers
             
             try
             {
-                var body = new AuthenticationModel { api_user = "api_user", username = username, email = email, password = "password" };
+                var body = new AuthenticationModel { api_user = ConfigurationManager.AppSettings["token_username"], username = username, email = email, password = ConfigurationManager.AppSettings["token_password"] };
                 var client = new RestClient(CompileUrl("/api/token"));
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
