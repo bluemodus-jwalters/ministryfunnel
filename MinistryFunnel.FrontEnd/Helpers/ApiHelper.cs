@@ -74,17 +74,6 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return ReturnToken(httpRequestBase, httpResponseBase, username, email);
         }
 
-        public IRestResponse Delete(string url, object json)
-        {
-            var client = new RestClient(url);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.DELETE);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", json, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-            return response;
-        }
-
         public IRestResponse Delete(string url, object json, string token)
         {
             var client = new RestClient(url);
@@ -120,17 +109,6 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return response;
         }
 
-        public IRestResponse Post(string url, string json)
-        {
-            var client = new RestClient(url);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", json, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
-            return response;
-        }
-
         public IRestResponse Post(string url, string json, string token)
         {
             var client = new RestClient(url);
@@ -139,17 +117,6 @@ namespace MinistryFunnel.FrontEnd.Helpers
             request.AddHeader("Content-Type", "application/json");
             request.AddParameter("application/json", json, ParameterType.RequestBody);
             request.AddHeader("Authorization", token);
-            IRestResponse response = client.Execute(request);
-            return response;
-        }
-
-        public IRestResponse Put(string url, string json)
-        {
-            var client = new RestClient(url);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.PUT);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", json, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             return response;
         }

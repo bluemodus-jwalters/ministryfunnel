@@ -30,7 +30,7 @@ namespace MinistryFunnel.Repository
         {
             Ministry ministry = db.Ministry.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Get By Id", id.ToString(), $"Results found: {ministry != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Get By Id", id.ToString(), $"Results found: {ministry != null}");
 
             return ministry;
         }
@@ -39,7 +39,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Ministry.Where(x => x.Event.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -63,13 +63,13 @@ namespace MinistryFunnel.Repository
                 }
 
 
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Create", ministry.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Create", ministry.ToString());
 
                 return ministry;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Create", ministry.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Create", ministry.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -83,7 +83,7 @@ namespace MinistryFunnel.Repository
 
             db.SaveChanges();
 
-            _loggerService.CreateLog("Jordan", "API", "MinistryRepository", "Ministry", "InsertUpInOutRelationships", upInOuts.ToString(), "Records created");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryRepository", "Ministry", "InsertUpInOutRelationships", upInOuts.ToString(), "Records created");
         }
 
         private void InsertResourceInvolvementIds(int ministryId, int[] resourceInvolvementIds)
@@ -95,7 +95,7 @@ namespace MinistryFunnel.Repository
 
             db.SaveChanges();
 
-            _loggerService.CreateLog("Jordan", "API", "MinistryRepository", "Ministry", "InsertResourceInvolvementIds", resourceInvolvementIds.ToString(), "Records created");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryRepository", "Ministry", "InsertResourceInvolvementIds", resourceInvolvementIds.ToString(), "Records created");
         }
 
         private void UpdateResourceInvolvementIdsFromMinistry(int ministryId, int[] resourceInvolvementIds)
@@ -115,7 +115,7 @@ namespace MinistryFunnel.Repository
             var currentMinistry = db.Ministry.Find(updatedMinistry.Id);
             if (currentMinistry == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", string.Empty, $"Approval {updatedMinistry.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", string.Empty, $"Approval {updatedMinistry.Id} not found to update.");
                 return null;
             }
 
@@ -175,16 +175,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString(), "Error updating ministry: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString(), "Error updating ministry: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString(), "Error updating ministry: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString(), "Error updating ministry: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", updatedMinistry.ToString());
             return currentMinistry;
         }
 
@@ -194,7 +194,7 @@ namespace MinistryFunnel.Repository
 
             if (ministry == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", string.Empty, $"Approval {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", string.Empty, $"Approval {id} not found to delete.");
                 return null;
             }
 
@@ -211,11 +211,11 @@ namespace MinistryFunnel.Repository
                 db.Ministry.Remove(ministry);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", ministry.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", ministry.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", ministry.ToString(), "Error deleting ministry: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", ministry.ToString(), "Error deleting ministry: " + e.Message);
                 return null;
             }
 
@@ -226,7 +226,7 @@ namespace MinistryFunnel.Repository
         {
             var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && x.StartDate.Value.Day >= DateTime.Now.Day);
 
-            _loggerService.CreateLog("Jordan", "API", "MinistryRepository", "Ministry", "GetDashboardList", string.Empty, $"Results found: {ministries != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryRepository", "Ministry", "GetDashboardList", string.Empty, $"Results found: {ministries != null}");
 
             return ministries;
 

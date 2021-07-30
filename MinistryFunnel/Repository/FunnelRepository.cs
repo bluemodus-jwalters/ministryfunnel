@@ -30,7 +30,7 @@ namespace MinistryFunnel.Repository
         {
             Funnel funnel = db.Funnel.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Get By Id", id.ToString(), $"Results found: {funnel != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Get By Id", id.ToString(), $"Results found: {funnel != null}");
 
             return funnel;
         }
@@ -39,7 +39,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Funnel.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -52,13 +52,13 @@ namespace MinistryFunnel.Repository
                 db.Funnel.Add(funnel);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Create", funnel.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Create", funnel.ToString());
 
                 return funnel;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Create", funnel.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Create", funnel.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace MinistryFunnel.Repository
             var currentFunnel = db.Funnel.Find(updatedFunnel.Id);
             if (currentFunnel == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Update", string.Empty, $"Funnel {updatedFunnel.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Update", string.Empty, $"Funnel {updatedFunnel.Id} not found to update.");
                 return null;
             }
 
@@ -89,16 +89,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString(), "Error updating funnel: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString(), "Error updating funnel: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString(), "Error updating funnel: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString(), "Error updating funnel: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Update", currentFunnel.ToString());
             return currentFunnel;
         }
 
@@ -107,7 +107,7 @@ namespace MinistryFunnel.Repository
             Funnel funnel = db.Funnel.Find(id);
             if (funnel == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Delete", string.Empty, $"Funnel {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Delete", string.Empty, $"Funnel {id} not found to delete.");
                 return null;
             }
 
@@ -116,11 +116,11 @@ namespace MinistryFunnel.Repository
                 db.Funnel.Remove(funnel);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Delete", funnel.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Delete", funnel.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FunnelRepository", "Funnel", "Delete", funnel.ToString(), "Error deleting funnel: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelRepository", "Funnel", "Delete", funnel.ToString(), "Error deleting funnel: " + e.Message);
                 return null;
             }
 

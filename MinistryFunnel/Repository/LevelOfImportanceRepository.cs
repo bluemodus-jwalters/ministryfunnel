@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Web;
 
 namespace MinistryFunnel.Repository
 {
@@ -28,7 +29,7 @@ namespace MinistryFunnel.Repository
         {
             LevelOfImportance levelOfImportance = db.LevelOfImportance.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Get By Id", id.ToString(), $"Results found: {levelOfImportance != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Get By Id", id.ToString(), $"Results found: {levelOfImportance != null}");
 
             return levelOfImportance;
         }
@@ -37,7 +38,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.LevelOfImportance.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +51,13 @@ namespace MinistryFunnel.Repository
                 db.LevelOfImportance.Add(levelOfImportance);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Create", levelOfImportance.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Create", levelOfImportance.ToString());
 
                 return levelOfImportance;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Create", levelOfImportance.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Create", levelOfImportance.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +67,7 @@ namespace MinistryFunnel.Repository
             var currentLevelOfImportance = db.LevelOfImportance.Find(updatedLevelOfImportance.Id);
             if (currentLevelOfImportance == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", string.Empty, $"LevelOfImportance {updatedLevelOfImportance.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", string.Empty, $"LevelOfImportance {updatedLevelOfImportance.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +88,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString(), "Error updating levelOfImportance: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString(), "Error updating levelOfImportance: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString(), "Error updating levelOfImportance: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString(), "Error updating levelOfImportance: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Update", currentLevelOfImportance.ToString());
             return currentLevelOfImportance;
         }
 
@@ -105,7 +106,7 @@ namespace MinistryFunnel.Repository
             LevelOfImportance levelOfImportance = db.LevelOfImportance.Find(id);
             if (levelOfImportance == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", string.Empty, $"LevelOfImportance {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", string.Empty, $"LevelOfImportance {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +115,11 @@ namespace MinistryFunnel.Repository
                 db.LevelOfImportance.Remove(levelOfImportance);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", levelOfImportance.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", levelOfImportance.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", levelOfImportance.ToString(), "Error deleting levelOfImportance: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LevelOfImportanceRepository", "LevelOfImportance", "Delete", levelOfImportance.ToString(), "Error deleting levelOfImportance: " + e.Message);
                 return null;
             }
 

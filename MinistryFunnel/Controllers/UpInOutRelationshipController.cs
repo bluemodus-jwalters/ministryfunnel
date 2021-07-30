@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -13,18 +14,17 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/upInOutRelationship")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class UpInOutRelationshipController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IUpInOutRelatinshipRepository _upInOutRelationshipRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public UpInOutRelationshipController()
         {
             _upInOutRelationshipRepository = new UpInOutRelationshipRepository();
             _loggerService = new LoggerService();
-            _user = "jordan"; //HttpContext.Current.Items["email"].ToString();
         }
 
         // GET: api/UpInOuts
@@ -32,7 +32,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOutRelationship> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutRelationshipController", "UpInOutRelationship", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutRelationshipController", "UpInOutRelationship", "GetAll", null, null);
 
             return _upInOutRelationshipRepository.GetUpInOutRelationships();
         }
@@ -42,7 +42,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOutRelationship> GetAllByMinistryId(int ministryId)
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutRelationshipController", "UpInOutRelationship", "Get By Id", ministryId.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutRelationshipController", "UpInOutRelationship", "Get By Id", ministryId.ToString(), null);
 
             return _upInOutRelationshipRepository.GetUpInOutRelationshipsByMinistryId(ministryId);
         }

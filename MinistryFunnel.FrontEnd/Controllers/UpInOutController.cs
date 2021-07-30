@@ -84,7 +84,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     Archived = Request.Form["Archived"] == "true"
                 });
 
-                var response = _apiHelper.Post(CompileUrl(apiAction), json);
+                var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
 
                 if (response.IsSuccessful)
                 {
@@ -135,7 +135,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 var json = new JavaScriptSerializer().Serialize(updatedModel);
-                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json);
+                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
 
                 if (response.IsSuccessful)
                 {
@@ -180,7 +180,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 
-                var response = _apiHelper.Delete(CompileUrl(apiAction), id);
+                var response = _apiHelper.Delete(CompileUrl(apiAction), id, _token);
 
                 if (response.IsSuccessful)
                 {

@@ -185,7 +185,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray()
                 });
 
-                var response = _apiHelper.Post(CompileUrl(apiAction), json);
+                var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
 
                 TempData["MessageType"] = "Success";
                 TempData["Message"] = $"Ministry, {Request.Form["Name"]}, Created";
@@ -357,7 +357,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     
                 });
 
-                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json);
+                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -403,7 +403,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
 
-                var response = _apiHelper.Delete(CompileUrl(apiAction), id);
+                var response = _apiHelper.Delete(CompileUrl(apiAction), id, _token);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {

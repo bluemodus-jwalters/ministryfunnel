@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -13,18 +14,17 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/upInOut")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class UpInOutController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IUpInOutRepository _upInOutRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public UpInOutController()
         {
             _upInOutRepository = new UpInOutRepository();
             _loggerService = new LoggerService();
-            _user = "jordan"; //HttpContext.Current.Items["email"].ToString();
         }
 
         // GET: api/UpInOuts
@@ -32,7 +32,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<UpInOut>))]
         public IQueryable<UpInOut> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "GetAll", null, null);
 
             return _upInOutRepository.GetUpInOuts();
         }
@@ -42,7 +42,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "Get By Id", id.ToString(), null);
 
             UpInOut upInOut = _upInOutRepository.GetUpInOutById(id);
             if (upInOut == null)
@@ -59,7 +59,7 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "Get by Name", searchText, null);
 
             var results = _upInOutRepository.SearchUpInOutByName(searchText);
             if (results == null)
@@ -75,7 +75,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, UpInOut upInOut)
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Update", upInOut.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "Update", upInOut.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult Insert(UpInOut upInOut)
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Insert", upInOut.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "Insert", upInOut.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(UpInOut))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "UpInOutController", "UpInOut", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "UpInOutController", "UpInOut", "Delete", id.ToString(), null);
 
             var deletedUpInOut = _upInOutRepository.DeleteUpInOut(id);
 

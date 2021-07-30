@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Web;
 
 namespace MinistryFunnel.Repository
 {
@@ -28,7 +29,7 @@ namespace MinistryFunnel.Repository
         {
             Approval approval = db.Approval.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Get By Id", id.ToString(), $"Results found: {approval != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Get By Id", id.ToString(), $"Results found: {approval != null}");
 
             return approval;
         }
@@ -37,7 +38,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Approval.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +51,13 @@ namespace MinistryFunnel.Repository
                 db.Approval.Add(approval);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Create", approval.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Create", approval.ToString());
 
                 return approval;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Create", approval.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Create", approval.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +67,7 @@ namespace MinistryFunnel.Repository
             var currentApproval = db.Approval.Find(updatedApproval.Id);
             if (currentApproval == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", string.Empty, $"Approval {updatedApproval.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", string.Empty, $"Approval {updatedApproval.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +88,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString(), "Error updating approval: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString(), "Error updating approval: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString(), "Error updating approval: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString(), "Error updating approval: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Update", currentApproval.ToString());
             return currentApproval;
         }
 
@@ -105,7 +106,7 @@ namespace MinistryFunnel.Repository
             Approval approval = db.Approval.Find(id);
             if (approval == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", string.Empty, $"Approval {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", string.Empty, $"Approval {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +115,11 @@ namespace MinistryFunnel.Repository
                 db.Approval.Remove(approval);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", approval.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", approval.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ApprovalRepository", "Approval", "Delete", approval.ToString(), "Error deleting approval: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ApprovalRepository", "Approval", "Delete", approval.ToString(), "Error deleting approval: " + e.Message);
                 return null;
             }
 
