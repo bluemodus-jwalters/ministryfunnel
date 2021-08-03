@@ -36,6 +36,32 @@ namespace MinistryFunnel.FrontEnd.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public JsonResult Calendar()
+        {
+            var events = new List<calendarViewModel>();
+            var event1 = new calendarViewModel
+            {
+                start = DateTime.Today.AddDays(1),
+                end = DateTime.Today.AddDays(2),
+                title = "test one"
+            };
+            var event2 = new calendarViewModel
+            {
+                start = DateTime.Today.AddDays(5),
+                end = DateTime.Today.AddDays(6),
+                title = "test one",
+            };
+
+            events.Add(event1);
+            events.Add(event2);
+
+            return Json(events, JsonRequestBehavior.AllowGet);
+            //return Json(new { Result = events, Message = "Success" }, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        [Authorize]
         public void Test()
         {
             var t = "hello";
