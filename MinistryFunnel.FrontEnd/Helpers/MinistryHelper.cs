@@ -13,9 +13,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             _apiHelper = new ApiHelper();
         }
 
-        public ICollection<ApprovalViewModel> GetApprovals()
+        public ICollection<ApprovalViewModel> GetApprovals(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/approval"));
+            var response = _apiHelper.Get(CompileUrl("/api/approval"), token);
 
             if (response.IsSuccessful)
             {
@@ -25,9 +25,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<CampusViewModel> GetCampuses()
+        public ICollection<CampusViewModel> GetCampuses(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/campus"));
+            var response = _apiHelper.Get(CompileUrl("/api/campus"), token);
 
             if (response.IsSuccessful)
             {
@@ -37,9 +37,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<FrequencyViewModel> GetFrequencies()
+        public ICollection<FrequencyViewModel> GetFrequencies(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/frequency"));
+            var response = _apiHelper.Get(CompileUrl("/api/frequency"), token);
 
             if (response.IsSuccessful)
             {
@@ -49,9 +49,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<FunnelViewModel> GetFunnels()
+        public ICollection<FunnelViewModel> GetFunnels(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/funnel"));
+            var response = _apiHelper.Get(CompileUrl("/api/funnel"), token);
 
             if (response.IsSuccessful)
             {
@@ -60,9 +60,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<LevelOfImportanceViewModel> GetLevelOfImportances()
+        public ICollection<LevelOfImportanceViewModel> GetLevelOfImportances(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/levelofimportance"));
+            var response = _apiHelper.Get(CompileUrl("/api/levelofimportance"), token);
 
             if (response.IsSuccessful)
             {
@@ -71,9 +71,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<LocationViewModel> GetLocations()
+        public ICollection<LocationViewModel> GetLocations(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/location"));
+            var response = _apiHelper.Get(CompileUrl("/api/location"), token);
 
             if (response.IsSuccessful)
             {
@@ -82,9 +82,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<MinistryOwnerViewModel> GetMinistryOwners()
+        public ICollection<MinistryOwnerViewModel> GetMinistryOwners(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/ministryowner"));
+            var response = _apiHelper.Get(CompileUrl("/api/ministryowner"), token);
 
             if (response.IsSuccessful)
             {
@@ -93,9 +93,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<PracticeViewModel> GetPractices()
+        public ICollection<PracticeViewModel> GetPractices(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/practice"));
+            var response = _apiHelper.Get(CompileUrl("/api/practice"), token);
 
             if (response.IsSuccessful)
             {
@@ -104,9 +104,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<ResourceInvolvementViewModel> GetResourceInvolvementOptions()
+        public ICollection<ResourceInvolvementViewModel> GetResourceInvolvementOptions(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/resourceinvolvement"));
+            var response = _apiHelper.Get(CompileUrl("/api/resourceinvolvement"), token);
 
             if (response.IsSuccessful)
             {
@@ -116,9 +116,9 @@ namespace MinistryFunnel.FrontEnd.Helpers
             return null;
         }
 
-        public ICollection<UpInOutViewModel> GetUpInOutOptions()
+        public ICollection<UpInOutViewModel> GetUpInOutOptions(string token)
         {
-            var response = _apiHelper.Get(CompileUrl("/api/upinout"));
+            var response = _apiHelper.Get(CompileUrl("/api/upinout"), token);
 
             if (response.IsSuccessful)
             {

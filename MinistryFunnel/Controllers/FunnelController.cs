@@ -6,9 +6,11 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -17,18 +19,17 @@ using MinistryFunnel.Service;
 namespace MinistryFunnel.Controllers
 {
     [Route("api/funnel")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class FunnelController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IFunnelRepository _funnelRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public FunnelController()
         {
             _funnelRepository = new FunnelRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
         }
 
         // GET: api/Funnels
@@ -36,7 +37,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<Funnel>))]
         public IQueryable<Funnel> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "GetAll", null, null);
 
             return _funnelRepository.GetFunnels();
         }
@@ -46,7 +47,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Funnel))]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "Get By Id", id.ToString(), null);
 
             Funnel funnel = _funnelRepository.GetFunnelById(id);
             if (funnel == null)
@@ -63,7 +64,7 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "Get by Name", searchText, null);
 
             var results = _funnelRepository.SearchFunnelByName(searchText);
             if (results == null)
@@ -79,7 +80,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Funnel funnel)
         {
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "Update", funnel.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "Update", funnel.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -106,7 +107,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Funnel))]
         public IHttpActionResult Insert(Funnel funnel)
         {
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "Insert", funnel.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "Insert", funnel.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -128,7 +129,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Funnel))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "FunnelController", "Funnel", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FunnelController", "Funnel", "Delete", id.ToString(), null);
 
             var deletedFunnel = _funnelRepository.DeleteFunnel(id);
 

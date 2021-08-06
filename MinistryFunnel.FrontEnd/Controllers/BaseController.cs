@@ -15,7 +15,14 @@ namespace MinistryFunnel.FrontEnd.Controllers
         {
             get
             {
-                return _apiHelper.GetTokenPublic(Request, Response);
+                var userClaims = User.Identity as System.Security.Claims.ClaimsIdentity;
+                //You get the user’s first and last name below:
+                var name = ViewBag.Name = userClaims?.FindFirst("name")?.Value;
+
+                // The 'preferred_username' claim can be used for showing the username
+                var email = ViewBag.Username = userClaims?.FindFirst("preferred_username")?.Value;
+
+                return _apiHelper.GetTokenPublic(Request, Response, name, email);
             }
         }
 

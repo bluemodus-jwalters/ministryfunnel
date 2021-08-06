@@ -9,24 +9,24 @@ namespace MinistryFunnel.FrontEnd.Helpers
 {
     public interface IMinistryHelper
     {
-        ICollection<ResourceInvolvementViewModel> GetResourceInvolvementOptions();
+        ICollection<ResourceInvolvementViewModel> GetResourceInvolvementOptions(string token);
 
-        ICollection<MinistryOwnerViewModel> GetMinistryOwners();
+        ICollection<MinistryOwnerViewModel> GetMinistryOwners(string token);
 
-        ICollection<PracticeViewModel> GetPractices();
+        ICollection<PracticeViewModel> GetPractices(string token);
 
-        ICollection<FunnelViewModel> GetFunnels();
+        ICollection<FunnelViewModel> GetFunnels(string token);
 
-        ICollection<CampusViewModel> GetCampuses();
+        ICollection<CampusViewModel> GetCampuses(string token);
 
-        ICollection<LocationViewModel> GetLocations();
+        ICollection<LocationViewModel> GetLocations(string token);
 
-        ICollection<LevelOfImportanceViewModel> GetLevelOfImportances();
+        ICollection<LevelOfImportanceViewModel> GetLevelOfImportances(string token);
 
-        ICollection<UpInOutViewModel> GetUpInOutOptions();
+        ICollection<UpInOutViewModel> GetUpInOutOptions(string token);
 
-        ICollection<ApprovalViewModel> GetApprovals();
+        ICollection<ApprovalViewModel> GetApprovals(string token);
 
-        ICollection<FrequencyViewModel> GetFrequencies();
+        ICollection<FrequencyViewModel> GetFrequencies(string token);
     }
 }

@@ -30,7 +30,7 @@ namespace MinistryFunnel.Repository
         {
             ResourceInvolvement resourceInvolvement = db.ResourceInvolvement.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Get By Id", id.ToString(), $"Results found: {resourceInvolvement != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Get By Id", id.ToString(), $"Results found: {resourceInvolvement != null}");
 
             return resourceInvolvement;
         }
@@ -39,7 +39,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.ResourceInvolvement.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -52,13 +52,13 @@ namespace MinistryFunnel.Repository
                 db.ResourceInvolvement.Add(resourceInvolvement);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Create", resourceInvolvement.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Create", resourceInvolvement.ToString());
 
                 return resourceInvolvement;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Create", resourceInvolvement.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Create", resourceInvolvement.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace MinistryFunnel.Repository
             var currentResourceInvolvement = db.ResourceInvolvement.Find(updatedResourceInvolvement.Id);
             if (currentResourceInvolvement == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", string.Empty, $"ResourceInvolvement {updatedResourceInvolvement.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", string.Empty, $"ResourceInvolvement {updatedResourceInvolvement.Id} not found to update.");
                 return null;
             }
 
@@ -89,16 +89,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString(), "Error updating resourceInvolvement: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString(), "Error updating resourceInvolvement: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString(), "Error updating resourceInvolvement: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString(), "Error updating resourceInvolvement: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Update", currentResourceInvolvement.ToString());
             return currentResourceInvolvement;
         }
 
@@ -107,7 +107,7 @@ namespace MinistryFunnel.Repository
             ResourceInvolvement resourceInvolvement = db.ResourceInvolvement.Find(id);
             if (resourceInvolvement == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", string.Empty, $"ResourceInvolvement {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", string.Empty, $"ResourceInvolvement {id} not found to delete.");
                 return null;
             }
 
@@ -116,11 +116,11 @@ namespace MinistryFunnel.Repository
                 db.ResourceInvolvement.Remove(resourceInvolvement);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", resourceInvolvement.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", resourceInvolvement.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", resourceInvolvement.ToString(), "Error deleting resourceInvolvement: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementRepository", "ResourceInvolvement", "Delete", resourceInvolvement.ToString(), "Error deleting resourceInvolvement: " + e.Message);
                 return null;
             }
 
