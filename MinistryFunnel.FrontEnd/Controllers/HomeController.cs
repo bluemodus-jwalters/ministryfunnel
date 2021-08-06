@@ -36,9 +36,58 @@ namespace MinistryFunnel.FrontEnd.Controllers
         }
 
         [Authorize]
-        public void Test()
+        public ActionResult Calendar()
         {
-            var t = "hello";
+            return View(new EventViewModel());
+        }
+
+        [Authorize]
+        [HttpGet]
+        public JsonResult GetEvents(DateTime start, DateTime end)
+        {
+            var viewModel = new EventViewModel();
+            var events = new List<EventViewModel>();
+            start = DateTime.Today.AddDays(-14);
+            end = DateTime.Today.AddDays(-11);
+
+            for (var i = 1; i <= 5; i++)
+            {
+                events.Add(new EventViewModel()
+                {
+                    groupId = i,
+                    title = "Event " + i,
+                    start = start.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
+                    end = end.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ")
+                });
+
+                start = start.AddDays(7);
+                end = end.AddDays(7);
+            }
+
+
+            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
+
+            if (response.IsSuccessful)
+            {
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                foreach (var ministry in ministries)
+                {
+                    events.Add(new EventViewModel()
+                    {
+                        title = ministry.Event,
+                        start = ministry.StartDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
+                        end = ministry.EndDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ")
+                    });
+                }
+                //return View(ministries);
+            }
+
+
+            return Json(events, JsonRequestBehavior.AllowGet);
+
+
+            
+
         }
 
         public void SignIn()
