@@ -44,9 +44,13 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public int FrequencyId { get; set; }
         public IEnumerable<SelectListItem> Frequencies { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
