@@ -6,9 +6,11 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -19,35 +21,36 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/campus")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class CampusController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly ICampusRepository _campusRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public CampusController()
         {
             _campusRepository = new CampusRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
         }
 
         // GET: api/Campuss
         [HttpGet]
         [ResponseType(typeof(IQueryable<Campus>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IQueryable<Campus> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "GetAll", null, null);
             return _campusRepository.GetCampuss();
         }
 
         // GET: api/Campuss/5
         [HttpGet]
         [ResponseType(typeof(Campus))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "Get By Id", id.ToString(), null);
             Campus campus = _campusRepository.GetCampusById(id);
             if (campus == null)
             {
@@ -60,10 +63,11 @@ namespace MinistryFunnel.Controllers
         //TODO: make this a /searchText one day
         [HttpGet]
         [ResponseType(typeof(IQueryable<Campus>))]
+        [ApiAuthorization(Role = "discovery_api_edit")]
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "Get by Name", searchText, null);
             var results = _campusRepository.SearchCampusByName(searchText);
             if (results == null)
             {
@@ -78,7 +82,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, Campus campus)
         {
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Update", campus.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "Update", campus.ToString(), null);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -104,7 +108,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Campus))]
         public IHttpActionResult Insert(Campus campus)
         {
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Insert", campus.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "Insert", campus.ToString(), null);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -125,7 +129,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(Campus))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "CampusController", "Campus", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusController", "Campus", "Delete", id.ToString(), null);
             var deletedCampus = _campusRepository.DeleteCampus(id);
 
             if (deletedCampus == null)

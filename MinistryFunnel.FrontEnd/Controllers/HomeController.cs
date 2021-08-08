@@ -1,4 +1,6 @@
-﻿using MinistryFunnel.FrontEnd.Helpers;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OpenIdConnect;
+using MinistryFunnel.FrontEnd.Helpers;
 using MinistryFunnel.FrontEnd.Models;
 using Newtonsoft.Json;
 using System;
@@ -18,9 +20,11 @@ namespace MinistryFunnel.FrontEnd.Controllers
             _ministryHelper = new MinistryHelper();
         }
 
+        //TODO: figure out what to do with the home page
+        [Authorize]
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"));
+            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
 
             if (response.IsSuccessful)
             {

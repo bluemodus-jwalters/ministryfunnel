@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Web;
 
 namespace MinistryFunnel.Repository
 {
@@ -28,7 +29,7 @@ namespace MinistryFunnel.Repository
         {
             Frequency frequency = db.Frequency.Find(id);
 
-            _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Get By Id", id.ToString(), $"Results found: {frequency != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Get By Id", id.ToString(), $"Results found: {frequency != null}");
 
             return frequency;
         }
@@ -37,7 +38,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Frequency.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -50,13 +51,13 @@ namespace MinistryFunnel.Repository
                 db.Frequency.Add(frequency);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Create", frequency.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Create", frequency.ToString());
 
                 return frequency;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Create", frequency.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Create", frequency.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -66,7 +67,7 @@ namespace MinistryFunnel.Repository
             var currentFrequency = db.Frequency.Find(updatedFrequency.Id);
             if (currentFrequency == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Update", string.Empty, $"Frequency {updatedFrequency.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Update", string.Empty, $"Frequency {updatedFrequency.Id} not found to update.");
                 return null;
             }
 
@@ -87,16 +88,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString(), "Error updating frequency: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString(), "Error updating frequency: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString(), "Error updating frequency: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString(), "Error updating frequency: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Update", currentFrequency.ToString());
             return currentFrequency;
         }
 
@@ -105,7 +106,7 @@ namespace MinistryFunnel.Repository
             Frequency frequency = db.Frequency.Find(id);
             if (frequency == null)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Delete", string.Empty, $"Frequency {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Delete", string.Empty, $"Frequency {id} not found to delete.");
                 return null;
             }
 
@@ -114,11 +115,11 @@ namespace MinistryFunnel.Repository
                 db.Frequency.Remove(frequency);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Delete", frequency.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Delete", frequency.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "API", "FrequencyRepository", "Frequency", "Delete", frequency.ToString(), "Error deleting frequency: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "FrequencyRepository", "Frequency", "Delete", frequency.ToString(), "Error deleting frequency: " + e.Message);
                 return null;
             }
 

@@ -13,3 +13,6 @@
 /MinistryFunnel.FrontEnd.Tests/obj/Debug/*.CopyComplete
 *.pdb
 *.cache
+/.vs/MinistryFunnel
+Debug
+/MinistryFunnel.FrontEnd.Tests/obj/Debug
