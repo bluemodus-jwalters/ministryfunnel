@@ -92,6 +92,8 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
                 // TenantId is the unique Tenant Id - which represents an organization in Azure AD
                 ViewBag.TenantId = userClaims?.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid")?.Value;
+
+                ViewBag.Role = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
             }
         }
 

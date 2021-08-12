@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Database.Admin")]
     public class ApprovalController : BaseController
     {
         const string apiAction = "/api/approval";

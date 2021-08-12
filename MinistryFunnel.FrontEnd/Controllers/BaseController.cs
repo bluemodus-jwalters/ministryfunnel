@@ -22,6 +22,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 // The 'preferred_username' claim can be used for showing the username
                 var email = ViewBag.Username = userClaims?.FindFirst("preferred_username")?.Value;
 
+                // The role assigned
+                var role = ViewBag.Role = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+
                 return _apiHelper.GetTokenPublic(Request, Response, name, email);
             }
         }

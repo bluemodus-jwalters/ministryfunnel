@@ -149,8 +149,29 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 EndDate = DateTime.Now.AddDays(1)
             };
 
+            //Set the Not Approved value as default
+            int approvalId = -1;
+            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text == "Not Approved");
+            if (approvalDefault != null)
+            {
+                int.TryParse(approvalDefault.Value, out approvalId);              
+            }
+            viewModel.ApprovalId = approvalId;
 
+            //Disable the approval drop down if not in the correct role
+            viewModel.CanApprove = CanApprove();
+            
             return View(viewModel);
+        }
+
+        private bool CanApprove()
+        {
+            var role = ViewBag.Role;
+            if (role != null && (role == "Database.Approver" || role == "Database.Admin"))
+            {
+                return true;
+            }
+            return false;
         }
 
 
@@ -323,6 +344,8 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 SelectedResourceInvolvementIds = modelWithData.ResourceInvolvementRelationships.Select(x => x.ResourceInvolvementId).ToArray(),
                 Archived = modelWithData.Archived
             };
+
+            viewModel.CanApprove = CanApprove();
 
             return viewModel;
         }

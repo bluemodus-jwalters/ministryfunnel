@@ -6,13 +6,8 @@
     <title>Ministry Funnel - Discovery Church</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-<<<<<<< Updated upstream
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-=======
-
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
-
->>>>>>> Stashed changes
 </head>
 <body>
     <div class="container">
@@ -30,23 +25,27 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="~/Ministry">Ministry <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Administration
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="~/MinistryOwner">Ministry Owner</a>
-                            <a class="dropdown-item" href="~/Practice">Practice</a>
-                            <a class="dropdown-item" href="~/Funnel">Funnel</a>
-                            <a class="dropdown-item" href="~/Campus">Campus</a>
-                            <a class="dropdown-item" href="~/ResourceInvolvement">Resource Involvement</a>
-                            <a class="dropdown-item" href="~/LevelOfImportance">Level of Importance</a>
-                            <a class="dropdown-item" href="~/Location">Location</a>
-                            <a class="dropdown-item" href="~/UpInOut">Up In Out</a>
-                            <a class="dropdown-item" href="~/Approval">Approval</a>
-                            <a class="dropdown-item" href="~/Frequency">Frequency</a>
-                        </div>
-                    </li>
+                    @if (User.IsInRole("Database.Admin"))
+                    { 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administration
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="~/MinistryOwner">Ministry Owner</a>
+                                <a class="dropdown-item" href="~/Practice">Practice</a>
+                                <a class="dropdown-item" href="~/Funnel">Funnel</a>
+                                <a class="dropdown-item" href="~/Campus">Campus</a>
+                                <a class="dropdown-item" href="~/ResourceInvolvement">Resource Involvement</a>
+                                <a class="dropdown-item" href="~/LevelOfImportance">Level of Importance</a>
+                                <a class="dropdown-item" href="~/Location">Location</a>
+                                <a class="dropdown-item" href="~/UpInOut">Up In Out</a>
+                                <a class="dropdown-item" href="~/Approval">Approval</a>
+                                <a class="dropdown-item" href="~/Frequency">Frequency</a>
+                            </div>
+                        </li>
+                    }
+                    
                 </ul>
             </div>
         </nav>
@@ -65,15 +64,7 @@
     @RenderSection("scripts", required: false)
 
     <!-- JS includes -->
-    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-        <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-        <script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js"></script>
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/fullcalendar.min.js"></script>*@
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment.min.js"></script>  
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
-    @*<script src='~/full_calendar/main.js'></script>*@
 </body>
 </html>

@@ -79,5 +79,6 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Archived")]
         public bool Archived { get; set; }
 
+        public bool CanApprove { get; set; }
     }
 }

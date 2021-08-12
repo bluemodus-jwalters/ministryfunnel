@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Database.Admin")]
     public class ResourceInvolvementController : BaseController
     {
         const string apiAction = "/api/resourceinvolvement";

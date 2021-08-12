@@ -70,5 +70,7 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Resource Involvement")]
         public int[] SelectedResourceInvolvementIds { get; set; }
         public IEnumerable<SelectListItem> ResourceInvolvements { get; set; }
+
+        public bool CanApprove { get; set; }
     }
 }
