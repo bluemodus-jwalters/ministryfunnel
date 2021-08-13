@@ -37,6 +37,28 @@ namespace MinistryFunnel.Controllers
         {
             var ministries = _ministryRepository.GetDashboardList();
 
+            
+
+            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            foreach (var ministry in ministries)
+            {
+                if (ministry.StartDate >= System.DateTime.Now)
+                {
+                    viewModel.Add(MapViewModel(ministry));
+                }
+                
+            }
+
+            return viewModel;
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(List<MinistryViewModel>))]
+        [Route("api/ministry/calendar")]
+        public List<MinistryViewModel> GetCalendar()
+        {
+            var ministries = _ministryRepository.GetCalendarList();
+
             List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
             foreach (var ministry in ministries)
             {

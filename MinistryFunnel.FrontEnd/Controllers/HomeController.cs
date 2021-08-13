@@ -47,7 +47,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         {
             var events = new List<EventViewModel>();
 
-            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
+            var response = _apiHelper.Get(CompileUrl("/api/ministry/calendar"), _token);
 
             if (response.IsSuccessful)
             {

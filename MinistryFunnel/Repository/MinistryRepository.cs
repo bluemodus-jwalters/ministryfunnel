@@ -225,12 +225,22 @@ namespace MinistryFunnel.Repository
 
         public IQueryable<Ministry> GetDashboardList()
         {
-            var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && DbFunctions.TruncateTime(x.StartDate) >= DateTime.Now);
+            //var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && (DbFunctions.TruncateTime(x.StartDate) >= DateTime.Now));
+            var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && (DbFunctions.TruncateTime(x.EndDate) >= DateTime.Now));
+            
 
             _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryRepository", "Ministry", "GetDashboardList", string.Empty, $"Results found: {ministries != null}");
 
             return ministries;
 
+        }
+
+        public IQueryable<Ministry> GetCalendarList()
+        {
+            var pastDate = DateTime.Now.AddYears(-1);
+            var ministries = db.Ministry.Where(x => x.Archived == false && x.StartDate != null && DbFunctions.TruncateTime(x.StartDate) >= pastDate);
+
+            return ministries;
         }
     }
 }

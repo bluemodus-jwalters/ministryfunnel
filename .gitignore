@@ -16,3 +16,5 @@
 /.vs/MinistryFunnel
 Debug
 /MinistryFunnel.FrontEnd.Tests/obj/Debug
+/MinistryFunnel/obj/Release
+/MinistryFunnel.FrontEnd/obj/Release
