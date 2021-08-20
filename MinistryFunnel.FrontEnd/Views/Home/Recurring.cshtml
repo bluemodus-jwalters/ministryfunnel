@@ -1,0 +1,49 @@
+﻿@*<script src="https://cdn.jsdelivr.net/npm/&#64;fullcalendar/rrule@5.9.0/main.global.min.js"></script>*@
+
+<script src="https://cdn.jsdelivr.net/npm/rrule@2.6.3/dist/es5/rrule.min.js"></script>
+<script src="https://unpkg.com/&#64;fullcalendar/core@4.3.1/main.min.js"></script>
+<script src="https://unpkg.com/&#64;fullcalendar/daygrid@4.3.0/main.min.js"></script>
+<script src="https://unpkg.com/&#64;fullcalendar/interaction@4.3.0/main.min.js"></script>
+<script src="https://unpkg.com/&#64;fullcalendar/rrule@4.3.0/main.min.js"></script>
+
+<div id='calendar'></div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+
+            //NOTE MUST HAVE REFERENCE rrule javascript and plugin 'rrule', not rrPlugin like docs
+            //if using scripts, not import/build method
+
+            plugins: ['dayGrid', 'rrule'],
+            timeZone: 'UTC',
+            defaultView: 'dayGridMonth',
+            events: [
+                {
+                    title: 'TEST #1 my recurring event',
+                    rrule: 'DTSTART:20191111T103000Z\nRRULE:FREQ=WEEKLY;INTERVAL=1;UNTIL=20290601;BYDAY=TU,TH',
+                    duration: '2:00'
+                },
+                {
+                    title: 'TEST #2 my recurring event',
+                    backgroundColor: 'lime',
+                    rrule: {
+                        freq: 'weekly',
+                        interval: 2,
+                        byweekday: ['mo', 'fr'],
+                        dtstart: '2019-11-11T10:30:00',
+                        until: '2029-06-01'
+                    },
+                    duration: '01:00'
+                }
+            ]
+
+            //'https://fullcalendar.io/demo-events.json'
+        });
+
+
+        calendar.render();
+    });
+</script>

@@ -42,6 +42,12 @@ namespace MinistryFunnel.FrontEnd.Controllers
         }
 
         [Authorize]
+        public ActionResult Recurring()
+        {
+            return View(new EventViewModel());
+        }
+
+        [Authorize]
         [HttpGet]
         public JsonResult GetEvents(DateTime start, DateTime end)
         {
@@ -66,6 +72,22 @@ namespace MinistryFunnel.FrontEnd.Controllers
             }
 
             return Json(events, JsonRequestBehavior.AllowGet);        
+
+
+            /*
+             * if ministry.FrequencyName = "weekly" 
+             * have to seed database with weekly, monthly
+             * 
+             * counter start time = start date 
+             * while counter start time < end date 
+             * 
+             * create occurence with counter start time 
+             * use incremented end date as well 
+             * add 7 days 
+             * 
+             * create occurence with counter start time
+             * add 7 days
+             */
 
         }
 
