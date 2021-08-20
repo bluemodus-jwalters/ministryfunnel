@@ -54,13 +54,28 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
                 foreach (var ministry in ministries)
                 {
+                    string color;
+                    switch(ministry.ApprovalName)
+                    {
+                        case "Approved":
+                            color = "#28a745";
+                            break;
+                        case "Denied":
+                            color = "#721c24";
+                            break;
+                        default:
+                            color = "#007bff";
+                            break;
+
+                            
+                    }
                     events.Add(new EventViewModel()
                     {
                         title = ministry.Event,
                         start = ministry.StartDate.ToString("yyyy-MM-ddTHH:mm"),
                         end = ministry.EndDate.ToString("yyyy-MM-ddTHH:mm"),
                         url = "/ministry/edit/" + ministry.Id,
-                        backgroundColor = ministry.ApprovalName == "Approved" ? "#28a745" : "#007bff"
+                        backgroundColor = color
                     });
                 }            
             }
