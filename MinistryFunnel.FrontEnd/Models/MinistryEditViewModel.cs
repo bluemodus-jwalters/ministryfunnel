@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foolproof;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
 {
     public class MinistryEditViewModel
     {
+
+        [Required]
         public int Id { get; set; }
         [Display(Name = "Ministry Owner")]
         public int MinistryOwnerId { get; set; }
@@ -18,28 +21,35 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Event")]
         public string Event { get; set; }
 
+        [Required]
         [Display(Name = "Purpose")]
         public string Purpose { get; set; }
 
+        [Required]
         [Display(Name = "Desired Outcome")]
         public string DesiredOutcome { get; set; }
 
+        [Required]
         [Display(Name = "Practice")]
         public int PracticeId { get; set; }
         public IEnumerable<SelectListItem> Practices { get; set; }
 
+        [Required]
         [Display(Name = "Funnel")]
         public int FunnelId { get; set; }
         public IEnumerable<SelectListItem> Funnels { get; set; }
 
+        [Required]
         [Display(Name = "Campus")]
         public int CampusId { get; set; }
         public IEnumerable<SelectListItem> Campuses { get; set; }
 
+        [Required]
         [Display(Name = "Location")]
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
 
+        [Required]
         [Display(Name = "Frequency")]
         public int FrequencyId { get; set; }
         public IEnumerable<SelectListItem> Frequencies { get; set; }
@@ -51,12 +61,15 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
+        [GreaterThan("StartDate")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [Display(Name = "Kid care")]
         public bool KidCare { get; set; }
 
+        [Required]
         [Display(Name = "Level of Importance")]
         public int LevelOfImportanceId { get; set; }
         public IEnumerable<SelectListItem> LevelOfImportances { get; set; }
