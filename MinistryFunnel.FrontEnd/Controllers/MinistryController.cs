@@ -365,8 +365,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
          {
                 try
                 {
-                    var json = new JavaScriptSerializer().Serialize(new MinistryApiModel
+                    var json = new JavaScriptSerializer().Serialize(new MinistryEditApiModel
                     {
+                        Id = model.Id,
                         Event = model.Event,
                         Purpose = model.Purpose,
                         DesiredOutcome = model.DesiredOutcome,
@@ -390,34 +391,6 @@ namespace MinistryFunnel.FrontEnd.Controllers
                                 model.SelectedResourceInvolvementIds :
                                 new int[0]
                     });
-
-                    //var json = new JavaScriptSerializer().Serialize(new MinistryEditApiModel
-                    //{
-                    //    Id = int.Parse(Request.Form["Id"]),
-                    //    Event = Request.Form["Event"],
-                    //    Purpose = Request.Form["Purpose"],
-                    //    DesiredOutcome = Request.Form["DesiredOutcome"],
-                    //    MinistryOwnerId = int.Parse(Request.Form["MinistryOwnerId"]),
-                    //    PracticeId = int.Parse(Request.Form["PracticeId"]),
-                    //    FunnelId = int.Parse(Request.Form["FunnelId"]),
-                    //    LocationId = int.Parse(Request.Form["LocationId"]),
-                    //    CampusId = int.Parse(Request.Form["CampusId"]),
-                    //    StartDate = Request.Form["StartDate"],
-                    //    EndDate = Request.Form["EndDate"],
-                    //    FrequencyId = int.Parse(Request.Form["FrequencyId"]),
-                    //    KidCare = Request.Form["KidCare"] == "true",
-                    //    LevelOfImportanceId = int.Parse(Request.Form["LevelOfImportanceId"]),
-                    //    ApprovalId = int.Parse(Request.Form["ApprovalId"]),
-                    //    Comments = Request.Form["Comments"],
-                    //    Archived = Request.Form["Archived"] == "true",
-                    //    UpInOutIds = Request.Form["UpInOutIds"] != null ?
-                    //        Request.Form["UpInOutIds"].Split(',').Select(int.Parse).ToArray() :
-                    //        new int[0],
-                    //    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"] != null ?
-                    //        Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray() :
-                    //        new int[0]
-
-                    //});
 
                     var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
 

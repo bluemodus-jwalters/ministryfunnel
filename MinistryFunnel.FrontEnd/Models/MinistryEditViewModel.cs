@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foolproof;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -60,6 +61,7 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
+        [GreaterThan("StartDate")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
