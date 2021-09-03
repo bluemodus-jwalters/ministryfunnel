@@ -9,6 +9,7 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
 {
     public class MinistryCreateViewModel
     {
+        [Required]
         [Display(Name = "Ministry Owner")]
         public int MinistryOwnerId { get; set; }
         public IEnumerable<SelectListItem> MinistryOwners { get; set; }
@@ -17,28 +18,35 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Event")]       
         public string Event { get; set; }
 
+        [Required]
         [Display(Name = "Purpose")]
         public string Purpose { get; set; }
 
+        [Required]
         [Display(Name = "Desired Outcome")]
         public string DesiredOutcome { get; set; }
 
+        [Required]
         [Display(Name = "Practice")]
         public int PracticeId { get; set; }
         public IEnumerable<SelectListItem> Practices { get; set; }
 
+        [Required]
         [Display(Name = "Funnel")]
         public int FunnelId { get; set; }
         public IEnumerable<SelectListItem> Funnels { get; set; }
 
+        [Required]
         [Display(Name = "Campus")]
         public int CampusId { get; set; }
         public IEnumerable<SelectListItem> Campuses { get; set; }
 
+        [Required]
         [Display(Name = "Location")]
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
 
+        [Required]
         [Display(Name = "Frequency")]
         public int FrequencyId { get; set; }
         public IEnumerable<SelectListItem> Frequencies { get; set; }
@@ -49,9 +57,11 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [Display(Name = "Kid care")]
         public bool KidCare { get; set; }
 
+        [Required]
         [Display(Name = "Level of Importance")]
         public int LevelOfImportanceId { get; set; }
         public IEnumerable<SelectListItem> LevelOfImportances { get; set; }

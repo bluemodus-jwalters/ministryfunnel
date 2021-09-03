@@ -174,51 +174,57 @@ namespace MinistryFunnel.FrontEnd.Controllers
             return false;
         }
 
-
-        // POST: Ministry/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(MinistryCreateViewModel model)
         {
-            //change them to nullables 
-            //make the model below BEFORE serializing it and add nulls 
 
-            try
-            { 
-                var json = new JavaScriptSerializer().Serialize(new MinistryApiModel
-                {
-                    Event = Request.Form["Event"],
-                    Purpose = Request.Form["Purpose"],
-                    DesiredOutcome = Request.Form["DesiredOutcome"],
-                    MinistryOwnerId = int.Parse(Request.Form["MinistryOwnerId"]),
-                    PracticeId = int.Parse(Request.Form["PracticeId"]),
-                    FunnelId = int.Parse(Request.Form["FunnelId"]),
-                    LocationId = int.Parse(Request.Form["LocationId"]),
-                    CampusId = int.Parse(Request.Form["CampusId"]),
-                    StartDate = Request.Form["StartDate"],
-                    EndDate = Request.Form["EndDate"],
-                    FrequencyId = int.Parse(Request.Form["FrequencyId"]),
-                    KidCare = Request.Form["KidCare"] == "true",
-                    LevelOfImportanceId = int.Parse(Request.Form["LevelOfImportanceId"]),
-                    ApprovalId = int.Parse(Request.Form["ApprovalId"]),
-                    Comments = Request.Form["Comments"],
-                    Archived = false,
-                    UpInOutIds = Request.Form["UpInOutIds"].Split(',').Select(int.Parse).ToArray(),
-                    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray()
-                });
-
-                var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
-
-                TempData["MessageType"] = "Success";
-                TempData["Message"] = $"Ministry, {Request.Form["Name"]}, Created";
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                TempData["MessageType"] = "Danger";
-                TempData["Message"] = $"There was a problem creating this record. Please try again or contact your system administrator.";
-                return View();
+                try
+                {
+                    var json = new JavaScriptSerializer().Serialize(new MinistryApiModel
+                    {
+                        Event = model.Event,
+                        Purpose = model.Purpose,
+                        DesiredOutcome = model.DesiredOutcome,
+                        MinistryOwnerId = model.MinistryOwnerId,
+                        PracticeId = model.PracticeId,
+                        FunnelId = model.FunnelId,
+                        LocationId = model.LocationId,
+                        CampusId = model.CampusId,
+                        StartDate = model.StartDate.ToString(),
+                        EndDate = model.EndDate.ToString(),
+                        FrequencyId = model.FrequencyId,
+                        KidCare = model.KidCare.ToString() == "true",
+                        LevelOfImportanceId = model.LevelOfImportanceId,
+                        ApprovalId = model.ApprovalId,
+                        Comments = model.Comments,
+                        Archived = false,
+                        UpInOutIds = model.UpInOutIds != null ?
+                            model.UpInOutIds :
+                            new int[0],
+                        ResourceInvolvementIds = model.SelectedResourceInvolvementIds != null ?
+                            model.SelectedResourceInvolvementIds :
+                            new int[0]
+                    });
+
+                    var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
+
+                    TempData["MessageType"] = "Success";
+                    TempData["Message"] = $"Ministry, {Request.Form["Name"]}, Created";
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    TempData["MessageType"] = "Danger";
+                    TempData["Message"] = $"There was a problem creating this record. Please try again or contact your system administrator.";
+                    return View();
+                }
             }
+
+            return Create();
         }
+
 
         // GET: Ministry/Edit/5
         public ActionResult Edit(int id)
@@ -352,55 +358,92 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         // POST: Ministry/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, MinistryEditViewModel model)
         {
-            try
-            {
-                var json = new JavaScriptSerializer().Serialize(new MinistryEditApiModel
-                {
-                    Id = int.Parse(Request.Form["Id"]),
-                    Event = Request.Form["Event"],
-                    Purpose = Request.Form["Purpose"],
-                    DesiredOutcome = Request.Form["DesiredOutcome"],
-                    MinistryOwnerId = int.Parse(Request.Form["MinistryOwnerId"]),
-                    PracticeId = int.Parse(Request.Form["PracticeId"]),
-                    FunnelId = int.Parse(Request.Form["FunnelId"]),
-                    LocationId = int.Parse(Request.Form["LocationId"]),
-                    CampusId = int.Parse(Request.Form["CampusId"]),
-                    StartDate = Request.Form["StartDate"],
-                    EndDate = Request.Form["EndDate"],
-                    FrequencyId = int.Parse(Request.Form["FrequencyId"]),
-                    KidCare = Request.Form["KidCare"] == "true",
-                    LevelOfImportanceId = int.Parse(Request.Form["LevelOfImportanceId"]),
-                    ApprovalId = int.Parse(Request.Form["ApprovalId"]),
-                    Comments = Request.Form["Comments"],
-                    Archived = Request.Form["Archived"] == "true",
-                    UpInOutIds = Request.Form["UpInOutIds"].Split(',').Select(int.Parse).ToArray(),
-                    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray(),
-                    
-                });
 
-                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+         if (ModelState.IsValid)
+         {
+                try
                 {
-                    TempData["MessageType"] = "Success";
-                    TempData["Message"] = $"Ministry, {Request.Form["Event"]}, Updated";
+                    var json = new JavaScriptSerializer().Serialize(new MinistryApiModel
+                    {
+                        Event = model.Event,
+                        Purpose = model.Purpose,
+                        DesiredOutcome = model.DesiredOutcome,
+                        MinistryOwnerId = model.MinistryOwnerId,
+                        PracticeId = model.PracticeId,
+                        FunnelId = model.FunnelId,
+                        LocationId = model.LocationId,
+                        CampusId = model.CampusId,
+                        StartDate = model.StartDate.ToString(),
+                        EndDate = model.EndDate.ToString(),
+                        FrequencyId = model.FrequencyId,
+                        KidCare = model.KidCare.ToString() == "true",
+                        LevelOfImportanceId = model.LevelOfImportanceId,
+                        ApprovalId = model.ApprovalId,
+                        Comments = model.Comments,
+                        Archived = false,
+                        UpInOutIds = model.UpInOutIds != null ?
+                                model.UpInOutIds :
+                                new int[0],
+                        ResourceInvolvementIds = model.SelectedResourceInvolvementIds != null ?
+                                model.SelectedResourceInvolvementIds :
+                                new int[0]
+                    });
+
+                    //var json = new JavaScriptSerializer().Serialize(new MinistryEditApiModel
+                    //{
+                    //    Id = int.Parse(Request.Form["Id"]),
+                    //    Event = Request.Form["Event"],
+                    //    Purpose = Request.Form["Purpose"],
+                    //    DesiredOutcome = Request.Form["DesiredOutcome"],
+                    //    MinistryOwnerId = int.Parse(Request.Form["MinistryOwnerId"]),
+                    //    PracticeId = int.Parse(Request.Form["PracticeId"]),
+                    //    FunnelId = int.Parse(Request.Form["FunnelId"]),
+                    //    LocationId = int.Parse(Request.Form["LocationId"]),
+                    //    CampusId = int.Parse(Request.Form["CampusId"]),
+                    //    StartDate = Request.Form["StartDate"],
+                    //    EndDate = Request.Form["EndDate"],
+                    //    FrequencyId = int.Parse(Request.Form["FrequencyId"]),
+                    //    KidCare = Request.Form["KidCare"] == "true",
+                    //    LevelOfImportanceId = int.Parse(Request.Form["LevelOfImportanceId"]),
+                    //    ApprovalId = int.Parse(Request.Form["ApprovalId"]),
+                    //    Comments = Request.Form["Comments"],
+                    //    Archived = Request.Form["Archived"] == "true",
+                    //    UpInOutIds = Request.Form["UpInOutIds"] != null ?
+                    //        Request.Form["UpInOutIds"].Split(',').Select(int.Parse).ToArray() :
+                    //        new int[0],
+                    //    ResourceInvolvementIds = Request.Form["SelectedResourceInvolvementIds"] != null ?
+                    //        Request.Form["SelectedResourceInvolvementIds"].Split(',').Select(int.Parse).ToArray() :
+                    //        new int[0]
+
+                    //});
+
+                    var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        TempData["MessageType"] = "Success";
+                        TempData["Message"] = $"Ministry, {Request.Form["Event"]}, Updated";
+                    }
+                    else
+                    {
+                        TempData["MessageType"] = "Danger";
+                        TempData["Message"] = $"There was a problem updating this record. Please try again or contact your system administrator.";
+                    }
+
+                    return RedirectToAction("Index");
                 }
-                else
+                catch
                 {
                     TempData["MessageType"] = "Danger";
-                    TempData["Message"] = $"There was a problem updating this record. Please try again or contact your system administrator.";
+                    TempData["Message"] = $"There was a problem creating this record. Please try again or contact your system administrator.";
+                    return View();
                 }
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                TempData["MessageType"] = "Danger";
-                TempData["Message"] = $"There was a problem creating this record. Please try again or contact your system administrator.";
-                return View();
-            }
+            return Edit(id);
+            
         }
 
         // GET: Ministry/Delete/5
