@@ -15,21 +15,28 @@ namespace MinistryFunnel.FrontEnd.Controllers
     public class HomeController : BaseController
     {
         private readonly IMinistryHelper _ministryHelper;
+
         public HomeController()
         {
             _ministryHelper = new MinistryHelper();
         }
 
-        //TODO: figure out what to do with the home page
         [Authorize]
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), _token);
-
-            if (response.IsSuccessful)
+            try
             {
-                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
-                return View(ministries);
+                var response = _apiHelper.Get(CompileUrl("/api/ministry/dashboard"), GetToken());
+
+                if (response.IsSuccessful)
+                {
+                    var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                    return View(ministries);
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToAction("Error");
             }
 
             return View();
@@ -47,7 +54,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         {
             var events = new List<EventViewModel>();
 
-            var response = _apiHelper.Get(CompileUrl("/api/ministry/calendar"), _token);
+            var response = _apiHelper.Get(CompileUrl("/api/ministry/calendar"), GetToken());
 
             if (response.IsSuccessful)
             {

@@ -59,7 +59,7 @@ namespace MinistryFunnel.Controllers
 
                 if (z.Contains("discovery_api_edit"))
                 {
-                    return Ok("access granted");
+                    return Ok("access granted with :" + z.ToList().Count);
                 }
                         
 

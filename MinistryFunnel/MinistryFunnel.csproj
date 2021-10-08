@@ -322,6 +322,8 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\discoverychurch-dev-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\discoverychurch-dev-api - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Ministry-Calendar-API - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Ministry-Calendar-API - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

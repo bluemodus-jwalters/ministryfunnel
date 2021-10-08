@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Notifications;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.Owin.Host.SystemWeb;
 
 [assembly: OwinStartup(typeof(MinistryFunnel.Startup))]
 
@@ -34,7 +35,11 @@ namespace MinistryFunnel
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                //https://blogs.aaddevsup.xyz/2019/11/infinite-sign-in-loop-between-mvc-application-and-azure-ad/
+                CookieManager = new SystemWebCookieManager()
+            });
             app.UseOpenIdConnectAuthentication(
             new OpenIdConnectAuthenticationOptions
             {

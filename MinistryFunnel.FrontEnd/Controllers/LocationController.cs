@@ -19,7 +19,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Location
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), GetToken());
 
             if (response.IsSuccessful)
             {
@@ -38,7 +38,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Location/Details/5
         public ActionResult Details(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -57,7 +57,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             var sanitizer = new HtmlSanitizer();
             var sanitizedText = sanitizer.Sanitize(searchText);
 
-            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}", _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}", GetToken());
 
             if (response.IsSuccessful)
             {
@@ -86,7 +86,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     Archived = Request.Form["Archived"] == "true"
                 });
 
-                var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
+                var response = _apiHelper.Post(CompileUrl(apiAction), json, GetToken());
 
                 if (response.IsSuccessful)
                 {
@@ -110,7 +110,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Location/Edit/5
         public ActionResult Edit(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -137,7 +137,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 var json = new JavaScriptSerializer().Serialize(updatedModel);
-                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
+                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, GetToken());
 
                 if (response.IsSuccessful)
                 {
@@ -161,7 +161,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Location/Delete/5
         public ActionResult Delete(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -182,7 +182,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 
-                var response = _apiHelper.Delete(CompileUrl(apiAction), id, _token);
+                var response = _apiHelper.Delete(CompileUrl(apiAction), id, GetToken());
 
                 if (response.IsSuccessful)
                 {
