@@ -30,39 +30,68 @@ namespace MinistryFunnel.Controllers
             _loggerService = new LoggerService();
         }
 
+        //Change this to only grab the fields it needs.
         [HttpGet]
-        [ResponseType(typeof(List<MinistryViewModel>))]
+        [ResponseType(typeof(List<MinimalMinistryViewModel>))]
         [Route("api/ministry/dashboard")]
-        public List<MinistryViewModel> GetDashboard()
+        public List<MinimalMinistryViewModel> GetDashboard()
         {
             var ministries = _ministryRepository.GetDashboardList();
 
-            
-
-            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
                 if (ministry.StartDate >= System.DateTime.Now)
                 {
-                    viewModel.Add(MapViewModel(ministry));
+                    viewModel.Add(new MinimalMinistryViewModel
+                    {
+                        Id = ministry.Id,
+                        ApprovalName = ministry.Approval.Name,
+                        Event = ministry.Event,
+                        Purpose = ministry.Purpose,
+                        MinistryOwnerName = ministry.MinistryOwner.Name,
+                        CampusName = ministry.Campus.Name,
+                        DesiredOutcome = ministry.DesiredOutcome,
+                        PracticeName = ministry.Practice.Name,
+                        FunnelName = ministry.Funnel.Name,
+                        LocationName = ministry.Location.Name,
+                        LevelOfImportanceName = ministry.LevelOfImportance.Name,
+                        StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
+                        EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                    });
                 }
-                
+
             }
 
             return viewModel;
         }
 
         [HttpGet]
-        [ResponseType(typeof(List<MinistryViewModel>))]
+        [ResponseType(typeof(List<MinimalMinistryViewModel>))]
         [Route("api/ministry/calendar")]
-        public List<MinistryViewModel> GetCalendar()
+        public List<MinimalMinistryViewModel> GetCalendar()
         {
             var ministries = _ministryRepository.GetCalendarList();
 
-            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
-                viewModel.Add(MapViewModel(ministry));
+                viewModel.Add(new MinimalMinistryViewModel
+                {
+                    Id = ministry.Id,
+                    ApprovalName = ministry.Approval.Name,
+                    Event = ministry.Event,
+                    Purpose = ministry.Purpose,
+                    MinistryOwnerName = ministry.MinistryOwner.Name,
+                    CampusName = ministry.Campus.Name,
+                    DesiredOutcome = ministry.DesiredOutcome,
+                    PracticeName = ministry.Practice.Name,
+                    FunnelName = ministry.Funnel.Name,
+                    LocationName = ministry.Location.Name,
+                    LevelOfImportanceName = ministry.LevelOfImportance.Name,
+                    StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
+                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                });
             }
 
             return viewModel;
@@ -70,8 +99,8 @@ namespace MinistryFunnel.Controllers
 
         // GET: api/ministry
         [HttpGet]
-        [ResponseType(typeof(List<MinistryViewModel>))]
-        public List<MinistryViewModel> GetAll()
+        [ResponseType(typeof(List<MinimalMinistryViewModel>))]
+        public List<MinimalMinistryViewModel> GetAll()
         {
             _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryController", "Ministry", "GetAll", null, null);
 
@@ -79,10 +108,25 @@ namespace MinistryFunnel.Controllers
             var ministries = _ministryRepository.GetMinistries();
 
 
-            List<MinistryViewModel> viewModel = new List<MinistryViewModel>();
+            List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
-                viewModel.Add(MapViewModel(ministry));
+                viewModel.Add(new MinimalMinistryViewModel
+                {
+                    Id = ministry.Id,
+                    ApprovalName = ministry.Approval.Name,
+                    Event = ministry.Event,
+                    Purpose = ministry.Purpose,
+                    MinistryOwnerName = ministry.MinistryOwner.Name,
+                    CampusName = ministry.Campus.Name,
+                    DesiredOutcome = ministry.DesiredOutcome,
+                    PracticeName = ministry.Practice.Name,
+                    FunnelName = ministry.Funnel.Name,
+                    LocationName = ministry.Location.Name,
+                    LevelOfImportanceName = ministry.LevelOfImportance.Name,
+                    StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
+                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                });
             }
 
             return viewModel;

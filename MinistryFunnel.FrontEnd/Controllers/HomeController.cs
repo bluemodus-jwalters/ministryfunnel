@@ -30,13 +30,13 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
                 if (response.IsSuccessful)
                 {
-                    var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                    var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
                     return View(ministries);
                 }
             }
             catch (Exception e)
             {
-                RedirectToAction("Error");
+                return RedirectToAction("Index", "Error");
             }
 
             return View();
@@ -58,7 +58,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             if (response.IsSuccessful)
             {
-                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
                 foreach (var ministry in ministries)
                 {
                     string color;

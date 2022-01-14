@@ -218,6 +218,7 @@
     <Compile Include="Models\LevelOfImportanceViewModel.cs" />
     <Compile Include="Models\ApprovalViewModel.cs" />
     <Compile Include="Models\FrequencyViewModel.cs" />
+    <Compile Include="Models\MinistryFrontEndViewModelDashboard.cs" />
     <Compile Include="Models\MinistryViewModel.cs" />
     <Compile Include="Models\UpInOutViewModel.cs" />
     <Compile Include="Models\ResourceInvolvementViewModel.cs" />

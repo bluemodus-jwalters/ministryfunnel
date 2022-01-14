@@ -30,7 +30,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             if (response.IsSuccessful)
             {
-                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
                 return View(ministries);
             }
 
@@ -151,7 +151,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             //Set the Not Approved value as default
             int approvalId = -1;
-            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text == "Not Approved");
+            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text.Contains("Not Approved"));
             if (approvalDefault != null)
             {
                 int.TryParse(approvalDefault.Value, out approvalId);              
@@ -166,7 +166,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         private bool CanApprove()
         {
-            var role = ViewBag.Role;
+            var userClaims = User.Identity as System.Security.Claims.ClaimsIdentity;
+
+            var role = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
             if (role != null && (role == "Database.Approver" || role == "Database.Admin"))
             {
                 return true;
@@ -211,7 +213,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     var response = _apiHelper.Post(CompileUrl(apiAction), json, GetToken());
 
                     TempData["MessageType"] = "Success";
-                    TempData["Message"] = $"Ministry, {Request.Form["Name"]}, Created";
+                    TempData["Message"] = $"Ministry, {model.Event}, Created";
                     return RedirectToAction("Index");
                 }
                 catch

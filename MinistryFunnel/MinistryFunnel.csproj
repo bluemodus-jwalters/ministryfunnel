@@ -226,6 +226,7 @@
     <Compile Include="Models\IAuthContainerModel.cs" />
     <Compile Include="Models\JWTContainerModel.cs" />
     <Compile Include="Models\LogEvent.cs" />
+    <Compile Include="Models\MinistryDashboardViewModel.cs" />
     <Compile Include="Models\MinistryOwner.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LevelOfImportance.cs" />
