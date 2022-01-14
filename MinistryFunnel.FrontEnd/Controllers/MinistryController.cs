@@ -26,11 +26,11 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry
         public ActionResult Index()
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), GetToken());
 
             if (response.IsSuccessful)
             {
-                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryViewModel>>(response.Content);
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
                 return View(ministries);
             }
 
@@ -45,7 +45,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Details/5
         public ActionResult Details(int id)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -61,16 +61,16 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Create
         public ActionResult Create()
         {
-            var ministryOwners = _ministryHelper.GetMinistryOwners(_token).Where(x => x.Archived == false);
-            var practices = _ministryHelper.GetPractices(_token).Where(x => x.Archived == false);
-            var funnels = _ministryHelper.GetFunnels(_token).Where(x => x.Archived == false);
-            var campuses = _ministryHelper.GetCampuses(_token).Where(x => x.Archived == false);
-            var locations = _ministryHelper.GetLocations(_token).Where(x => x.Archived == false);
-            var levelOfImportances = _ministryHelper.GetLevelOfImportances(_token).Where(x => x.Archived == false);
-            var approvals = _ministryHelper.GetApprovals(_token).Where(x => x.Archived == false);
-            var frequencies = _ministryHelper.GetFrequencies(_token).Where(x => x.Archived == false);
-            var upInOuts = _ministryHelper.GetUpInOutOptions(_token).Where(x => x.Archived == false);
-            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(_token).Where(x => x.Archived == false);
+            var ministryOwners = _ministryHelper.GetMinistryOwners(GetToken()).Where(x => x.Archived == false);
+            var practices = _ministryHelper.GetPractices(GetToken()).Where(x => x.Archived == false);
+            var funnels = _ministryHelper.GetFunnels(GetToken()).Where(x => x.Archived == false);
+            var campuses = _ministryHelper.GetCampuses(GetToken()).Where(x => x.Archived == false);
+            var locations = _ministryHelper.GetLocations(GetToken()).Where(x => x.Archived == false);
+            var levelOfImportances = _ministryHelper.GetLevelOfImportances(GetToken()).Where(x => x.Archived == false);
+            var approvals = _ministryHelper.GetApprovals(GetToken()).Where(x => x.Archived == false);
+            var frequencies = _ministryHelper.GetFrequencies(GetToken()).Where(x => x.Archived == false);
+            var upInOuts = _ministryHelper.GetUpInOutOptions(GetToken()).Where(x => x.Archived == false);
+            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(GetToken()).Where(x => x.Archived == false);
             
 
             var ministryOwnerDropDown = ministryOwners.Select(x => new SelectListItem
@@ -151,7 +151,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             //Set the Not Approved value as default
             int approvalId = -1;
-            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text == "Not Approved");
+            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text.Contains("Not Approved"));
             if (approvalDefault != null)
             {
                 int.TryParse(approvalDefault.Value, out approvalId);              
@@ -166,7 +166,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         private bool CanApprove()
         {
-            var role = ViewBag.Role;
+            var userClaims = User.Identity as System.Security.Claims.ClaimsIdentity;
+
+            var role = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
             if (role != null && (role == "Database.Approver" || role == "Database.Admin"))
             {
                 return true;
@@ -208,10 +210,10 @@ namespace MinistryFunnel.FrontEnd.Controllers
                             new int[0]
                     });
 
-                    var response = _apiHelper.Post(CompileUrl(apiAction), json, _token);
+                    var response = _apiHelper.Post(CompileUrl(apiAction), json, GetToken());
 
                     TempData["MessageType"] = "Success";
-                    TempData["Message"] = $"Ministry, {Request.Form["Name"]}, Created";
+                    TempData["Message"] = $"Ministry, {model.Event}, Created";
                     return RedirectToAction("Index");
                 }
                 catch
@@ -229,7 +231,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Edit/5
         public ActionResult Edit(int id)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -245,16 +247,16 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         private MinistryEditViewModel CompileEditMinistryModel(MinistryViewModel modelWithData)
         {
-            var ministryOwners = _ministryHelper.GetMinistryOwners(_token);
-            var practices = _ministryHelper.GetPractices(_token);
-            var funnels = _ministryHelper.GetFunnels(_token);
-            var campuses = _ministryHelper.GetCampuses(_token);
-            var locations = _ministryHelper.GetLocations(_token);
-            var levelOfImportances = _ministryHelper.GetLevelOfImportances(_token);
-            var approvals = _ministryHelper.GetApprovals(_token);
-            var frequencies = _ministryHelper.GetFrequencies(_token);
-            var upInOuts = _ministryHelper.GetUpInOutOptions(_token);
-            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(_token);
+            var ministryOwners = _ministryHelper.GetMinistryOwners(GetToken());
+            var practices = _ministryHelper.GetPractices(GetToken());
+            var funnels = _ministryHelper.GetFunnels(GetToken());
+            var campuses = _ministryHelper.GetCampuses(GetToken());
+            var locations = _ministryHelper.GetLocations(GetToken());
+            var levelOfImportances = _ministryHelper.GetLevelOfImportances(GetToken());
+            var approvals = _ministryHelper.GetApprovals(GetToken());
+            var frequencies = _ministryHelper.GetFrequencies(GetToken());
+            var upInOuts = _ministryHelper.GetUpInOutOptions(GetToken());
+            var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(GetToken());
 
 
             var ministryOwnerDropDown = ministryOwners.Select(x => new SelectListItem
@@ -392,7 +394,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                                 new int[0]
                     });
 
-                    var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, _token);
+                    var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, GetToken());
 
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
@@ -422,7 +424,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Ministry/Delete/5
         public ActionResult Delete(int id)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, _token);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -442,7 +444,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
 
-                var response = _apiHelper.Delete(CompileUrl(apiAction), id, _token);
+                var response = _apiHelper.Delete(CompileUrl(apiAction), id, GetToken());
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {

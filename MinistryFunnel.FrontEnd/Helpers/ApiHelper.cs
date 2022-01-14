@@ -63,7 +63,7 @@ namespace MinistryFunnel.FrontEnd.Helpers
                 var newToken = GenerateToken(username, email);
                 System.Web.HttpCookie cookie = new System.Web.HttpCookie("MinistryFunnelToken");
                 cookie["MinistryFunnelToken"] = newToken;
-                cookie.Expires = DateTime.Now.AddMinutes(10); //TODO: increase timeout
+                cookie.Expires = DateTime.Now.AddDays(100); 
                 httpResponseBase.Cookies.Add(cookie);
                 return newToken;
             }

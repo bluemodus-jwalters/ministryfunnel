@@ -9,9 +9,9 @@
             return "border-success";
         }
         else if (approvalName == "Denied")
-         {
+        {
             return "border-danger";
-         }
+        }
         else
         {
             return "border-primary";
@@ -20,7 +20,7 @@
     }
 
 }
-@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryViewModel>
+@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryFrontEndViewModelMinimal>
 
 <div class="jumbotron">
 
@@ -29,44 +29,51 @@
     <p class="lead">App used to manage and track ministry events churchwide.</p>
 </div>
 
-<div class="row">
-    @foreach (var ministry in Model)
-    {
-        <div class="col-sm-6" style="padding-top: 15px;">
-            <div class="card @GetBorderClass(ministry.ApprovalName)">
-                <div class="card-body">
-                    <h5 class="card-title">@ministry.Event</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@ministry.Purpose</h6>
-                    <div>
-                        <strong>Ministry Owner: </strong>@ministry.MinistryOwnerName
-                    </div>
-                    <div>
-                        <strong>Campus: </strong>@ministry.CampusName
-                    </div>
-                    <div>
-                        <strong>Desired Outcome: </strong>@ministry.DesiredOutcome
-                    </div>
-                    <div>
-                        <strong>Practice: </strong>@ministry.PracticeName
-                    </div>
-                    <div>
-                        <strong>Funnel: </strong>@ministry.FunnelName
-                    </div>
-                    <div>
-                        <strong>Level of Importance: </strong>@ministry.LevelOfImportanceName
-                    </div>
-                    <div>
-                        <strong>Start Date: </strong>@ministry.StartDate
-                    </div>
-                    <div>
-                        <strong>End Date: </strong>@ministry.EndDate
-                    </div>
-                    <a href="/Ministry/Details/@ministry.Id" class="btn btn-primary">Details</a>
-                    <a href="/Ministry/Edit/@ministry.Id" class="btn btn-success">Edit</a>
+@if (Model != null)
+{
+    <div class="row">
+        @foreach (var ministry in Model)
+        {
+            <div class="col-sm-6" style="padding-top: 15px;">
+                <div class="card @GetBorderClass(ministry.ApprovalName)">
+                    <div class="card-body">
+                        <h5 class="card-title">@ministry.Event</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@ministry.Purpose</h6>
+                        <div>
+                            <strong>Ministry Owner: </strong>@ministry.MinistryOwnerName
+                        </div>
+                        <div>
+                            <strong>Campus: </strong>@ministry.CampusName
+                        </div>
+                        <div>
+                            <strong>Desired Outcome: </strong>@ministry.DesiredOutcome
+                        </div>
+                        <div>
+                            <strong>Practice: </strong>@ministry.PracticeName
+                        </div>
+                        <div>
+                            <strong>Funnel: </strong>@ministry.FunnelName
+                        </div>
+                        <div>
+                            <strong>Level of Importance: </strong>@ministry.LevelOfImportanceName
+                        </div>
+                        <div>
+                            <strong>Start Date: </strong>@ministry.StartDate
+                        </div>
+                        <div>
+                            <strong>End Date: </strong>@ministry.EndDate
+                        </div>
+                        <a href="/Ministry/Details/@ministry.Id" class="btn btn-primary">Details</a>
+                        <a href="/Ministry/Edit/@ministry.Id" class="btn btn-success">Edit</a>
 
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else
+            {
+                <div>No data</div>
+            }
 
