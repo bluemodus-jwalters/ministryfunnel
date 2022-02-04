@@ -90,7 +90,8 @@ namespace MinistryFunnel.Controllers
                     LocationName = ministry.Location.Name,
                     LevelOfImportanceName = ministry.LevelOfImportance.Name,
                     StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
-                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
+                    Frequency = ministry.Frequency.Name
                 });
             }
 

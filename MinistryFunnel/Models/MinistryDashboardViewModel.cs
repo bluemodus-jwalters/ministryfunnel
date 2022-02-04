@@ -20,6 +20,7 @@ namespace MinistryFunnel.Models
         public DateTime EndDate { get; set; }
         public string LevelOfImportanceName { get; set; }
         public string LocationName { get; set; }
+        public string Frequency { get; set; }
 
     }
 }

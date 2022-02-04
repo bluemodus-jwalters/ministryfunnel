@@ -61,34 +61,79 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
                 foreach (var ministry in ministries)
                 {
-                    string color;
-                    switch(ministry.ApprovalName)
-                    {
-                        case "Approved":
-                            color = "#28a745";
-                            break;
-                        case "Denied":
-                            color = "#721c24";
-                            break;
-                        default:
-                            color = "#007bff";
-                            break;
 
-                            
-                    }
-                    events.Add(new EventViewModel()
+                    if (ministry.Frequency == "Daily")
                     {
-                        title = ministry.Event,
-                        start = ministry.StartDate.ToString("yyyy-MM-ddTHH:mm"),
-                        end = ministry.EndDate.ToString("yyyy-MM-ddTHH:mm"),
-                        url = "/ministry/edit/" + ministry.Id,
-                        backgroundColor = color
-                    });
+                        var iterativeDate = ministry.StartDate;
+                        while (iterativeDate < ministry.EndDate)
+                        {
+                            var iterativeEndTime = iterativeDate.Date + ministry.EndDate.TimeOfDay;
+
+                            events.Add(AddEvent(ministry.Event, iterativeDate, iterativeEndTime, ministry.Id, ministry.ApprovalName));
+
+                            iterativeDate = iterativeDate.AddDays(1);
+                        }
+                    }
+                    else if (ministry.Frequency == "Weekly")
+                    {
+                        var iterativeDate = ministry.StartDate;
+                        while (iterativeDate < ministry.EndDate)
+                        {
+                            var iterativeEndTime = iterativeDate.Date + ministry.EndDate.TimeOfDay;
+
+                            events.Add(AddEvent(ministry.Event, iterativeDate, iterativeEndTime, ministry.Id, ministry.ApprovalName));
+
+                            iterativeDate = iterativeDate.AddDays(7);
+                        }
+                    }
+                    else if (ministry.Frequency == "Monthly")
+                    {
+                        var iterativeDate = ministry.StartDate;
+                        while (iterativeDate < ministry.EndDate)
+                        {
+                            var iterativeEndTime = iterativeDate.Date + ministry.EndDate.TimeOfDay;
+
+                            events.Add(AddEvent(ministry.Event, iterativeDate, iterativeEndTime, ministry.Id, ministry.ApprovalName));
+
+                            iterativeDate = iterativeDate.AddMonths(1);
+                        }                      
+                    }
+                    else
+                    {
+                        events.Add(AddEvent(ministry.Event, ministry.StartDate, ministry.EndDate, ministry.Id, ministry.ApprovalName));
+                    }    
                 }            
             }
 
             return Json(events, JsonRequestBehavior.AllowGet);        
 
+        }
+
+        private EventViewModel AddEvent(string title, DateTime startDate, DateTime endDate, int ministryId, string approvalName)
+        {
+            string color;
+            switch (approvalName)
+            {
+                case "Approved":
+                    color = "#28a745";
+                    break;
+                case "Denied":
+                    color = "#721c24";
+                    break;
+                default:
+                    color = "#007bff";
+                    break;
+            }
+
+            var newEvent = new EventViewModel {
+                title = title,
+                start = startDate.ToString("yyyy-MM-ddTHH:mm"),
+                end = endDate.ToString("yyyy-MM-ddTHH:mm"),
+                url = "/ministry/edit/" + ministryId,
+                backgroundColor = color
+            };
+
+            return newEvent;
         }
 
         public void SignIn()
