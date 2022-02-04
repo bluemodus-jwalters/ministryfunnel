@@ -94,6 +94,9 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Archived")]
         public bool Archived { get; set; }
 
+        [Display(Name = "Big Rock Ministry")]
+        public bool BigRock { get; set; }
+
         public bool CanApprove { get; set; }
     }
 }

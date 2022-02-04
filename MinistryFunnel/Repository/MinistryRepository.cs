@@ -134,7 +134,7 @@ namespace MinistryFunnel.Repository
             currentMinistry.LevelOfImportanceId = updatedMinistry.LevelOfImportanceId;
             currentMinistry.ApprovalId = updatedMinistry.ApprovalId;
             currentMinistry.Comments = updatedMinistry.Comments;
-
+            currentMinistry.BigRock = updatedMinistry.BigRock;
             currentMinistry.Archived = updatedMinistry.Archived;
             currentMinistry.ModifiedDateTime = DateTime.Now;
 

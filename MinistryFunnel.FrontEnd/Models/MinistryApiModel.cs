@@ -23,6 +23,7 @@ namespace MinistryFunnel.FrontEnd.Models
         public int ApprovalId { get; set; }
         public string Comments { get; set; }
         public bool Archived { get; set; }
+        public bool BigRock { get; set; }
         public int[] UpInOutIds { get; set; }
         public int[] ResourceInvolvementIds { get; set; }
     }

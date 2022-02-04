@@ -56,6 +56,7 @@ namespace MinistryFunnel.FrontEnd.Models
         public DateTime ModifiedDateTime { get; set; }
 
         public bool Archived { get; set; }
+        public bool BigRock { get; set; }
     }
 
     public class ResourceInvolvementRelationshipViewModel

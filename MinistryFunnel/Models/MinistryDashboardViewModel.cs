@@ -21,6 +21,7 @@ namespace MinistryFunnel.Models
         public string LevelOfImportanceName { get; set; }
         public string LocationName { get; set; }
         public string Frequency { get; set; }
+        public bool BigRock { get; set; }
 
     }
 }

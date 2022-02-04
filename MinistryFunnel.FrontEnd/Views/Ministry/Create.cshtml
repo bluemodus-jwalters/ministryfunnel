@@ -157,6 +157,22 @@
         </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.BigRock, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList(
+                "BigRock", new SelectList(
+                        new[]
+                        {
+                            new { Value = "false", Text = "No" },
+                            new { Value = "true", Text = "Yes" },
+                        }, "Value", "Text", Model
+                    )
+                , new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BigRock, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     @if (Model.CanApprove)
     {
         <div class="form-group">
