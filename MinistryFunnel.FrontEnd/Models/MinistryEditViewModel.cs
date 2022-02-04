@@ -22,10 +22,12 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public string Event { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Purpose")]
         public string Purpose { get; set; }
 
         [Required]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Desired Outcome")]
         public string DesiredOutcome { get; set; }
 
