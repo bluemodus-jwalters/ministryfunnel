@@ -85,6 +85,8 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public int[] SelectedResourceInvolvementIds { get; set; }
         public IEnumerable<SelectListItem> ResourceInvolvements { get; set; }
 
+        [Display(Name = "Big Rock Ministry")]
+        public bool BigRock { get; set; }
         public bool CanApprove { get; set; }
     }
 }

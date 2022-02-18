@@ -163,8 +163,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 LevelOfImportances = levelOfImportanceDropDown,
                 UpInOuts = upInOutListBox,
                 ResourceInvolvements = resourceInvolvementListBox,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(1)
+                StartDate = DateTime.Now, 
+                EndDate = DateTime.Now.AddDays(1),
+                BigRock = false
             };
 
             //Set the Not Approved value as default
@@ -220,6 +221,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                         ApprovalId = model.ApprovalId,
                         Comments = model.Comments,
                         Archived = false,
+                        BigRock = model.BigRock,
                         UpInOutIds = model.UpInOutIds != null ?
                             model.UpInOutIds :
                             new int[0],
@@ -368,7 +370,8 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 Comments = modelWithData.Comments,
                 UpInOutIds = modelWithData.UpInOutRelationships.Select(x => x.UpInOutId).ToArray(),
                 SelectedResourceInvolvementIds = modelWithData.ResourceInvolvementRelationships.Select(x => x.ResourceInvolvementId).ToArray(),
-                Archived = modelWithData.Archived
+                Archived = modelWithData.Archived,
+                BigRock = modelWithData.BigRock
             };
 
             viewModel.CanApprove = CanApprove();
@@ -404,6 +407,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                         ApprovalId = model.ApprovalId,
                         Comments = model.Comments,
                         Archived = false,
+                        BigRock = model.BigRock,
                         UpInOutIds = model.UpInOutIds != null ?
                                 model.UpInOutIds :
                                 new int[0],

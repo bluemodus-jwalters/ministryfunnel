@@ -59,7 +59,8 @@ namespace MinistryFunnel.Controllers
                         LocationName = ministry.Location.Name,
                         LevelOfImportanceName = ministry.LevelOfImportance.Name,
                         StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
-                        EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                        EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
+                        BigRock = ministry.BigRock
                     });
                 }
 
@@ -128,7 +129,8 @@ namespace MinistryFunnel.Controllers
                     LocationName = ministry.Location.Name,
                     LevelOfImportanceName = ministry.LevelOfImportance.Name,
                     StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
-                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue)
+                    EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
+                    BigRock = ministry.BigRock
                 });
             }
 
@@ -185,7 +187,8 @@ namespace MinistryFunnel.Controllers
                 Comments = ministry.Comments,
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
-                Archived = ministry.Archived
+                Archived = ministry.Archived,
+                BigRock = ministry.BigRock
             };
         }
 
@@ -277,7 +280,8 @@ namespace MinistryFunnel.Controllers
                 ApprovalId = ministry.ApprovalId,
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
-                Archived = ministry.Archived
+                Archived = ministry.Archived,
+                BigRock = ministry.BigRock
             });
 
             return Ok(results);
