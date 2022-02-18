@@ -1,12 +1,34 @@
 ﻿@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryFrontEndViewModelMinimal>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="/Ministry/Create" class="btn btn-success" role="button" aria-pressed="true">Create</a>
+    @if (ViewBag.CanApprove && ViewBag.ViewAll)
+    {
+        <a href="/Ministry/NotApproved" class="btn btn-warning" role="button" aria-pressed="true">Show Not Approved</a>
+    }
+    @if (ViewBag.CanApprove && ViewBag.ViewAll == false)
+    {
+        <a href="/Ministry" class="btn btn-warning" role="button" aria-pressed="true">Show All</a>
+
+    }
+    @if (ViewBag.CanApprove)
+    {
+        <button onclick="approveMinistries()" class="savemultiple btn btn-info" id="savemultiple">Approve Multiple Ministries</button>
+
+
+    }
+
 </p>
 <div class="container-fluid" style="padding-left:0px;">
-    <table class="table table-bordered">
+    <table id="ministrytable" class="table table-bordered">
         <thead>
             <tr>
+                @if (ViewBag.CanApprove)
+                {
+                    <th>
+                        Approve
+                    </th>
+                }
                 <th>
                     @Html.DisplayNameFor(model => model.Event)
                 </th>
@@ -35,6 +57,12 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    @if (ViewBag.CanApprove)
+                    {
+                        <td style="vertical-align: middle; text-align: center;" @*onclick="checkthebox(@item.Id)"*@>
+                            <input type="checkbox" id="@item.Id" />
+                        </td>
+                    }
                     <td>
                         @Html.DisplayFor(modelItem => item.Event)
                     </td>
@@ -69,9 +97,42 @@
 
 
 <script type="text/javascript">
+
+    //function checkthebox(ministryId) {
+    //    var ministryIdString = ministryId.toString();
+    //    var checkbox = $(document.getElementById(ministryIdString));
+
+    //    if (checkbox.prop('checked') == true) {
+    //        checkbox.prop('checked', false);
+    //    } else {
+    //        checkbox.prop('checked', true);
+    //    }
+    //}
+
+    function approveMinistries() {
+        var listofids = '';
+        $('#ministrytable').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                
+                var checkbox = row.find('input[type="checkbox"]');
+                listofids = listofids + checkbox.prop("id") + ";";
+            }
+        });
+
+        if (listofids.length > 0) {
+            $.post("/Ministry/SaveMultipleMinistries", { ids: listofids }, function (data) {
+                
+            })
+                .done(window.location.replace("/Ministry"))
+        }
+        else {
+            alert('You have not checked anything to approve.');
+        }
+    }
+
     //https://mottie.github.io/tablesorter/docs/example-option-theme-bootstrap-v4.html
     $(function () {
-
         $("table").tablesorter({
             theme: "bootstrap",
 
@@ -124,4 +185,7 @@
             });
 
     });
+
+
+
 </script>

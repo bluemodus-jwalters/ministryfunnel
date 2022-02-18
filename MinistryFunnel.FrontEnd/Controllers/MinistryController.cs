@@ -31,10 +31,28 @@ namespace MinistryFunnel.FrontEnd.Controllers
             if (response.IsSuccessful)
             {
                 var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
+                ViewBag.CanApprove = true;
+                ViewBag.ViewAll = true;
                 return View(ministries);
             }
 
             return View();
+        }
+
+        public ActionResult NotApproved()
+        {
+            var response = _apiHelper.Get(CompileUrl(apiAction), GetToken());
+
+            if (response.IsSuccessful)
+            {
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
+                ViewBag.CanApprove = true;
+                ViewBag.ViewAll = false;
+                ministries = ministries.Where(x => x.ApprovalName != "Approved");
+                return View("Index", ministries);
+            }
+
+            return View("Index");
         }
 
         private string CompileUrl(string action)
@@ -464,6 +482,51 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 TempData["MessageType"] = "Danger";
                 TempData["Message"] = $"There was a problem deleting this record. Please try again or contact your system administrator.";
                 return View();
+            }
+        }
+
+        // GET: Ministry
+        public ActionResult MultipleMinistryApproval()
+        {
+            var response = _apiHelper.Get(CompileUrl(apiAction), GetToken());
+
+            if (response.IsSuccessful)
+            {
+                var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
+                return View(ministries.Where(x => x.ApprovalName != "Approved"));
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult SaveMultipleMinistries(string ids)
+        {
+            try
+            {
+
+                ids = ids.TrimEnd(';');
+                var json = new JavaScriptSerializer().Serialize(ids);
+                var response = _apiHelper.Post(CompileUrl("/api/ministry/savemultiple"), json, GetToken());
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    TempData["MessageType"] = "Info";
+                    TempData["Message"] = $"Ministries Approved";
+                }
+                else
+                {
+                    TempData["MessageType"] = "Danger";
+                    TempData["Message"] = $"There was a problem approving these records. Please try again or contact your system administrator.";
+                }
+
+                return Json("Worked");
+            }
+            catch
+            {
+                TempData["MessageType"] = "Danger";
+                TempData["Message"] = $"There was a problem approving these records. Please try again or contact your system administrator.";
+                return Json("Failed");
             }
         }
     }

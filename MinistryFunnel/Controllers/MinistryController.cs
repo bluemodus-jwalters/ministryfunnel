@@ -22,11 +22,13 @@ namespace MinistryFunnel.Controllers
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IMinistryRepository _ministryRepository;
+        private readonly IApprovalRepository _approvalRepository;
         private readonly ILoggerService _loggerService;
 
         public MinistryController()
         {
             _ministryRepository = new MinistryRepository();
+            _approvalRepository = new ApprovalRepository();
             _loggerService = new LoggerService();
         }
 
@@ -348,6 +350,51 @@ namespace MinistryFunnel.Controllers
             }
 
             return Ok(deletedMinistry);
+        }
+
+        [HttpPost]
+        [Route("api/ministry/savemultiple")]
+        public IHttpActionResult SaveMultipleMinistry([FromBody] string ids)
+        {
+
+            var listofids = ids.Split(';');
+            int approvalId = GetApprovalId();
+            bool errorHappened = false;
+
+            foreach (var stringministryid in listofids)
+            {
+                int ministryid = int.Parse(stringministryid);
+
+                var currentMinistryModel = _ministryRepository.GetMinistryById(ministryid);
+                //The Resource Involvement Ids and Up In Out Ids are not being translated at the repo level. Maybe I should improve that.
+                currentMinistryModel.ResourceInvolvementIds = currentMinistryModel.ResourceInvolvementRelationship.Select(x => x.ResourceInvolvementId).ToArray();
+                currentMinistryModel.UpInOutIds = currentMinistryModel.UpInOutRelationships.Select(x => x.UpInOutId).ToArray();
+                currentMinistryModel.ApprovalId = approvalId;
+
+                //resource involvement and up in out are not populating correctly
+
+
+
+                var updatedMinistry = _ministryRepository.UpdateMinistry(currentMinistryModel);
+
+                if (updatedMinistry == null)
+                {
+                    errorHappened = true;
+                }
+            }
+
+            if (errorHappened)
+            {
+                return BadRequest("There was a problem updating your record. Please try again");
+            }
+
+            return Ok("done");
+        }
+
+        private int GetApprovalId()
+        {
+            var approvalQuery = _approvalRepository.SearchApprovalByName("Approved");
+            return approvalQuery.FirstOrDefault().Id;
         }
 
         protected override void Dispose(bool disposing)
