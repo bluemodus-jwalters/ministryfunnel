@@ -37,12 +37,12 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public IEnumerable<SelectListItem> Practices { get; set; }
 
         [Required]
-        [Display(Name = "Funnel")]
+        [Display(Name = "Event Type")]
         public int FunnelId { get; set; }
         public IEnumerable<SelectListItem> Funnels { get; set; }
 
         [Required]
-        [Display(Name = "Campus")]
+        [Display(Name = "Campuses Involved")]
         public int CampusId { get; set; }
         public IEnumerable<SelectListItem> Campuses { get; set; }
 
@@ -76,18 +76,19 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         public int LevelOfImportanceId { get; set; }
         public IEnumerable<SelectListItem> LevelOfImportances { get; set; }
 
-        [Display(Name = "Approval")]
+        [Display(Name = "Approval Status")]
         public int ApprovalId { get; set; }
         public IEnumerable<SelectListItem> Approvals { get; set; }
 
         [Display(Name = "Comments")]
+        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
         [Display(Name = "Up In Out")]
         public int[] UpInOutIds { get; set; }
         public IEnumerable<SelectListItem> UpInOuts { get; set; }
 
-        [Display(Name = "Resource Involvement")]
+        [Display(Name = "Resources Involved")]
         public int[] SelectedResourceInvolvementIds { get; set; }
         public IEnumerable<SelectListItem> ResourceInvolvements { get; set; }
 

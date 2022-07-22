@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryFrontEndViewModelMinimal>
 
+<h1>Event Details</h1>
+
 <p>
-    <a href="/Ministry/Create" class="btn btn-success" role="button" aria-pressed="true">Create</a>
+    <a href="/Ministry/Create" class="btn btn-danger" role="button" aria-pressed="true">Create Event</a>
     @if (ViewBag.CanApprove && ViewBag.ViewAll)
     {
-        <a href="/Ministry/NotApproved" class="btn btn-warning" role="button" aria-pressed="true">Show Not Approved</a>
+        <a href="/Ministry/NotApproved" class="btn btn-primary" role="button" aria-pressed="true">Pending Approved</a>
     }
     @if (ViewBag.CanApprove && ViewBag.ViewAll == false)
     {
-        <a href="/Ministry" class="btn btn-warning" role="button" aria-pressed="true">Show All</a>
+        <a href="/Ministry" class="btn btn-primary" role="button" aria-pressed="true">Show All</a>
 
+    }
+    @if (ViewBag.CanApprove && ViewBag.ViewAll)
+    {
+        //TODO: Need Approved only done
+        <a href="/Ministry/NotApproved" class="btn btn-success" role="button" aria-pressed="true">Approved Events</a>
     }
     @if (ViewBag.CanApprove)
     {
@@ -33,22 +40,19 @@
                     @Html.DisplayNameFor(model => model.Event)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Purpose)
+                    Start Date                  
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MinistryOwnerName)
+                    End Date
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LocationName)
+                    Campus
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CampusName)
+                    Kid Care
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ApprovalName)
+                    Approval
                 </th>
                 <th class="sorter-false filter-false"></th>
             </tr>
@@ -67,19 +71,23 @@
                         @Html.DisplayFor(modelItem => item.Event)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Purpose)
+                        @Html.DisplayFor(modelItem => item.StartDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MinistryOwnerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationName)
+                        @Html.DisplayFor(modelItem => item.EndDate)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CampusName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
+                        @if (item.KidCare)
+                        {
+                            <p>Yes</p>
+                        }
+                        else
+                        {
+                            <p>No</p>
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ApprovalName)

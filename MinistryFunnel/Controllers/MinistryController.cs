@@ -40,10 +40,12 @@ namespace MinistryFunnel.Controllers
         {
             var ministries = _ministryRepository.GetDashboardList();
 
+            
+
             List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
-                if (ministry.StartDate >= System.DateTime.Now)
+                if (ministry.StartDate >= System.DateTime.Now && ministry.EndDate <= System.DateTime.Today.AddDays(90))
                 {
                     viewModel.Add(new MinimalMinistryViewModel
                     {
@@ -60,7 +62,8 @@ namespace MinistryFunnel.Controllers
                         LevelOfImportanceName = ministry.LevelOfImportance.Name,
                         StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
                         EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
-                        BigRock = ministry.BigRock
+                        BigRock = false,
+                        
                     });
                 }
 
@@ -130,7 +133,8 @@ namespace MinistryFunnel.Controllers
                     LevelOfImportanceName = ministry.LevelOfImportance.Name,
                     StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
                     EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
-                    BigRock = ministry.BigRock
+                    BigRock = false,
+                    KidCare = ministry.KidCare
                 });
             }
 
@@ -188,7 +192,7 @@ namespace MinistryFunnel.Controllers
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
                 Archived = ministry.Archived,
-                BigRock = ministry.BigRock
+                BigRock = false
             };
         }
 
@@ -281,7 +285,7 @@ namespace MinistryFunnel.Controllers
                 CreatedDateTime = (System.DateTime)(ministry.CreatedDateTime.HasValue ? ministry.CreatedDateTime : System.DateTime.MinValue),
                 ModifiedDateTime = (System.DateTime)(ministry.ModifiedDateTime.HasValue ? ministry.ModifiedDateTime : System.DateTime.MinValue),
                 Archived = ministry.Archived,
-                BigRock = ministry.BigRock
+                BigRock = false
             });
 
             return Ok(results);

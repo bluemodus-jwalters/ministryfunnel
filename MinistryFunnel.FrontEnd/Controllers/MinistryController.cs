@@ -402,7 +402,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                         StartDate = model.StartDate.ToString(),
                         EndDate = model.EndDate.ToString(),
                         FrequencyId = model.FrequencyId,
-                        KidCare = model.KidCare.ToString() == "true",
+                        KidCare = model.KidCare,
                         LevelOfImportanceId = model.LevelOfImportanceId,
                         ApprovalId = model.ApprovalId,
                         Comments = model.Comments,

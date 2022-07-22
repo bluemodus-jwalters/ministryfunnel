@@ -111,14 +111,24 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
         private EventViewModel AddEvent(string title, DateTime startDate, DateTime endDate, int ministryId, string approvalName)
         {
+
             string color;
             switch (approvalName)
             {
                 case "Approved":
                     color = "#28a745";
                     break;
-                case "Denied":
+                case "Cancelled":
                     color = "#721c24";
+                    break;
+                case "Requesting Approval":
+                    color = "#337ab7";
+                    break;
+                case "Pending Approval":
+                    color = "#5bc0de";
+                    break;
+                case "Not Approved at this Time":
+                    color = "#eea236";
                     break;
                 default:
                     color = "#007bff";
