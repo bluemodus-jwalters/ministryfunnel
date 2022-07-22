@@ -22,6 +22,6 @@ namespace MinistryFunnel.Models
         public string LocationName { get; set; }
         public string Frequency { get; set; }
         public bool BigRock { get; set; }
-
+        public bool KidCare { get; set; }
     }
 }

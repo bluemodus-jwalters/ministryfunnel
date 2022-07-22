@@ -8,9 +8,21 @@
         {
             return "border-success";
         }
-        else if (approvalName == "Denied")
+        else if (approvalName == "Cancelled")
         {
             return "border-danger";
+        }
+        else if (approvalName == "Requesting Approval")
+        {
+            return "border-primary";
+        }
+        else if (approvalName == "Pending Approval")
+        {
+            return "border-info";
+        }
+        else if (approvalName == "Not Approved at this Time")
+        {
+            return "border-warning";
         }
         else
         {
@@ -25,7 +37,7 @@
 <div class="jumbotron">
 
     <img src="https://www.discoverychurch.org/wp-content/uploads/2020/02/Black_Logo.png" style="height: 60px; width: 200px;">
-    <h1>Ministry Events</h1>
+    <h1>90 Day at a Glance | Ministry Calendar of Events</h1>
     <p class="lead">App used to manage and track ministry events churchwide.</p>
 </div>
 
@@ -34,7 +46,7 @@
     <div class="row">
         @foreach (var ministry in Model)
         {
-            <div class="col-sm-6" style="padding-top: 15px;">
+            <div class="col-sm-4" style="padding-top: 15px;">
                 <div class="card @GetBorderClass(ministry.ApprovalName)">
                     <div class="card-body">
                         <h5 class="card-title">@ministry.Event</h5>
