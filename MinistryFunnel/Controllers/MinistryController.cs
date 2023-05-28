@@ -23,12 +23,16 @@ namespace MinistryFunnel.Controllers
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IMinistryRepository _ministryRepository;
         private readonly IApprovalRepository _approvalRepository;
+        private readonly IUpInOutRepository _upInOutRepository;
+        private readonly IResourceInvolvementRepository _resourceInvolvementRepository;
         private readonly ILoggerService _loggerService;
 
         public MinistryController()
         {
             _ministryRepository = new MinistryRepository();
             _approvalRepository = new ApprovalRepository();
+            _upInOutRepository = new UpInOutRepository();
+            _resourceInvolvementRepository = new ResourceInvolvementRepository();
             _loggerService = new LoggerService();
         }
 
@@ -43,7 +47,7 @@ namespace MinistryFunnel.Controllers
             List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
-                if (ministry.StartDate >= System.DateTime.Now)
+                if (ministry.EndDate >= System.DateTime.Now)
                 {
                     viewModel.Add(new MinimalMinistryViewModel
                     {
@@ -60,13 +64,14 @@ namespace MinistryFunnel.Controllers
                         LevelOfImportanceName = ministry.LevelOfImportance.Name,
                         StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
                         EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
-                        BigRock = ministry.BigRock
+                        BigRock = ministry.BigRock,
+                        KidCare = ministry.KidCare                       
                     });
                 }
 
             }
 
-            return viewModel;
+            return viewModel.OrderBy(x => x.StartDate).ToList();
         }
 
         [HttpGet]
@@ -108,12 +113,16 @@ namespace MinistryFunnel.Controllers
         {
             _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryController", "Ministry", "GetAll", null, null);
 
-            //This does not include the Up In Out Relationship names... not sure if it should yet or not. Seems to cause circular referencing
+            //var ministries = _ministryRepository.GetMinistries().Where(x => x.EndDate >= System.DateTime.Now.AddYears(-1));
             var ministries = _ministryRepository.GetMinistries();
+            var resourceInvolvementList = _resourceInvolvementRepository.GetResourceInvolvements().ToList();
+            var upInOutList = _upInOutRepository.GetUpInOuts().ToList();
+
 
 
             List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
-            foreach (var ministry in ministries)
+            var rightEndDate = System.DateTime.Now.AddYears(-1);
+            foreach (var ministry in ministries.Where(x => x.EndDate >= rightEndDate))
             {
                 viewModel.Add(new MinimalMinistryViewModel
                 {
@@ -130,7 +139,10 @@ namespace MinistryFunnel.Controllers
                     LevelOfImportanceName = ministry.LevelOfImportance.Name,
                     StartDate = (System.DateTime)(ministry.StartDate.HasValue ? ministry.StartDate : System.DateTime.MinValue),
                     EndDate = (System.DateTime)(ministry.EndDate.HasValue ? ministry.EndDate : System.DateTime.MinValue),
-                    BigRock = ministry.BigRock
+                    BigRock = ministry.BigRock,
+                    KidCare = ministry.KidCare,
+                    ResourceInvolvementRelationships = ResourceInvolvementMapping(ministry.ResourceInvolvementRelationship, resourceInvolvementList),
+                    UpInOutRelationships = UpInOutMapping(ministry.UpInOutRelationships, upInOutList)
                 });
             }
 
@@ -192,6 +204,8 @@ namespace MinistryFunnel.Controllers
             };
         }
 
+        
+
         private ICollection<UpInOutRelationshipViewModel> ReturnUpInOutRelationshipViewModel(ICollection<UpInOutRelationship> relationships)
         {
             var repo = new UpInOutRepository();
@@ -217,6 +231,8 @@ namespace MinistryFunnel.Controllers
 
         private ICollection<ResourceInvolvementRelationshipViewModel> ReturnResourceInvolvementRelationshipViewModel(ICollection<ResourceInvolvementRelationship> relationships)
         {
+            
+
             var repo = new ResourceInvolvementRepository();
             if (relationships != null)
             {
@@ -236,6 +252,48 @@ namespace MinistryFunnel.Controllers
 
             return null;
 
+        }
+
+        private ICollection<ResourceInvolvementRelationshipViewModel> ResourceInvolvementMapping(ICollection<ResourceInvolvementRelationship> relationships, List<ResourceInvolvement> mappingList)
+        {
+            if (relationships != null)
+            {
+                ICollection<ResourceInvolvementRelationshipViewModel> viewModel = new List<ResourceInvolvementRelationshipViewModel>();
+                foreach (var relationship in relationships)
+                {
+                    viewModel.Add(new ResourceInvolvementRelationshipViewModel
+                    {
+                        ResourceInvolvementId = relationship.ResourceInvolvementId,
+                        MinistryId = relationship.MinistryId,
+                        ResourceInvolvementName = mappingList.Single(s => s.Id == relationship.ResourceInvolvementId).Name
+                    }); ;
+                }
+                return viewModel;
+
+            }
+
+            return null;
+        }
+
+        private ICollection<UpInOutRelationshipViewModel> UpInOutMapping(ICollection<UpInOutRelationship> upInOuts, List<UpInOut> mappingList)
+        {
+            if (upInOuts != null)
+            {
+                ICollection<UpInOutRelationshipViewModel> viewModel = new List<UpInOutRelationshipViewModel>();
+                foreach (var relationship in upInOuts)
+                {
+                    viewModel.Add(new UpInOutRelationshipViewModel
+                    {
+                        UpInOutId = relationship.UpInOutId,
+                        MinistryId = relationship.MinistryId,
+                        UpInOutName = mappingList.Single(s => s.Id == relationship.UpInOutId).Name
+                    }); ;
+                }
+                return viewModel;
+
+            }
+
+            return null;
         }
 
         //TODO: make this a /searchText one day

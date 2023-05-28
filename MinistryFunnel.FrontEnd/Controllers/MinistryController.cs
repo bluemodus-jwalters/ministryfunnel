@@ -31,9 +31,9 @@ namespace MinistryFunnel.FrontEnd.Controllers
             if (response.IsSuccessful)
             {
                 var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
-                ViewBag.CanApprove = true;
+                ViewBag.CanApprove = CanApprove();
                 ViewBag.ViewAll = true;
-                return View(ministries);
+                return View(ministries.OrderByDescending(x => x.EndDate));
             }
 
             return View();
@@ -46,7 +46,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             if (response.IsSuccessful)
             {
                 var ministries = JsonConvert.DeserializeObject<IEnumerable<MinistryFrontEndViewModelMinimal>>(response.Content);
-                ViewBag.CanApprove = true;
+                ViewBag.CanApprove = CanApprove();
                 ViewBag.ViewAll = false;
                 ministries = ministries.Where(x => x.ApprovalName != "Approved");
                 return View("Index", ministries);
@@ -95,61 +95,61 @@ namespace MinistryFunnel.FrontEnd.Controllers
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var practiceDropDown = practices.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var funnelDropDown = funnels.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var campusDropDown = campuses.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var locationDropDown = locations.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var levelOfImportanceDropDown = levelOfImportances.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var approvalDropDown = approvals.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var frequencyDropDown = frequencies.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var upInOutListBox = upInOuts.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var resourceInvolvementListBox = resourceInvolvements.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
             
 
             var viewModel = new MinistryCreateViewModel { 
@@ -170,7 +170,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             //Set the Not Approved value as default
             int approvalId = -1;
-            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text.Contains("Not Approved"));
+            var approvalDefault = viewModel.Approvals.FirstOrDefault(x => x.Text.Contains("Pending"));
             if (approvalDefault != null)
             {
                 int.TryParse(approvalDefault.Value, out approvalId);              
@@ -189,7 +189,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
 
             var role = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
             if (role != null && (role == "Database.Approver" || role == "Database.Admin"))
-            {
+            {            
                 return true;
             }
             return false;
@@ -216,7 +216,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                         StartDate = model.StartDate.ToString(),
                         EndDate = model.EndDate.ToString(),
                         FrequencyId = model.FrequencyId,
-                        KidCare = model.KidCare.ToString() == "true",
+                        KidCare = model.KidCare,
                         LevelOfImportanceId = model.LevelOfImportanceId,
                         ApprovalId = model.ApprovalId,
                         Comments = model.Comments,
@@ -273,7 +273,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             var campuses = _ministryHelper.GetCampuses(GetToken());
             var locations = _ministryHelper.GetLocations(GetToken());
             var levelOfImportances = _ministryHelper.GetLevelOfImportances(GetToken());
-            var approvals = _ministryHelper.GetApprovals(GetToken());
+            var approvals = _ministryHelper.GetApprovals(GetToken()).Where(x => x.Archived == false);
             var frequencies = _ministryHelper.GetFrequencies(GetToken());
             var upInOuts = _ministryHelper.GetUpInOutOptions(GetToken());
             var resourceInvolvements = _ministryHelper.GetResourceInvolvementOptions(GetToken());
@@ -283,61 +283,61 @@ namespace MinistryFunnel.FrontEnd.Controllers
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var practiceDropDown = practices.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var funnelDropDown = funnels.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var campusDropDown = campuses.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var locationDropDown = locations.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var levelOfImportanceDropDown = levelOfImportances.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var approvalDropDown = approvals.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var frequencyDropDown = frequencies.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var upInOutListBox = upInOuts.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
             var resourceInvolvementListBox = resourceInvolvements.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
-            });
+            }).OrderBy(x => x.Text);
 
 
             var viewModel = new MinistryEditViewModel
@@ -402,7 +402,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
                         StartDate = model.StartDate.ToString(),
                         EndDate = model.EndDate.ToString(),
                         FrequencyId = model.FrequencyId,
-                        KidCare = model.KidCare.ToString() == "true",
+                        KidCare = model.KidCare,
                         LevelOfImportanceId = model.LevelOfImportanceId,
                         ApprovalId = model.ApprovalId,
                         Comments = model.Comments,

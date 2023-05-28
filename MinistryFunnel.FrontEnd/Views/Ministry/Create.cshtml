@@ -70,7 +70,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CampusId, htmlAttributes: new { @class = "control-label col-md-2 required" })
+        @Html.LabelFor(model => model.CampusId, htmlAttributes: new { @class = "control-label col-md-3 required" })
         <div class="col-md-10">
             @Html.DropDownListFor(t => t.CampusId, Model.Campuses, "Please Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.CampusId, "", new { @class = "text-danger" })
@@ -98,7 +98,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.StartDate, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-ddThh:mm}", new { @class = "form-control", type = "datetime-local" })
+            <input class="form-control" type="text" name="StartDate" id="startdatetime" value="@Model.StartDate" />
             @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -107,7 +107,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.EndDate, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-ddThh:mm}", new { @class = "form-control", type = "datetime-local" })
+            <input class="form-control" type="text" name="EndDate" id="enddatetime" value="@Model.EndDate" />
             @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -118,7 +118,7 @@
         @Html.LabelFor(model => model.KidCare, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList(
-                "Archived", new SelectList(
+                "KidCare", new SelectList(
                         new[]
                         {
                             new { Value = "false", Text = "No" },
@@ -211,5 +211,47 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.multipleSelect').selectpicker();
+    });
+
+    $(document).ready(function () {
+        $('#startdatetime').datetimepicker({
+            format: 'MM/DD/YYYY LT',
+            showTodayButton: true,
+            showClose: true,
+            showClear: true,
+            toolbarPlacement: 'top',
+            stepping: 30,
+            icons: {
+                time: 'fa fa-clock',
+                date: 'fa fa-calendar',
+                up: 'fa fa-chevron-up',
+                down: 'fa fa-chevron-down',
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-check',
+                clear: 'fa fa-trash',
+                close: 'fa fa-times'
+            }
+        });
+
+        $('#enddatetime').datetimepicker({
+            format: 'MM/DD/YYYY LT',
+            showTodayButton: true,
+            showClose: true,
+            showClear: true,
+            toolbarPlacement: 'top',
+            stepping: 30,
+            icons: {
+                time: 'fa fa-clock',
+                date: 'fa fa-calendar',
+                up: 'fa fa-chevron-up',
+                down: 'fa fa-chevron-down',
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-check',
+                clear: 'fa fa-trash',
+                close: 'fa fa-times'
+            }
+        });
     });
 </script>

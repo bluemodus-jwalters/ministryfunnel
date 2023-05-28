@@ -233,12 +233,14 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
     <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
     <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
     <Content Include="Client Scripts\MvcFoolproofJQueryValidation.min.js" />
     <Content Include="Client Scripts\MvcFoolproofValidation.js" />
     <Content Include="Client Scripts\MvcFoolproofValidation.min.js" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -255,6 +257,9 @@
     <Content Include="full_calendar\main.js" />
     <Content Include="full_calendar\main.min.css" />
     <Content Include="full_calendar\main.min.js" />
+    <Content Include="Images\favicon.png" />
+    <Content Include="Images\DC_logo.png" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />

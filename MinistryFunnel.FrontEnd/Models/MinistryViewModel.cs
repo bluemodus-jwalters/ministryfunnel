@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -47,6 +48,7 @@ namespace MinistryFunnel.FrontEnd.Models
         public string LevelOfImportanceName { get; set; }
 
         public int ApprovalId { get; set; }
+        [Display(Name = "Approval Status")]
         public string ApprovalName { get; set; }
 
         public string Comments { get; set; }

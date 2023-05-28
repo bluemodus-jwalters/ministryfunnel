@@ -117,8 +117,17 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 case "Approved":
                     color = "#28a745";
                     break;
-                case "Denied":
+                case "Does Not Need Approval":
+                    color = "#28a745";
+                    break;
+                case "Not Approved":
                     color = "#721c24";
+                    break;
+                case "Cancelled":
+                    color = "#721c24";
+                    break;
+                case "Pending":
+                    color = "#fada5e";
                     break;
                 default:
                     color = "#007bff";
