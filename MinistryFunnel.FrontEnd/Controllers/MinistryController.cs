@@ -68,6 +68,10 @@ namespace MinistryFunnel.FrontEnd.Controllers
             if (response.IsSuccessful)
             {
                 var ministry = JsonConvert.DeserializeObject<MinistryViewModel>(response.Content);
+                if (ministry.ModifiedDateTime == DateTime.MinValue)
+                {
+                    ministry.ModifiedDateTime = ministry.CreatedDateTime;
+                }
                 return View(ministry);
             }
 
