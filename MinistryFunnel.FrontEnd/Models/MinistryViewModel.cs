@@ -30,9 +30,13 @@ namespace MinistryFunnel.FrontEnd.Models
         public string FunnelName { get; set; }
 
         public int LocationId { get; set; }
+
+        [Display(Name = "Location")]
         public string LocationName { get; set; }
 
         public int CampusId { get; set; }
+
+        [Display(Name = "Campus Involvement")]
         public string CampusName { get; set; }
 
         public DateTime StartDate { get; set; }
