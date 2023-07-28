@@ -1,69 +1,220 @@
-﻿@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryViewModel>
+﻿@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryFrontEndViewModelMinimal>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="padding-top:10px;">
+    <a href="/Ministry/Create" class="btn btn-success" role="button" aria-pressed="true">Create</a>
+    @if (ViewBag.ViewAll)
+    {
+        <a href="/Ministry/NotApproved" class="btn btn-warning" role="button" aria-pressed="true">Show Not Approved</a>
+    }
+    @if (ViewBag.ViewAll == false)
+    {
+        <a href="/Ministry" class="btn btn-warning" role="button" aria-pressed="true">Show All</a>
+
+    }
+    @if (ViewBag.CanApprove)
+    {
+        <button onclick="approveMinistries()" class="savemultiple btn btn-info" id="savemultiple">Approve Multiple Ministries</button>
+
+
+    }
+
 </p>
 <div class="container-fluid" style="padding-left:0px;">
-    <table class="table table-bordered">
+    <table id="ministrytable" class="table table-bordered">
         <thead>
             <tr>
+                @if (ViewBag.CanApprove)
+                {
+                    <th>
+                        Approve
+                    </th>
+                }
                 <th>
                     @Html.DisplayNameFor(model => model.Event)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Purpose)
+                    Location
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MinistryOwnerName)
+                    Campus Involvement
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LocationName)
+                    Start Date
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CampusName)
+                    End Date
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartDate)
+                    Resources
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ApprovalName)
+                    Kid Care
                 </th>
-                <th></th>
+                <th>
+                    Up/In/Out
+                </th>
+                <th>
+                    Approval Status
+                </th>
+                <th class="sorter-false filter-false"></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Event)
+            <tr>
+                @if (ViewBag.CanApprove)
+                {
+                    <td style="vertical-align: middle; text-align: center;" @*onclick="checkthebox(@item.Id)"*@>
+                        <input type="checkbox" id="@item.Id" />
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Purpose)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MinistryOwnerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CampusName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </td>                   
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ApprovalName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CampusName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    <span>
+                        @foreach(var t in item.ResourceInvolvementRelationships)
+                        {
+                            <span>@t.ResourceInvolvementName</span> <br />
+                        }
+                    </span>
+                </td>
+                <td>
+                    @if(item.KidCare)
+                    {
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                </td>
+                <td>
+                    <span>
+                        @foreach (var t in item.UpInOutRelationships)
+                        {
+                        <span>@t.UpInOutName</span> <br />
+                        }
+                    </span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovalName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
 
+
+<script type="text/javascript">
+
+    //function checkthebox(ministryId) {
+    //    var ministryIdString = ministryId.toString();
+    //    var checkbox = $(document.getElementById(ministryIdString));
+
+    //    if (checkbox.prop('checked') == true) {
+    //        checkbox.prop('checked', false);
+    //    } else {
+    //        checkbox.prop('checked', true);
+    //    }
+    //}
+
+    function approveMinistries() {
+        var listofids = '';
+        $('#ministrytable').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                
+                var checkbox = row.find('input[type="checkbox"]');
+                listofids = listofids + checkbox.prop("id") + ";";
+            }
+        });
+
+        if (listofids.length > 0) {
+            $.post("/Ministry/SaveMultipleMinistries", { ids: listofids }, function (data) {
+                
+            })
+                .done(window.location.replace("/Ministry"))
+        }
+        else {
+            alert('You have not checked anything to approve.');
+        }
+    }
+
+    //https://mottie.github.io/tablesorter/docs/example-option-theme-bootstrap-v4.html
+    $(function () {
+        $("table").tablesorter({
+            theme: "bootstrap",
+
+            widthFixed: true,
+
+            // widget code contained in the jquery.tablesorter.widgets.js file
+            // use the zebra stripe widget if you plan on hiding any rows (filter widget)
+            // the uitheme widget is NOT REQUIRED!
+            widgets: ["filter", "columns", "zebra"],
+
+            widgetOptions: {
+                // using the default zebra striping class name, so it actually isn't included in the theme variable above
+                // this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
+                zebra: ["even", "odd"],
+
+                // class names added to columns when sorted
+                columns: ["primary", "secondary", "tertiary"],
+
+                // reset filters button
+                filter_reset: ".reset",
+
+                // extra css class name (string or array) added to the filter element (input or select)
+                filter_cssFilter: [
+                    'form-control',
+                    'form-control',
+                    'form-control', // select needs custom class names :(
+                    'form-control',
+                    'form-control',
+                    'form-control'
+                ]
+
+            }
+        })
+            .tablesorterPager({
+
+                // target the pager markup - see the HTML block below
+                container: $(".ts-pager"),
+
+                // target the pager page select dropdown - choose a page
+                cssGoto: ".pagenum",
+
+                // remove rows from the table to speed up the sort of large tables.
+                // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+                removeRows: false,
+
+                // output string - default is '{page}/{totalPages}';
+                // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+                output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+
+            });
+
+    });
+
+
+
+</script>

@@ -30,7 +30,7 @@ namespace MinistryFunnel.Repository
         {
             Campus campus = db.Campus.Find(id);
 
-            _loggerService.CreateLog("Jordan", "Campus", "Get By Id", id.ToString(), $"Results found: {campus != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Get By Id", id.ToString(), $"Results found: {campus != null}");
 
             return campus;
         }
@@ -39,7 +39,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Campus.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "Campus", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -52,13 +52,13 @@ namespace MinistryFunnel.Repository
                 db.Campus.Add(campus);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Campus", "Create", campus.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Create", campus.ToString());
 
                 return campus;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Create", campus.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Create", campus.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace MinistryFunnel.Repository
             var currentCampus = db.Campus.Find(updatedCampus.Id);
             if (currentCampus == null)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Update", string.Empty, $"Campus {updatedCampus.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Update", string.Empty, $"Campus {updatedCampus.Id} not found to update.");
                 return null;
             }
 
@@ -89,16 +89,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Update", currentCampus.ToString(), "Error updating campus: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Update", currentCampus.ToString(), "Error updating campus: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Update", currentCampus.ToString(), "Error updating campus: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Update", currentCampus.ToString(), "Error updating campus: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "Campus", "Update", currentCampus.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Update", currentCampus.ToString());
             return currentCampus;
         }
 
@@ -107,7 +107,7 @@ namespace MinistryFunnel.Repository
             Campus campus = db.Campus.Find(id);
             if (campus == null)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Delete", string.Empty, $"Campus {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Delete", string.Empty, $"Campus {id} not found to delete.");
                 return null;
             }
 
@@ -116,11 +116,11 @@ namespace MinistryFunnel.Repository
                 db.Campus.Remove(campus);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Campus", "Delete", campus.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Delete", campus.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Campus", "Delete", campus.ToString(), "Error deleting campus: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "CampusRepository", "Campus", "Delete", campus.ToString(), "Error deleting campus: " + e.Message);
                 return null;
             }
 

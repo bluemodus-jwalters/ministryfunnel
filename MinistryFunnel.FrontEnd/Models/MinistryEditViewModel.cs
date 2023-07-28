@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foolproof;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
 {
     public class MinistryEditViewModel
     {
+
+        [Required]
         public int Id { get; set; }
         [Display(Name = "Ministry Owner")]
         public int MinistryOwnerId { get; set; }
@@ -18,46 +21,62 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Event")]
         public string Event { get; set; }
 
+        [Required]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Purpose")]
         public string Purpose { get; set; }
 
+        [Required]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Desired Outcome")]
         public string DesiredOutcome { get; set; }
 
+        [Required]
         [Display(Name = "Practice")]
         public int PracticeId { get; set; }
         public IEnumerable<SelectListItem> Practices { get; set; }
 
-        [Display(Name = "Funnel")]
+        [Required]
+        [Display(Name = "Event Type")]
         public int FunnelId { get; set; }
         public IEnumerable<SelectListItem> Funnels { get; set; }
 
-        [Display(Name = "Campus")]
+        [Required]
+        [Display(Name = "Campus Involvement")]
         public int CampusId { get; set; }
         public IEnumerable<SelectListItem> Campuses { get; set; }
 
+        [Required]
         [Display(Name = "Location")]
         public int LocationId { get; set; }
         public IEnumerable<SelectListItem> Locations { get; set; }
 
+        [Required]
         [Display(Name = "Frequency")]
         public int FrequencyId { get; set; }
         public IEnumerable<SelectListItem> Frequencies { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}")]
+        [GreaterThan("StartDate")]
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [Display(Name = "Kid care")]
         public bool KidCare { get; set; }
 
+        [Required]
         [Display(Name = "Level of Importance")]
         public int LevelOfImportanceId { get; set; }
         public IEnumerable<SelectListItem> LevelOfImportances { get; set; }
 
-        [Display(Name = "Approval")]
+        [Display(Name = "Approval Status")]
         public int ApprovalId { get; set; }
         public IEnumerable<SelectListItem> Approvals { get; set; }
 
@@ -75,5 +94,9 @@ namespace MinistryFunnel.FrontEnd.Models.DropDowns
         [Display(Name = "Archived")]
         public bool Archived { get; set; }
 
+        [Display(Name = "Big Rock Ministry")]
+        public bool BigRock { get; set; }
+
+        public bool CanApprove { get; set; }
     }
 }

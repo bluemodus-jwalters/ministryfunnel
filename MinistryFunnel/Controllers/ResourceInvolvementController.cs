@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MinistryFunnel.Data;
+using MinistryFunnel.Managers;
 using MinistryFunnel.Models;
 using MinistryFunnel.Repository;
 using MinistryFunnel.Repository.Interfaces;
@@ -12,18 +14,17 @@ namespace MinistryFunnel.Controllers
     //TODO: add unit tests
     //TODO: versioning
     [Route("api/resourceInvolvement")]
+    [ApiAuthorization(Role = "discovery_api_edit")]
     public class ResourceInvolvementController : ApiController
     {
         private MinistryFunnelContext db = new MinistryFunnelContext();
         private readonly IResourceInvolvementRepository _resourceInvolvementRepository;
         private readonly ILoggerService _loggerService;
-        private readonly string _user;
 
         public ResourceInvolvementController()
         {
             _resourceInvolvementRepository = new ResourceInvolvementRepository();
             _loggerService = new LoggerService();
-            _user = "Jordan";
         }
 
         // GET: api/ResourceInvolvements
@@ -31,7 +32,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(IQueryable<ResourceInvolvement>))]
         public IQueryable<ResourceInvolvement> GetAll()
         {
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "GetAll", null, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "GetAll", null, null);
 
             return _resourceInvolvementRepository.GetResourceInvolvements();
         }
@@ -41,7 +42,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(ResourceInvolvement))]
         public IHttpActionResult GetById(int id)
         {
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "Get By Id", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "Get By Id", id.ToString(), null);
 
             ResourceInvolvement resourceInvolvement = _resourceInvolvementRepository.GetResourceInvolvementById(id);
             if (resourceInvolvement == null)
@@ -58,7 +59,7 @@ namespace MinistryFunnel.Controllers
         public IHttpActionResult GetByName([FromUri] string searchText)
         {
             //TODO: sanitize text
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "Get by Name", searchText, null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "Get by Name", searchText, null);
 
             var results = _resourceInvolvementRepository.SearchResourceInvolvementByName(searchText);
             if (results == null)
@@ -74,7 +75,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Update(int id, ResourceInvolvement resourceInvolvement)
         {
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "Update", resourceInvolvement.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "Update", resourceInvolvement.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -101,7 +102,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(ResourceInvolvement))]
         public IHttpActionResult Insert(ResourceInvolvement resourceInvolvement)
         {
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "Insert", resourceInvolvement.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "Insert", resourceInvolvement.ToString(), null);
 
             if (!ModelState.IsValid)
             {
@@ -123,7 +124,7 @@ namespace MinistryFunnel.Controllers
         [ResponseType(typeof(ResourceInvolvement))]
         public IHttpActionResult Delete([FromBody] int id)
         {
-            _loggerService.CreateLog(_user, "API", "ResourceInvolvementController", "ResourceInvolvement", "Delete", id.ToString(), null);
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "ResourceInvolvementController", "ResourceInvolvement", "Delete", id.ToString(), null);
 
             var deletedResourceInvolvement = _resourceInvolvementRepository.DeleteResourceInvolvement(id);
 

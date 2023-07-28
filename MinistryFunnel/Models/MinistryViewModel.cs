@@ -59,5 +59,6 @@ namespace MinistryFunnel.Models
         public DateTime ModifiedDateTime { get; set; }
 
         public bool Archived { get; set; }
+        public bool BigRock { get; set; }
     }
 }

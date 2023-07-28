@@ -30,7 +30,7 @@ namespace MinistryFunnel.Repository
         {
             Location location = db.Location.Find(id);
 
-            _loggerService.CreateLog("Jordan", "Location", "Get By Id", id.ToString(), $"Results found: {location != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Get By Id", id.ToString(), $"Results found: {location != null}");
 
             return location;
         }
@@ -39,7 +39,7 @@ namespace MinistryFunnel.Repository
         {
             var results = db.Location.Where(x => x.Name.Contains(searchText));
 
-            _loggerService.CreateLog("Jordan", "Location", "Get By Name", searchText, $"Results found: {results != null}");
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Get By Name", searchText, $"Results found: {results != null}");
 
             return results;
         }
@@ -52,13 +52,13 @@ namespace MinistryFunnel.Repository
                 db.Location.Add(location);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Location", "Create", location.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Create", location.ToString());
 
                 return location;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Create", location.ToString(), "Error creating this record: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Create", location.ToString(), "Error creating this record: " + e.Message);
                 return null;
             }
         }
@@ -68,7 +68,7 @@ namespace MinistryFunnel.Repository
             var currentLocation = db.Location.Find(updatedLocation.Id);
             if (currentLocation == null)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Update", string.Empty, $"Location {updatedLocation.Id} not found to update.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Update", string.Empty, $"Location {updatedLocation.Id} not found to update.");
                 return null;
             }
 
@@ -89,16 +89,16 @@ namespace MinistryFunnel.Repository
             }
             catch (DbUpdateConcurrencyException e)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Update", currentLocation.ToString(), "Error updating location: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Update", currentLocation.ToString(), "Error updating location: " + e.Message);
                 return null;
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Update", currentLocation.ToString(), "Error updating location: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Update", currentLocation.ToString(), "Error updating location: " + e.Message);
                 return null;
             }
 
-            _loggerService.CreateLog("Jordan", "Location", "Update", currentLocation.ToString());
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Update", currentLocation.ToString());
             return currentLocation;
         }
 
@@ -107,7 +107,7 @@ namespace MinistryFunnel.Repository
             Location location = db.Location.Find(id);
             if (location == null)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Delete", string.Empty, $"Location {id} not found to delete.");
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Delete", string.Empty, $"Location {id} not found to delete.");
                 return null;
             }
 
@@ -116,11 +116,11 @@ namespace MinistryFunnel.Repository
                 db.Location.Remove(location);
                 db.SaveChanges();
 
-                _loggerService.CreateLog("Jordan", "Location", "Delete", location.ToString());
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Delete", location.ToString());
             }
             catch (Exception e)
             {
-                _loggerService.CreateLog("Jordan", "Location", "Delete", location.ToString(), "Error deleting location: " + e.Message);
+                _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "LocationRepository", "Location", "Delete", location.ToString(), "Error deleting location: " + e.Message);
                 return null;
             }
 

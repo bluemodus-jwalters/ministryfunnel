@@ -1,169 +1,94 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
+    string GetBorderClass(string approvalName)
+    {
+        //TODO: make this so it returns approved and not-approved colors of red and green. Need to figure out exactly what words they will use for that
+        if (approvalName == "Approved")
+        {
+            return "border-success";
+        }
+        else if (approvalName == "Does Not Need Approval")
+        {
+            return "border-success";
+        }
+        else if (approvalName == "Not Approved")
+        {
+            return "border-danger";
+        }
+        else if (approvalName == "Cancelled")
+        {
+            return "border-danger";
+        }
+        else
+        {
+            return "border-primary";
+        }
+
+    }
+
 }
+@model IEnumerable<MinistryFunnel.FrontEnd.Models.MinistryFrontEndViewModelMinimal>
 
 <div class="jumbotron">
-    
-    <img src="https://www.discoverychurch.org/wp-content/uploads/2020/02/Black_Logo.png" style="height: 60px; width: 200px;" >
-    <h1>Ministry Funnel</h1>
-    <p class="lead">Discovery Church's program to manage and track ministries in the church.</p>
+
+    <img src="~/Images/DC_logo.png" style="height: 60px; width: 200px;">
+    <h1>Ministry Events</h1>
+    <p class="lead">App used to manage and track ministry events churchwide.</p>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card border-success">
-            <div class="card-body">
-                <h5 class="card-title">Connection Weekend</h5>
-                <h6 class="card-subtitle mb-2 text-muted">To help people connect to our classes and groups.</h6>
-                <div>
-                    <strong>Ministry Owner: </strong>Discipleship Paster
-                </div>
-                <div>
-                    <strong>Campus: </strong>Sand Lake
-                </div>
-                <div>
-                    <strong>Desired Outcome: </strong>That our people join in the discipleship process through the groups and classes we offer.
-                </div>
-                <div>
-                    <strong>Practice: </strong>Belong
-                </div>
-                <div>
-                    <strong>Funnel: </strong>Group
-                </div>
-                <div>
-                    <strong>Level of Importance: </strong>Critical
-                </div>
-                <div>
-                    <strong>Start Date: </strong>5/31/2021
-                </div>
-                <a href="#" class="btn btn-primary">Details</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card border-danger">
-            <div class="card-body">
-                <h5 class="card-title">Connection Weekend</h5>
-                <h6 class="card-subtitle mb-2 text-muted">To help people connect to our classes and groups.</h6>
-                <div>
-                    <strong>Ministry Owner: </strong>Discipleship Paster
-                </div>
-                <div>
-                    <strong>Campus: </strong>Sand Lake
-                </div>
-                <div>
-                    <strong>Desired Outcome: </strong>That our people join in the discipleship process through the groups and classes we offer.
-                </div>
-                <div>
-                    <strong>Practice: </strong>Belong
-                </div>
-                <div>
-                    <strong>Funnel: </strong>Group
-                </div>
-                <div>
-                    <strong>Level of Importance: </strong>Critical
-                </div>
-                <div>
-                    <strong>Start Date: </strong>5/31/2021
-                </div>
-                <a href="#" class="btn btn-primary">Details</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row" style="padding-top: 15px;">
-    <div class="col-sm-6">
-        <div class="card border-success">
-            <div class="card-body">
-                <h5 class="card-title">Connection Weekend</h5>
-                <h6 class="card-subtitle mb-2 text-muted">To help people connect to our classes and groups.</h6>
-                <div>
-                    <strong>Ministry Owner: </strong>Discipleship Paster
-                </div>
-                <div>
-                    <strong>Campus: </strong>Sand Lake
-                </div>
-                <div>
-                    <strong>Desired Outcome: </strong>That our people join in the discipleship process through the groups and classes we offer.
-                </div>
-                <div>
-                    <strong>Practice: </strong>Belong
-                </div>
-                <div>
-                    <strong>Funnel: </strong>Group
-                </div>
-                <div>
-                    <strong>Level of Importance: </strong>Critical
-                </div>
-                <div>
-                    <strong>Start Date: </strong>5/31/2021
-                </div>
-                <a href="#" class="btn btn-primary">Details</a>
-                <a href="#" class="btn btn-success">Approve</a>
-                <a href="#" class="btn btn-danger">Deny</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card border-danger">
-            <div class="card-body">
-                <h5 class="card-title">Connection Weekend</h5>
-                <h6 class="card-subtitle mb-2 text-muted">To help people connect to our classes and groups.</h6>
-                <div>
-                    <strong>Ministry Owner: </strong>Discipleship Paster
-                </div>
-                <div>
-                    <strong>Campus: </strong>Sand Lake
-                </div>
-                <div>
-                    <strong>Desired Outcome: </strong>That our people join in the discipleship process through the groups and classes we offer.
-                </div>
-                <div>
-                    <strong>Practice: </strong>Belong
-                </div>
-                <div>
-                    <strong>Funnel: </strong>Group
-                </div>
-                <div>
-                    <strong>Level of Importance: </strong>Critical
-                </div>
-                <div>
-                    <strong>Start Date: </strong>5/31/2021
-                </div>
-                <a href="#" class="btn btn-primary">Details</a>
-                <a href="#" class="btn btn-success">Approve</a>
-                <a href="#" class="btn btn-danger">Deny</a>
-            </div>
-        </div>
-    </div>
-</div>
+@if (Model != null)
+{
+    <div class="row">
+        @foreach (var ministry in Model)
+        {
+            <div class="col-sm-6" style="padding-top: 15px;">
+                <div class="card @GetBorderClass(ministry.ApprovalName)">
+                    <div class="card-body">
+                        <h5 class="card-title">@ministry.Event</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@ministry.Purpose</h6>
+                        <div>
+                            <strong>Ministry Owner: </strong>@ministry.MinistryOwnerName
+                        </div>
+                        <div>
+                            <strong>Campus: </strong>@ministry.CampusName
+                        </div>
+                        <div>
+                            <strong>Desired Outcome: </strong>@ministry.DesiredOutcome
+                        </div>
+                        <div>
+                            <strong>Practice: </strong>@ministry.PracticeName
+                        </div>
+                        <div>
+                            <strong>Funnel: </strong>@ministry.FunnelName
+                        </div>
+                        @if (ministry.BigRock)
+                        {
+                            <div>
+                                <strong>Big Rock Event</strong>
+                            </div>
+                        }
 
+                        <div>
+                            <strong>Level of Importance: </strong>@ministry.LevelOfImportanceName
+                        </div>
+                        <div>
+                            <strong>Start Date: </strong>@ministry.StartDate
+                        </div>
+                        <div>
+                            <strong>End Date: </strong>@ministry.EndDate
+                        </div>
+                        <a href="/Ministry/Details/@ministry.Id" class="btn btn-primary">Details</a>
+                        <a href="/Ministry/Edit/@ministry.Id" class="btn btn-success">Edit</a>
 
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+            {
+                <div>No data</div>
+            }
 
-@*<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>*@

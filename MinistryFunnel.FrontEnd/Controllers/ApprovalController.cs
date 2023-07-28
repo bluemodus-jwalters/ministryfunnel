@@ -9,19 +9,15 @@ using System.Web.Script.Serialization;
 
 namespace MinistryFunnel.FrontEnd.Controllers
 {
-    public class ApprovalController : Controller
+    [Authorize(Roles = "Database.Admin")]
+    public class ApprovalController : BaseController
     {
-        private readonly IApiHelper _apiHelper;
-        public ApprovalController()
-        {
-            _apiHelper = new ApiHelper();
-        }
         const string apiAction = "/api/approval";
 
         // GET: Approval
         public ActionResult Index()
         {           
-            var response = _apiHelper.Get(CompileUrl(apiAction));
+            var response = _apiHelper.Get(CompileUrl(apiAction), GetToken());
 
             if (response.IsSuccessful)
             {
@@ -40,7 +36,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Approval/Details/5
         public ActionResult Details(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -59,7 +55,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
             var sanitizer = new HtmlSanitizer();
             var sanitizedText = sanitizer.Sanitize(searchText);
 
-            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}");
+            var response = _apiHelper.Get(CompileUrl(apiAction) + $"?searchText={sanitizedText}", GetToken());
 
             if (response.IsSuccessful)
             {
@@ -88,11 +84,18 @@ namespace MinistryFunnel.FrontEnd.Controllers
                     Archived = Request.Form["Archived"] == "true"
                 });
 
-                var response = _apiHelper.Post(CompileUrl(apiAction), json);
+                var response = _apiHelper.Post(CompileUrl(apiAction), json, GetToken());
 
-                TempData["MessageType"] = "Success"; 
-                TempData["Message"] = $"Approval, {Request.Form["Name"]}, Created";
-                return RedirectToAction("Index");
+                if (response.IsSuccessful)
+                {
+                    TempData["MessageType"] = "Success";
+                    TempData["Message"] = $"Approval, {Request.Form["Name"]}, Created";
+                    return RedirectToAction("Index");
+                }
+
+                TempData["MessageType"] = "Danger";
+                TempData["Message"] = $"There was a problem creating this record. Please try again or contact your system administrator.";
+                return View();
             }
             catch
             {
@@ -105,7 +108,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Approval/Edit/5
         public ActionResult Edit(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -132,11 +135,19 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 var json = new JavaScriptSerializer().Serialize(updatedModel);
-                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json);
+                var response = _apiHelper.Put(CompileUrl(apiAction) + $"?id={id}", json, GetToken());
 
-                TempData["MessageType"] = "Info";
-                TempData["Message"] = $"Approval, {Request.Form["Name"]}, Edited";
-                return RedirectToAction("Index", ViewBag);
+                if (response.IsSuccessful)
+                {
+                    TempData["MessageType"] = "Info";
+                    TempData["Message"] = $"Approval, {Request.Form["Name"]}, Edited";
+                    return RedirectToAction("Index", ViewBag);
+                }
+
+                TempData["MessageType"] = "Danger";
+                TempData["Message"] = $"There was a problem updating this record. Please try again or contact your system administrator.";
+                return View();
+
             }
             catch
             {
@@ -149,7 +160,7 @@ namespace MinistryFunnel.FrontEnd.Controllers
         // GET: Approval/Delete/5
         public ActionResult Delete(int id = -1)
         {
-            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id);
+            var response = _apiHelper.Get(CompileUrl(apiAction), "id", id, GetToken());
 
             if (response.IsSuccessful)
             {
@@ -170,7 +181,14 @@ namespace MinistryFunnel.FrontEnd.Controllers
             try
             {
                 
-                var response = _apiHelper.Delete(CompileUrl(apiAction), id);
+                var response = _apiHelper.Delete(CompileUrl(apiAction), id, GetToken());
+
+                if (response.IsSuccessful)
+                {
+                    TempData["MessageType"] = "Info";
+                    TempData["Message"] = $"Approval Deleted";
+                    return RedirectToAction("Index");
+                }
 
                 TempData["MessageType"] = "Info";
                 TempData["Message"] = $"Approval Deleted";

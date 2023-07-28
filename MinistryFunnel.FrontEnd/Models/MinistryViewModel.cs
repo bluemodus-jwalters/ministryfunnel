@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -29,9 +30,13 @@ namespace MinistryFunnel.FrontEnd.Models
         public string FunnelName { get; set; }
 
         public int LocationId { get; set; }
+
+        [Display(Name = "Location")]
         public string LocationName { get; set; }
 
         public int CampusId { get; set; }
+
+        [Display(Name = "Campus Involvement")]
         public string CampusName { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -47,6 +52,7 @@ namespace MinistryFunnel.FrontEnd.Models
         public string LevelOfImportanceName { get; set; }
 
         public int ApprovalId { get; set; }
+        [Display(Name = "Approval Status")]
         public string ApprovalName { get; set; }
 
         public string Comments { get; set; }
@@ -56,6 +62,7 @@ namespace MinistryFunnel.FrontEnd.Models
         public DateTime ModifiedDateTime { get; set; }
 
         public bool Archived { get; set; }
+        public bool BigRock { get; set; }
     }
 
     public class ResourceInvolvementRelationshipViewModel
