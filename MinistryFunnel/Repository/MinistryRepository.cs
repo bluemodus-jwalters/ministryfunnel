@@ -127,6 +127,7 @@ namespace MinistryFunnel.Repository
             currentMinistry.PracticeId = updatedMinistry.PracticeId;
             currentMinistry.FunnelId = updatedMinistry.FunnelId;
             currentMinistry.LocationId = updatedMinistry.LocationId;
+            currentMinistry.CampusId = updatedMinistry.CampusId;
             currentMinistry.StartDate = updatedMinistry.StartDate;
             currentMinistry.EndDate = updatedMinistry.EndDate;
             currentMinistry.FrequencyId = updatedMinistry.FrequencyId;
