@@ -198,31 +198,69 @@
                     'form-control', // select needs custom class names :(
                     'form-control',
                     'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
+                    'form-control',
                     'form-control'
                 ]
 
-            }
+            },
+            //https://mottie.github.io/tablesorter/docs/
+            //https://mottie.github.io/tablesorter/docs/example-option-custom-sort.html
+            textSorter: {
+                5: function (a, b, direction, column, table) {
+                    var dateStringOne = new Date(removeExtraFields(a));
+                    var dateStringTwo = new Date(removeExtraFields(b));
+
+                    if (dateStringOne < dateStringTwo) {
+                        //console.log('date1 is before date2' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return -1;
+                    } else if (dateStringOne > dateStringTwo) {
+                        //console.log('date1 is after date2' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return 1;
+                    } else {
+                        //console.log('date1 and date2 are the same' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return 0;
+                    }
+
+                },
+                6: function (a, b, direction, column, table) {
+                    var dateStringOne = new Date(removeExtraFields(a));
+                    var dateStringTwo = new Date(removeExtraFields(b));
+
+                    if (dateStringOne < dateStringTwo) {
+                        //console.log('date1 is before date2' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return -1;
+                    } else if (dateStringOne > dateStringTwo) {
+                        //console.log('date1 is after date2' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return 1;
+                    } else {
+                        //console.log('date1 and date2 are the same' + ":" + dateStringOne + ":" + dateStringTwo);
+                        return 0;
+                    }
+
+                }
+            }     
+            
         })
-            .tablesorterPager({
-
-                // target the pager markup - see the HTML block below
-                container: $(".ts-pager"),
-
-                // target the pager page select dropdown - choose a page
-                cssGoto: ".pagenum",
-
-                // remove rows from the table to speed up the sort of large tables.
-                // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
-                removeRows: false,
-
-                // output string - default is '{page}/{totalPages}';
-                // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
-                output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
-
-            });
 
     });
 
+    //removes the day of the week and the time from the date string
+    function removeExtraFields(a) {
+        var arr = a.split(",");
+        arr[1]
+        arr.shift();
+        arr[0] = arr[0].trim();
 
+        //remove the time from the last index
+        arr[arr.length - 1] = arr[arr.length - 1].split("at")[0].trim();
+
+        
+        return arr;
+    }
 
 </script>
