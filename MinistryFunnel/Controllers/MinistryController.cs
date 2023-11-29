@@ -48,7 +48,7 @@ namespace MinistryFunnel.Controllers
             List<MinimalMinistryViewModel> viewModel = new List<MinimalMinistryViewModel>();
             foreach (var ministry in ministries)
             {
-                if (ministry.EndDate >= System.DateTime.Now && ministry.EndDate <= System.DateTime.Now.AddDays(31))
+                if (ministry.EndDate >= System.DateTime.Now && ministry.EndDate <= System.DateTime.Now.AddDays(45))
                 {
                     viewModel.Add(new MinimalMinistryViewModel
                     {

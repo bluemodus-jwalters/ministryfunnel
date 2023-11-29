@@ -223,7 +223,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Save" class="btn btn-success" />
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cloneModal">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cloneModal">
                         Clone
                     </button>
                     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info" })
@@ -264,7 +264,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="addDate()">Add Date</button>
-                            <button type="button" class="btn btn-success" onclick="submitDates()">Submit</button>
+                            <button id="cloneModalButton" type="button" class="btn btn-success" onclick="submitDates()">Clone</button>
                         </div>
                     </div>
                 </div>
@@ -414,7 +414,9 @@ else
         
 
         if (validInput) {
+            $("#cloneModalButton").prop("disabled", true);
             $.post("/Ministry/Clone", { dates: dateInputStringArray, ministryId: @Model.Id }, function (data) {
+                $("#cloneModalButton").prop("disabled", false);
                 $('.modal').modal('toggle');
                 alert(data);
             });
