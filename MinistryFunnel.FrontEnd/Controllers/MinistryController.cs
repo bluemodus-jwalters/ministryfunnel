@@ -1,4 +1,5 @@
-﻿using MinistryFunnel.FrontEnd.Helpers;
+﻿using Microsoft.Ajax.Utilities;
+using MinistryFunnel.FrontEnd.Helpers;
 using MinistryFunnel.FrontEnd.Models;
 using MinistryFunnel.FrontEnd.Models.DropDowns;
 using Newtonsoft.Json;
@@ -535,6 +536,32 @@ namespace MinistryFunnel.FrontEnd.Controllers
                 TempData["MessageType"] = "Danger";
                 TempData["Message"] = $"There was a problem approving these records. Please try again or contact your system administrator.";
                 return Json("Failed");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Clone(List<string> dates, int ministryId)
+        {
+            var cloneModel = new MinistryFunnel.Models.MinistryCloneRequest //TODO: I put full namespace due to model conflicts
+            {
+                MinistryId = ministryId,
+                CloneDates = dates
+            };
+
+            var json = new JavaScriptSerializer().Serialize(cloneModel);
+            var response = _apiHelper.Post(CompileUrl("/api/ministry/clone"), json, GetToken());
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                TempData["MessageType"] = "Info";
+                TempData["Message"] = $"Ministries cloned with these IDs: " + response.Content.ToString();
+                return Json("You successfully cloned this ministry. Here are the IDs: " + response.Content.ToString() +". You can keep editing this ministry or go back to the dashboard to edit another ministry.");
+            }
+            else
+            {
+                TempData["MessageType"] = "Danger";
+                TempData["Message"] = $"There was a problem cloning these records. Please review the ministry you tried to clone and validate that no duplicates were created before trying again.";
+                return Json("There were some problems saving your data. Please review the ministry you tried to clone and make sure there are no duplicates before trying again.");
             }
         }
     }

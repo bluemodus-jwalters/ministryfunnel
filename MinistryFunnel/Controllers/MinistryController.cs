@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -453,9 +454,95 @@ namespace MinistryFunnel.Controllers
             return Ok("done");
         }
 
+        [HttpPost]
+        [Route("api/ministry/clone")]
+        public IHttpActionResult CloneMinistry([FromBody] MinistryCloneRequest cloneModel)
+        {
+            _loggerService.CreateLog(HttpContext.Current.Items["email"].ToString(), "API", "MinistryController", "Ministry", "clone", cloneModel.ToString(), null);
+            var ministryToClone = _ministryRepository.GetMinistryById(cloneModel.MinistryId);
+            var createdMinstries = new List<int>();
+
+            if (ministryToClone != null)
+            {
+                var eventDuration = ministryToClone.EndDate - ministryToClone.StartDate;
+                var pendingId = GetPendingId();
+
+                foreach (var dateToClone in cloneModel.CloneDates)
+                {
+                    var newStartDate = DateTime.Parse(dateToClone);
+
+                    var modifiedMinistry = new Ministry
+                    {
+                        Event = ministryToClone.Event,
+                        Purpose = ministryToClone.Purpose,
+                        DesiredOutcome = ministryToClone.DesiredOutcome,
+                        MinistryOwnerId = ministryToClone.MinistryOwnerId,
+                        PracticeId = ministryToClone.PracticeId,
+                        FunnelId = ministryToClone.FunnelId,
+                        LocationId = ministryToClone.LocationId,
+                        CampusId = ministryToClone.CampusId,
+                        StartDate = newStartDate, //new date time to clone
+                        EndDate = newStartDate + eventDuration, //new end date time based on duration
+                        FrequencyId = ministryToClone.FrequencyId,
+                        KidCare = ministryToClone.KidCare,
+                        LevelOfImportanceId = ministryToClone.LevelOfImportanceId,
+                        ApprovalId = pendingId, //set to Pending per Tom
+                        Comments = ministryToClone.Comments,
+                        Archived = false,
+                        BigRock = ministryToClone.BigRock
+                    };
+
+                    var upInOutIdList = new List<int>();
+                    foreach (var x in ministryToClone.UpInOutRelationships)
+                    {
+                        upInOutIdList.Add(x.UpInOutId);
+                    }
+                    
+                    var resourceInvolvementIdList = new List<int>();
+                    foreach (var x in ministryToClone.ResourceInvolvementRelationship)
+                    {
+                        resourceInvolvementIdList.Add(x.ResourceInvolvementId);
+                    }
+
+                    modifiedMinistry.UpInOutIds= upInOutIdList.ToArray();
+                    modifiedMinistry.ResourceInvolvementIds= resourceInvolvementIdList.ToArray();
+
+                    var createdMinistry = _ministryRepository.InsertMinistry(modifiedMinistry);
+
+                    if (createdMinistry == null)
+                    {
+                        BadRequest("There was a problem cloning this record. Please contact your administrator with the event you tried to clone.");
+                    }
+                    else
+                    {
+                        createdMinstries.Add(createdMinistry.Id);
+                    }
+                }
+
+            }
+            else
+            {
+                BadRequest("The ministry was not found to clone. Please try again");
+            }
+            string listOfIds = string.Empty;
+            foreach (var x in createdMinstries)
+            {
+                listOfIds = listOfIds + x + "; ";
+            }
+            return Ok(listOfIds);
+
+
+        }
+
         private int GetApprovalId()
         {
             var approvalQuery = _approvalRepository.SearchApprovalByName("Approved");
+            return approvalQuery.FirstOrDefault().Id;
+        }
+
+        private int GetPendingId()
+        {
+            var approvalQuery = _approvalRepository.SearchApprovalByName("Pending");
             return approvalQuery.FirstOrDefault().Id;
         }
 
